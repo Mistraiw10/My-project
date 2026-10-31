@@ -572,9 +572,28 @@ const STAR_P='M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.3 6.1 20.6l1.3-6.6L2.5
 const KEY='aromadom-v1';
 const state={stars:0,level:1,owned:[],stats:{},room:0,seen:null,choice:{},off:[],mode:'novice'};
 try{ const s=JSON.parse(localStorage.getItem(KEY)||'null'); if(s) Object.assign(state,s); }catch(e){}
+/* общий ник для всех игр, выбирается в хабе (index.html) */
+const NICK='organika-nick';
+try{ const g=localStorage.getItem(NICK); if(g) state.nick=g; else if(state.nick) localStorage.setItem(NICK,state.nick); }catch(e){}
+/* ?ref=1 – режим справочника для хаба: открыто всё, без шапки, ничего не меняется */
+const REF=new URLSearchParams(location.search).has('ref');
+if(REF){ document.documentElement.classList.add('ref'); document.head.insertAdjacentHTML('beforeend','<style>header.top,a[href="index.html"],.album-head,.album-tools,.inq{display:none!important}</style>'); }
+/* сводка для хаба: прогресс, последняя игра, дни занятий */
+/* облако (вход, резервная копия, рейтинг) – необязательно, без него всё работает */
+if(!REF){ const cs=document.createElement('script'); cs.src='cloud.js'; document.head.appendChild(cs); }
+const GAME='aromadom';
+function hubSync(){ if(REF) return; try{
+  const H=JSON.parse(localStorage.getItem('organika-hub')||'{}'), d=new Date();
+  const day=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+  const spent=ROOMS.flatMap(r=>r.items).filter(it=>state.owned.includes(it.id)).reduce((a,it)=>a+(it.cost||0),0);
+  const prevE=((H.games||{})[GAME]||{}).earned, newE=state.stars+spent;
+  if(prevE!=null&&newE>prevE){ H.sd=H.sd||{}; const b=H.sd[day]=H.sd[day]||{}; b[GAME]=(b[GAME]||0)+newE-prevE; }   // звёзды по дням – для рейтинга недели
+  H.games=Object.assign(H.games||{},{[GAME]:{stars:state.stars,earned:state.stars+spent,level:state.level,open:(state.seen||[]).length,total:MOLS.length,t:Date.now()}});
+  H.last=GAME; H.days=[...new Set([...(H.days||[]),day])].slice(-400);
+  localStorage.setItem('organika-hub',JSON.stringify(H)); if(window.Cloud) Cloud.queue(GAME); }catch(e){} }
 { const di=state.owned.indexOf('dlamp'); if(di>=0) state.owned[di]='chair'; }
 if(!Array.isArray(state.seen)) state.seen=Object.keys(state.stats).filter(id=>state.stats[id].r>=1 || state.stats[id].w>=1);
-const save=()=>{ try{ localStorage.setItem(KEY,JSON.stringify(state)); }catch(e){} };
+const save=()=>{ if(REF) return; try{ localStorage.setItem(KEY,JSON.stringify(state)); if(state.nick) localStorage.setItem(NICK,state.nick); }catch(e){} hubSync(); };
 const $=s=>document.querySelector(s);
 const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]];}return a;};
 let justBought=null;
@@ -653,7 +672,7 @@ let toastT;
 function toast(t){ const el=$('#toast'); el.textContent=t; el.hidden=false; clearTimeout(toastT); toastT=setTimeout(()=>el.hidden=true,2200); }
 
 /* ---------- quiz ---------- */
-const isPro=()=>state.mode==='pro';
+const isPro=()=>REF||state.mode==='pro';
 const isOpen=id=>isPro()||state.seen.includes(id);
 const isOn=id=>!(state.off||[]).includes(id);
 const tierPool=()=> isPro() ? MOLS : MOLS.filter(x=>x.d<=maxTier(state.level));
@@ -839,9 +858,8 @@ document.addEventListener('keydown',e=>{
   else if(Q.answered && (e.key==='Enter') && !$('#bar').hidden && document.activeElement!==$('#nextBtn')){ e.preventDefault(); next(); }
 });
 if(state.nick && !nickOk(state.nick)) state.nick=null;
-show('home');
-renderNick();
-if(!state.nick) openNick();
+if(REF) show('album');
+else { show('home'); renderNick(); if(!state.nick) openNick(); }
 </script>
 
 </body></html>

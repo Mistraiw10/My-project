@@ -768,7 +768,26 @@ const KEY='dvoinaya-svyaz-v1';
 const fresh=()=>({nick:'',stars:0,level:1,owned:[],stats:{},seen:[],loc:0,chains:{},off:[],mode:'novice'});
 let state=fresh();
 try{const s=JSON.parse(localStorage.getItem(KEY)||'null'); if(s) state=Object.assign(fresh(),s);}catch(e){}
-function save(){try{localStorage.setItem(KEY,JSON.stringify(state));}catch(e){}}
+/* общий ник для всех игр, выбирается в хабе (index.html) */
+const NICK='organika-nick';
+try{const g=localStorage.getItem(NICK); if(g) state.nick=g; else if(state.nick) localStorage.setItem(NICK,state.nick);}catch(e){}
+/* ?ref=1 – режим справочника для хаба: открыто всё, без шапки, ничего не меняется */
+const REF=new URLSearchParams(location.search).has('ref');
+if(REF){document.documentElement.classList.add('ref'); document.head.insertAdjacentHTML('beforeend','<style>header.top,a[href="index.html"],#kb .kbhead,#kbTiers,#kbTools,.inq,.incl,.offtag,.toff{display:none!important}</style>');}
+/* сводка для хаба: прогресс, последняя игра, дни занятий */
+/* облако (вход, резервная копия, рейтинг) – необязательно, без него всё работает */
+if(!REF){ const cs=document.createElement('script'); cs.src='cloud.js'; document.head.appendChild(cs); }
+const GAME='alkeny';
+function hubSync(){ if(REF) return; try{
+  const H=JSON.parse(localStorage.getItem('organika-hub')||'{}'), d=new Date();
+  const day=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+  const spent=state.owned.reduce((a,id)=>a+((ITEM[id]||{}).p||0),0);
+  const prevE=((H.games||{})[GAME]||{}).earned, newE=state.stars+spent;
+  if(prevE!=null&&newE>prevE){ H.sd=H.sd||{}; const b=H.sd[day]=H.sd[day]||{}; b[GAME]=(b[GAME]||0)+newE-prevE; }   // звёзды по дням – для рейтинга недели
+  H.games=Object.assign(H.games||{},{[GAME]:{stars:state.stars,earned:state.stars+spent,level:state.level,open:state.seen.length,total:R.length,t:Date.now()}});
+  H.last=GAME; H.days=[...new Set([...(H.days||[]),day])].slice(-400);
+  localStorage.setItem('organika-hub',JSON.stringify(H)); if(window.Cloud) Cloud.queue(GAME); }catch(e){} }
+function save(){if(REF) return; try{localStorage.setItem(KEY,JSON.stringify(state)); if(state.nick) localStorage.setItem(NICK,state.nick);}catch(e){} hubSync();}
 
 /* ================= scene drawing ================= */
 const rc=(x,y,w,h,c,rx=0,ex='')=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${rx}" style="fill:var(--${c})" ${ex}/>`;
@@ -813,7 +832,7 @@ function drawScene(li){
 const $stars=$('#stars');
 let viewLoc=state.loc||0;
 const locOpen=i=>i===0||LOCS[i-1].items.every(it=>state.owned.includes(it.id));
-const isPro=()=>state.mode==='pro';
+const isPro=()=>REF||state.mode==='pro';
 const isOpen=id=>isPro()||state.seen.includes(id);
 const maxTier=()=>isPro()?3:state.level<3?1:state.level<5?2:3;
 const chainUnlocked=()=>isPro()||state.level>=3;
@@ -1117,7 +1136,7 @@ function toast(m){let t=$('.toast'); if(!t){t=document.createElement('div'); t.c
 
 /* ================= boot ================= */
 renderHome();
-if(!state.nick) openNick();
+if(REF){renderKB(); show('kb');} else if(!state.nick) openNick();
 </script>
 
 </body></html>
