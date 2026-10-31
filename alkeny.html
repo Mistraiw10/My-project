@@ -1,0 +1,1123 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body><script>(function(){var K='dvoinaya-svyaz-v1',S='orgchem-nick',O=['aromadom-v1', 'alkiny-v1', 'alkadieny-v1'];try{var ls=localStorage,sh=ls.getItem(S);if(!sh){for(var i=0;i<O.length&&!sh;i++){try{var o=JSON.parse(ls.getItem(O[i])||'null');if(o&&o.nick)sh=o.nick;}catch(e){}}}var st=JSON.parse(ls.getItem(K)||'null')||{};if(sh&&!st.nick){st.nick=String(sh).slice(0,18);ls.setItem(K,JSON.stringify(st));}else if(sh&&st.nick&&st.nick!==sh){st.nick=String(sh).slice(0,18);ls.setItem(K,JSON.stringify(st));}var set=Storage.prototype.setItem;Storage.prototype.setItem=function(k,v){set.call(this,k,v);if(k===K){try{var n=JSON.parse(v).nick;if(n)set.call(this,S,n);}catch(e){}}};}catch(e){}})();</script><a href="index.html" style="display:block;max-width:1060px;margin:0 auto;padding:12px 0 0;color:var(--muted);font:600 14px var(--f-body);text-decoration:none">← Все игры</a>
+<title>Алкены</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Russo+One&family=Golos+Text:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: industrial-plant game. Header strip, scene card, then two columns (build list | play panel), quiz is its own screen */
+:root{
+  --bg:#E9EEF0; --surface:#FFFFFF; --surface2:#F2F5F6; --ink:#15232B; --muted:#5A6B74; --line:#D3DCE0;
+  --accent:#E2621B; --accent-ink:#FFFFFF; --accent-soft:#FCE6D8; --steel:#2F5566;
+  --good:#11865E; --good-bg:#DDF2E8; --bad:#C22F4A; --bad-bg:#FBE2E7; --star:#D99500;
+  --f-display:"Russo One","Arial Black",sans-serif; --f-body:"Golos Text","Segoe UI",system-ui,sans-serif;
+  --sc-wall:#D6DEE1; --sc-tile:#C5CFD3; --sc-floor:#9AA7AD; --sc-wood:#8B6040; --sc-wood2:#A97A52; --sc-dark:#2B3A42;
+  --sc-steel:#9FB3BD; --sc-steel2:#6E8793; --sc-glass:#DDF0F6; --sc-sky:#BFDCEB; --sc-ground:#A8B39A; --sc-road:#8E9785;
+  --sc-brick:#B5553A; --sc-brick2:#93412B; --sc-fire:#FFB52E; --sc-fire2:#F2672A; --sc-white:#F4F7F8; --sc-paper:#FBF9F3; --sc-ink:#1C2A31;
+  --sc-liq1:#3CB58C; --sc-liq2:#D9536F; --sc-liq3:#5B7FE0; --sc-orange:#E2621B; --sc-rail:#5B5F62; --sc-smoke:#E6ECEF;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#10181D; --surface:#1A252C; --surface2:#213039; --ink:#E5EDF0; --muted:#9AAEB7; --line:#2E3F48;
+  --accent:#FF8A47; --accent-ink:#1A1206; --accent-soft:#3D2717; --steel:#8FB6C7;
+  --good:#4CD39F; --good-bg:#143A2C; --bad:#FF7C93; --bad-bg:#40202A; --star:#FFC23D;
+  --sc-wall:#5D6E76; --sc-tile:#53636B; --sc-floor:#45535A; --sc-wood:#6A4630; --sc-wood2:#7F5A3D; --sc-dark:#1A2429;
+  --sc-steel:#7F95A0; --sc-steel2:#566E7A; --sc-glass:#9CC0CC; --sc-sky:#3C5E70; --sc-ground:#56634D; --sc-road:#4A5444;
+  --sc-brick:#8E4430; --sc-brick2:#6F3322; --sc-white:#C9D3D7; --sc-paper:#D6D3CA; --sc-ink:#141C20; --sc-rail:#2E3134; --sc-smoke:#7E8D94;
+  color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --bg:#10181D; --surface:#1A252C; --surface2:#213039; --ink:#E5EDF0; --muted:#9AAEB7; --line:#2E3F48;
+  --accent:#FF8A47; --accent-ink:#1A1206; --accent-soft:#3D2717; --steel:#8FB6C7;
+  --good:#4CD39F; --good-bg:#143A2C; --bad:#FF7C93; --bad-bg:#40202A; --star:#FFC23D;
+  --sc-wall:#5D6E76; --sc-tile:#53636B; --sc-floor:#45535A; --sc-wood:#6A4630; --sc-wood2:#7F5A3D; --sc-dark:#1A2429;
+  --sc-steel:#7F95A0; --sc-steel2:#566E7A; --sc-glass:#9CC0CC; --sc-sky:#3C5E70; --sc-ground:#56634D; --sc-road:#4A5444;
+  --sc-brick:#8E4430; --sc-brick2:#6F3322; --sc-white:#C9D3D7; --sc-paper:#D6D3CA; --sc-ink:#141C20; --sc-rail:#2E3134; --sc-smoke:#7E8D94;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.5;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:12px 40px}
+.wrap{max-width:1060px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,input:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+h1,h2,h3{font-family:var(--f-display);font-weight:400;margin:0;text-wrap:balance;letter-spacing:.01em}
+sub{font-size:.72em;line-height:0}
+.muted{color:var(--muted)}
+/* header */
+.top{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.logo{display:flex;align-items:center;gap:10px;margin-right:auto}
+.logo h1{font-size:22px}
+.logo .badge{display:inline-flex;align-items:baseline;background:var(--accent);color:var(--accent-ink);border-radius:8px;padding:4px 9px 6px;font-weight:700;font-size:16px;line-height:1.2}
+.logo .badge sub{font-size:.68em;line-height:0;vertical-align:-.3em}
+#fb{display:flex;flex-direction:column;gap:16px}
+#fb:empty{display:none}
+.pill{display:inline-flex;align-items:center;gap:6px;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-weight:600;font-variant-numeric:tabular-nums}
+.pill .st{color:var(--star)}
+.mode{display:inline-flex;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:3px;gap:2px}
+.mode button{border:0;background:none;border-radius:999px;padding:4px 12px;font-weight:600;font-size:14px;color:var(--muted)}
+.mode button[aria-checked="true"]{background:var(--steel);color:var(--surface)}
+.nick{background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-weight:600;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+/* home */
+.scene{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.scene svg{display:block;width:100%;height:auto;max-height:340px}
+.scene .cap{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 14px;border-top:1px solid var(--line);flex-wrap:wrap}
+.scene .cap b{font-family:var(--f-display);font-weight:400}
+.tabs{display:flex;gap:8px;flex-wrap:wrap}
+.tab{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:8px 12px;font-weight:600;font-size:14px}
+.tab[aria-selected="true"]{background:var(--steel);color:var(--surface);border-color:var(--steel)}
+.tab:disabled{opacity:.5;cursor:not-allowed}
+.grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:16px;align-items:start}
+@media (max-width:760px){.grid{grid-template-columns:minmax(0,1fr)}.panel{order:-1}}
+.box{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.box h2{font-size:17px}
+.ups{display:flex;flex-direction:column;gap:8px}
+.up{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--surface2)}
+.up h3{font-family:var(--f-body);font-weight:700;font-size:15px}
+.up p{margin:0;color:var(--muted);font-size:13px}
+.buy{border:0;background:var(--accent);color:var(--accent-ink);border-radius:8px;padding:7px 12px;font-weight:700;white-space:nowrap;font-variant-numeric:tabular-nums}
+.buy:disabled{background:var(--line);color:var(--muted);cursor:not-allowed}
+.done{color:var(--good);font-weight:700;white-space:nowrap}
+.lvl{display:flex;align-items:baseline;gap:10px}
+.lvl b{font-family:var(--f-display);font-size:34px;font-weight:400;line-height:1;font-variant-numeric:tabular-nums}
+.btn{border:0;border-radius:10px;padding:12px 16px;font-weight:700;font-size:16px;background:var(--accent);color:var(--accent-ink);text-align:left;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.btn small{font-weight:500;font-size:13px;opacity:.85}
+.btn.alt{background:var(--steel);color:var(--surface)}
+.btn.ghost{background:var(--surface2);color:var(--ink);border:1px solid var(--line)}
+.btn:disabled{opacity:.55;cursor:not-allowed}
+.rules{font-size:13.5px;color:var(--muted);margin:0}
+.reset{margin-top:6px;padding-top:12px;border-top:1px dashed var(--line);display:flex;gap:8px;flex-wrap:wrap;align-items:center;font-size:13px}
+.link{background:none;border:0;padding:0;color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+.danger{background:var(--bad);color:#fff;border:0;border-radius:8px;padding:6px 10px;font-weight:700}
+/* play */
+.bar{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.dots{display:flex;gap:5px;flex-wrap:wrap}
+.dots i{width:12px;height:12px;border-radius:3px;background:var(--line)}
+.dots i.ok{background:var(--good)} .dots i.no{background:var(--bad)} .dots i.cur{outline:2px solid var(--accent);outline-offset:1px}
+.qcard{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:14px}
+.eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.rx{display:flex;align-items:center;gap:14px;flex-wrap:wrap;justify-content:center;padding:14px 4px 6px}
+.cmp{display:flex;flex-direction:column;align-items:center;gap:2px;min-width:0;text-align:center}
+.fx{font-size:clamp(19px,4.2vw,26px);font-weight:600;line-height:2.1;white-space:nowrap;overflow-x:auto;max-width:100%}
+.cmp small{color:var(--muted);font-size:13px}
+.arrow{display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--accent);font-weight:700}
+.arrow svg{width:70px;height:16px}
+.arrow span{font-family:var(--f-display);font-size:20px;line-height:1}
+.opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+@media (max-width:620px){.opts{grid-template-columns:minmax(0,1fr)}}
+.opt{display:flex;gap:10px;align-items:flex-start;text-align:left;border:2px solid var(--line);background:var(--surface);border-radius:12px;padding:12px;font-size:15.5px;line-height:1.45;min-width:0}
+.opt:hover:not(:disabled){border-color:var(--accent)}
+.opt .k{flex:none;width:24px;height:24px;border-radius:6px;background:var(--surface2);display:grid;place-items:center;font-size:13px;font-weight:700;color:var(--muted)}
+.opt span:last-child{min-width:0;overflow-wrap:anywhere}
+.opt.ok{border-color:var(--good);background:var(--good-bg)} .opt.no{border-color:var(--bad);background:var(--bad-bg)}
+.opt:disabled{cursor:default}
+.fb{border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;gap:6px}
+.fb.ok{background:var(--good-bg)} .fb.no{background:var(--bad-bg)}
+.fb .v{font-family:var(--f-display);font-size:18px}
+.fb.ok .v{color:var(--good)} .fb.no .v{color:var(--bad)}
+.rname{align-self:flex-start;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:6px 10px;font-weight:700;text-align:left}
+.rname::after{content:" ›";color:var(--accent)}
+.fb p{margin:0}
+.newtag{font-size:13px;color:var(--steel);font-weight:600}
+.next{align-self:flex-end}
+/* chain */
+.chain{display:flex;flex-direction:column;align-items:center;gap:2px}
+.chain .cmp .fx{font-size:clamp(17px,3.8vw,22px)}
+.carr{display:flex;align-items:center;gap:10px;color:var(--muted);min-height:34px}
+.carr .ln{width:3px;height:30px;background:var(--line);border-radius:2px}
+.carr .rg{font-size:13.5px;max-width:300px}
+.carr.cur .ln{background:var(--accent)} .carr.cur .rg{color:var(--accent);font-weight:700;font-family:var(--f-display);font-size:18px}
+.carr.ok .ln{background:var(--good)} .carr.no .ln{background:var(--bad)}
+.carr.curp .ln{background:var(--accent)} .carr.curp .rg{color:var(--ink);font-weight:700}
+.carr{min-height:58px;padding-block:4px 2px}
+.carr .ln{position:relative;flex:none;width:4px;height:40px;margin-bottom:11px;background:var(--steel);border-radius:2px}
+.carr .ln::after{content:"";position:absolute;left:50%;top:100%;transform:translateX(-50%);border-left:8px solid transparent;border-right:8px solid transparent;border-top:12px solid var(--steel)}
+.carr.cur .ln::after,.carr.curp .ln::after{border-top-color:var(--accent)} .carr.ok .ln::after{border-top-color:var(--good)} .carr.no .ln::after{border-top-color:var(--bad)}
+.hid{font-family:var(--f-display);font-size:20px;border:2px dashed var(--line);border-radius:10px;padding:6px 18px;color:var(--muted);line-height:1.4}
+.hid.cur{border-color:var(--accent);color:var(--accent)}
+/* r3 ring glyph */
+.r3{display:inline-block;position:relative;width:2.3em;height:1.9em;padding-top:.95em;vertical-align:.33em;margin:0 .15em}
+.r3 svg{position:absolute;left:0;bottom:0;width:100%;height:.95em;overflow:visible}
+.r3 path{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+.r3l{position:absolute;top:0;left:50%;transform:translateX(-50%);font-size:.82em;white-space:nowrap;line-height:1.15}
+i.st{font-style:italic;font-weight:500}
+/* summary */
+.sum{display:flex;flex-direction:column;gap:14px;align-items:flex-start}
+.sum .big{font-family:var(--f-display);font-size:40px;line-height:1;font-variant-numeric:tabular-nums}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+/* kb */
+.kbhead{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.back{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:8px 12px;font-weight:700}
+.kgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}
+.kc{border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:12px 14px;text-align:left;display:flex;flex-direction:column;gap:6px;min-width:0}
+.kc h3{font-family:var(--f-body);font-weight:700;font-size:14.5px}
+.kc .mini{font-size:14px;line-height:2;color:var(--muted);overflow-x:auto;white-space:nowrap}
+.kc .stat{font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+.kc.locked{background:var(--surface2);border-style:dashed;cursor:default;align-items:center;justify-content:center;min-height:96px;color:var(--muted)}
+.kc.locked .q{font-family:var(--f-display);font-size:26px}
+.gtag{font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;font-weight:700;color:var(--steel)}
+.kc:not(.locked):hover{border-color:var(--accent)}
+.seg{display:flex;gap:6px;flex-wrap:wrap}
+.tblocks{display:grid;gap:24px}
+.thead{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin:0 0 10px;padding-bottom:6px;border-bottom:2px solid var(--line)}
+.thead h3{font-family:var(--f-display);font-weight:400;font-size:20px}
+.thead span{color:var(--muted);font-weight:600;font-size:14px;font-variant-numeric:tabular-nums}
+.kc.off{opacity:.62;border-style:dashed}
+.offtag{align-self:flex-start;font-size:12px;font-weight:700;color:var(--bad);background:var(--bad-bg);border-radius:6px;padding:2px 8px}
+.incl{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--surface2);font-weight:600;cursor:pointer}
+.incl input{width:20px;height:20px;accent-color:var(--accent);flex:none;cursor:pointer}
+.incl small{font-weight:400;color:var(--muted)}
+/* modal */
+.modal{position:fixed;inset:0;background:rgba(10,18,22,.55);display:flex;align-items:center;justify-content:center;z-index:50;
+  padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.mbox{background:var(--surface);border-radius:16px;max-width:640px;width:100%;max-height:100%;overflow:auto;padding:20px;display:flex;flex-direction:column;gap:12px;border:1px solid var(--line)}
+.mbox h2{font-size:20px}
+.mbox .rx{background:var(--surface2);border-radius:12px;padding:12px 8px 8px}
+.arrow.rgw,.mbox .arrow{max-width:260px;text-align:center}
+.arrow .rgt{font-family:var(--f-body);font-size:13px;color:var(--ink);font-weight:600;line-height:1.35}
+.arrow.rgw .rgt{font-size:15px}
+.qmark{font-family:var(--f-display);font-size:34px;color:var(--accent);line-height:1;min-width:40px;text-align:center}
+.opt.pr span:last-child{font-size:17px;font-weight:600;line-height:2.1}
+.ref{display:flex;flex-direction:column;gap:10px;margin:0}
+.ref dt{font-size:12px;letter-spacing:.07em;text-transform:uppercase;font-weight:700;color:var(--steel)}
+.ref dd{margin:2px 0 0;max-width:65ch}
+.mfoot{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.nickin{font:inherit;font-size:17px;padding:10px 12px;border-radius:10px;border:2px solid var(--line);background:var(--surface2);color:var(--ink);width:100%}
+.err{color:var(--bad);font-size:14px;min-height:1.2em;margin:0}
+.chip{border:1px solid var(--line);background:var(--surface2);border-radius:999px;padding:5px 11px;font-size:13.5px}
+.toast{position:fixed;left:50%;bottom:calc(18px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:10px;font-weight:600;z-index:60;max-width:calc(100% - 32px)}
+@keyframes pop{0%{transform:scale(.6);opacity:0}70%{transform:scale(1.06)}100%{transform:scale(1);opacity:1}}
+.popin{animation:pop .5s ease-out;transform-box:fill-box;transform-origin:50% 100%}
+@keyframes flick{0%,100%{transform:scaleY(1)}50%{transform:scaleY(.86)}}
+.flame{transform-box:fill-box;transform-origin:50% 100%;animation:flick 1.4s ease-in-out infinite}
+@media (prefers-reduced-motion:reduce){.popin,.flame{animation:none}}
+.tiers{display:flex;gap:8px;flex-wrap:wrap;align-items:center;font-size:13.5px}
+.tierb{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 12px;font-weight:600;font-size:14px}
+.tierb i{width:30px;height:17px;border-radius:999px;background:var(--line);position:relative;flex:none}
+.tierb i::after{content:"";position:absolute;top:2px;left:2px;width:13px;height:13px;border-radius:50%;background:var(--surface);transition:left .15s}
+.tierb[aria-pressed="true"]{border-color:var(--good)}
+.tierb[aria-pressed="true"] i{background:var(--good)}
+.tierb[aria-pressed="true"] i::after{left:15px}
+.tierb small{color:var(--muted);font-weight:500}
+.toff{align-self:flex-start;font-size:12px;font-weight:700;color:var(--muted);border:1px dashed var(--line);border-radius:6px;padding:1px 7px}
+.branch{margin-top:14px;padding:4px 12px;border:1px dashed var(--steel);border-radius:999px;font-size:13px;font-weight:700;color:var(--steel)}
+.lt{color:var(--accent);font-family:var(--f-display);font-weight:400}
+.note2{font-size:14px;color:var(--muted)}
+@media (prefers-reduced-motion:reduce){.tierb i::after{transition:none}}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="logo"><span class="badge" aria-hidden="true">C<sub>n</sub>H<sub>2n</sub></span><h1>Алкены</h1></div>
+    <span class="pill" title="Звёзды"><span class="st">★</span><span id="stars">0</span></span>
+    <div class="mode" role="radiogroup" aria-label="Режим игры" id="modeSw"><button type="button" role="radio" data-mode="novice" title="Реакции открываются постепенно">Новичок</button><button type="button" role="radio" data-mode="pro" title="Все реакции открыты, сам выбираешь, какие тренировать">Про</button></div>
+    <button class="nick" id="nickBtn" type="button">Ввести ник</button>
+  </header>
+
+  <!-- HOME -->
+  <main id="home" class="wrap" style="gap:16px">
+    <section class="scene" aria-label="Твоя площадка">
+      <div id="sceneSvg"></div>
+      <div class="cap"><b id="locTitle">Лаборатория</b><span class="muted" id="locProg"></span></div>
+    </section>
+    <div class="tabs" role="tablist" id="locTabs"></div>
+    <div class="grid">
+      <section class="box">
+        <h2 id="upTitle">Обустрой лабораторию</h2>
+        <div class="ups" id="ups"></div>
+      </section>
+      <section class="box panel">
+        <div class="lvl"><b id="lvl">1</b><span class="muted" id="lvlNote">уровень</span></div>
+        <button class="btn" id="playBtn" type="button">Играть уровень <small>8 заданий</small></button>
+        <button class="btn alt" id="chainBtn" type="button">Цепочка <small id="chainNote"></small></button>
+        <button class="btn ghost" id="kbBtn" type="button">Справочник реакций <small id="kbCount"></small></button>
+        <p class="rules">Задания двух типов: подобрать реагенты к превращению или предсказать органический продукт по реагентам. За верный ответ – звезда, за уровень без ошибок – ещё три. Звёзды тратятся на стройку. Клавиши 1–4 выбирают вариант, Enter – дальше.</p>
+        <div class="reset" id="resetBox"><button class="link" id="resetBtn" type="button">Сбросить прогресс</button></div>
+      </section>
+    </div>
+  </main>
+
+  <!-- PLAY -->
+  <main id="play" hidden class="wrap" style="gap:14px">
+    <div class="bar">
+      <button class="back" id="quitBtn" type="button">← Выйти</button>
+      <span class="muted" id="playInfo"></span>
+      <div class="dots" id="dots" aria-hidden="true"></div>
+    </div>
+    <section class="qcard">
+      <div class="eyebrow" id="qEyebrow">Подбери реагенты</div>
+      <div id="qBody"></div>
+      <div class="opts" id="opts"></div>
+      <div id="fb" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <!-- SUMMARY -->
+  <main id="summary" hidden class="wrap">
+    <section class="box sum" id="sumBox"></section>
+  </main>
+
+  <!-- KB -->
+  <main id="kb" hidden class="wrap" style="gap:14px">
+    <div class="kbhead">
+      <button class="back" id="kbBack" type="button">← На площадку</button>
+      <h2 style="font-size:20px">Справочник реакций</h2>
+      <span class="muted" id="kbCount2"></span>
+    </div>
+    <div class="seg" role="tablist" id="kbSeg"></div>
+    <div class="tiers" id="kbTiers"></div>
+    <div class="kbhead"><p class="rules" style="margin:0">Нажми на реакцию, чтобы открыть справку и включить или выключить её в заданиях.</p><button class="link" id="kbAllOn" type="button" hidden>Включить все обратно</button></div>
+    <div class="tblocks" id="kgrid"></div>
+  </main>
+</div>
+
+<div class="modal" id="modal" hidden><div class="mbox" id="mbox" role="dialog" aria-modal="true"></div></div>
+
+<script>
+/* ================= helpers ================= */
+const $=s=>document.querySelector(s);
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function fsub(t){return t.replace(/([A-Za-z\)\]])(\d+)/g,'$1<sub>$2</sub>');}
+function stereo(t){return t.replace(/(^|[\s(+])(цис|транс|мезо)-/g,'$1<i class="st">$2</i>-');}
+function F(s){
+  return String(s).split(/(\{r3:[^}]*\})/).map(p=>{
+    const m=p.match(/^\{r3:(.*)\}$/);
+    if(m) return `<span class="r3"><span class="r3l">${fsub(esc(m[1]))}</span><svg viewBox="0 0 40 20" preserveAspectRatio="none" aria-hidden="true"><path d="M0 20 H40"/><path d="M0 20 L18 1"/><path d="M22 1 L40 20"/></svg></span>`;
+    return stereo(fsub(esc(p)));
+  }).join('');
+}
+const ARROW='<svg viewBox="0 0 70 16" aria-hidden="true"><path d="M2 8 H64" stroke="currentColor" stroke-width="2.5" fill="none"/><path d="M56 2 L67 8 L56 14" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linejoin="round"/></svg>';
+
+/* ================= reactions =================
+ g: prep | prop; t: tier 1-3; cat: family for distractors; eq: interchangeable reagents (excluded from each other's options); ex: extra exclusions */
+const R=[
+/* ---------- ПОЛУЧЕНИЕ ---------- */
+{id:'p_dehydrog',g:'prep',t:1,cat:'elim',from:'CH3–CH2–CH3',fromN:'пропан',to:'CH2=CH–CH3',toN:'пропен',
+ rg:'Cr2O3/Al2O3, 500–600 °C',name:'Каталитическое дегидрирование алканов',
+ note:'Отщепляется H₂ – продукт на два атома водорода беднее. Так в промышленности получают пропен и бутены.',
+ fakes:['Pt, 20 °C, H2'],
+ ref:{u:'Cr₂O₃/Al₂O₃ (также Pt, Pd, Ni), 400–600 °C. Реакция эндотермическая, равновесие сдвигается вправо при высокой температуре и пониженном давлении.',
+ m:'Гетерогенный процесс на поверхности катализатора: разрыв C–H с образованием поверхностных алкильных частиц, отщепление второго H.',
+ s:'Из бутана получается смесь бут-1-ена и бут-2-енов; в более жёстких условиях – бута-1,3-диен.',
+ l:'Не путай с гидрированием: те же металлы, но в присутствии H₂ и при низкой температуре равновесие идёт в обратную сторону.'}},
+{id:'p_lindlar',g:'prep',t:2,cat:'red',eq:'cis',from:'CH3–C≡C–CH3',fromN:'бут-2-ин',to:'цис-CH3–CH=CH–CH3',toN:'цис-бут-2-ен',
+ rg:'H2, кат. Линдлара (Pd/CaCO3, Pb(OAc)2) или Pd/BaSO4, хинолин',name:'Гидрирование алкинов на отравленном Pd (Линдлар / Розенмунд)',
+ note:'Оба атома H садятся с одной стороны тройной связи (син) → цис-алкен. «Отравленный» палладий дальше алкен не гидрирует.',
+ ref:{u:'H₂, катализатор Линдлара: Pd на CaCO₃, отравленный ацетатом свинца (иногда + хинолин). Аналог – Pd/BaSO₄ с хинолином (катализатор Розенмунда, классически применяемый для восстановления RCOCl → RCHO).',
+ m:'Алкин адсорбируется на Pd сильнее алкена; два атома H переносятся с поверхности металла на одну сторону π-связи. Образовавшийся алкен десорбируется раньше, чем успевает прогидрироваться.',
+ s:'Стереоселективно: син-присоединение → цис-(Z)-алкен.',
+ l:'Обычный Pd/C, Pt или Ni без «яда» восстанавливают алкин сразу до алкана. Для транс-алкена нужен Na в жидком NH₃.'}},
+{id:'p_dibal',g:'prep',t:3,cat:'red',eq:'cis',from:'C2H5–C≡C–C2H5',fromN:'гекс-3-ин',to:'цис-C2H5–CH=CH–C2H5',toN:'цис-гекс-3-ен',
+ rg:'1) (i-Bu)2AlH (DIBAL-H); 2) H2O',name:'Гидроалюминирование алкинов DIBAL-H',
+ note:'Al–H присоединяется к тройной связи син; при гидролизе связь C–Al заменяется на C–H с сохранением геометрии → цис-алкен.',
+ ref:{u:'Диизобутилалюминийгидрид в углеводороде (гексан, толуол), затем гидролиз водой или разбавленной кислотой.',
+ m:'Четырёхцентровое переходное состояние: H и Al одновременно присоединяются к соседним атомам C с одной стороны. Протонолиз C–Al идёт с сохранением конфигурации.',
+ s:'Син-присоединение → цис-алкен. С терминальными алкинами Al идёт на концевой C.',
+ l:'DIBAL-H известен ещё как восстановитель эфиров до альдегидов – здесь та же частица, но субстрат другой.'}},
+{id:'p_diimide_yne',g:'prep',t:3,cat:'red',eq:'cis',from:'CH3–C≡C–C2H5',fromN:'пент-2-ин',to:'цис-CH3–CH=CH–C2H5',toN:'цис-пент-2-ен',
+ rg:'HN=NH (диимид; N2H4, H2O2, Cu²⁺)',name:'Восстановление алкинов цис-диимидом',
+ note:'цис-Диимид передаёт два атома H синхронно и с одной стороны, выделяется N₂ → цис-алкен.',
+ ref:{u:'Диимид получают in situ: окисление гидразина (N₂H₄ + H₂O₂ или O₂, соли Cu²⁺), разложение TsNHNH₂ при нагревании или калиевой соли азодикарбоновой кислоты в кислоте.',
+ m:'Согласованный перенос двух H через шестичленное циклическое переходное состояние; движущая сила – образование очень прочной молекулы N≡N.',
+ s:'Син-присоединение. Реагирует только цис-изомер диимида.',
+ l:'Диимид восстанавливает и алкены (до алканов), поэтому реакцию останавливают, контролируя количество реагента. Не трогает связи O–O, C–Hal, N–O.'}},
+{id:'p_na_nh3',g:'prep',t:2,cat:'red',eq:'trans',from:'CH3–C≡C–CH3',fromN:'бут-2-ин',to:'транс-CH3–CH=CH–CH3',toN:'транс-бут-2-ен',
+ rg:'Na, NH3 (ж., р-ль), –33 °C',name:'Восстановление алкинов натрием в жидком аммиаке',
+ note:'Электрон от Na → анион-радикал, протон от NH₃ → винильный радикал, ещё электрон и протон. Промежуточный винил-анион принимает выгодную транс-геометрию.',
+ ref:{u:'Na или Li в жидком аммиаке (–33 °C), иногда с добавкой трет-бутанола как источника протонов.',
+ m:'Последовательность e⁻ / H⁺ / e⁻ / H⁺. Винильный радикал и винил-анион быстро меняют конфигурацию и занимают положение с наименьшим отталкиванием заместителей – транс.',
+ s:'Анти-присоединение по результату → транс-(E)-алкен.',
+ l:'Терминальные алкины в этих условиях частично депротонируются до ацетиленидов; в задачниках (например, ДЗ № 4, задача 10) обычно считают, что они восстанавливаются до алкена-1. Для цис-алкена – Линдлар, DIBAL-H или диимид.'}},
+{id:'p_zn',g:'prep',t:1,cat:'elim',eq:'vic',from:'CH2Br–CHBr–CH3',fromN:'1,2-дибромпропан',to:'CH2=CH–CH3',toN:'пропен',
+ rg:'Zn (или Mg), спирт (р-ль), t',name:'Дегалогенирование вицинальных дигалогеналканов',
+ note:'Металл забирает два атома галогена от соседних атомов углерода (в неорганику уходит ZnBr₂), образуется C=C.',
+ fakes:['Zn, HCl'],
+ ref:{u:'Цинковая пыль в спирте или уксусной кислоте при нагревании; можно Mg в эфире.',
+ m:'Металл внедряется по связи C–Br, образуется β-бромалкилцинк, который отщепляет ZnBr₂ (преимущественно анти-элиминирование).',
+ s:'Двойная связь встаёт строго между атомами, несущими галоген, перегруппировок нет. Поэтому реакцию используют и как «защиту» двойной связи: Br₂ → … → Zn.',
+ l:'Галогены должны стоять у соседних атомов C. 1,3-Дибромпропан с Zn даёт циклопропан (реакция Густавсона), а не алкен.'}},
+{id:'p_pph3',g:'prep',t:3,cat:'elim',eq:'vic',from:'CH2Br–CHBr–CH2–CH3',fromN:'1,2-дибромбутан',to:'CH2=CH–CH2–CH3',toN:'бут-1-ен',
+ rg:'PPh3, t',name:'Дебромирование трифенилфосфином',
+ note:'Ph₃P атакует атом брома (галофильная атака), анти-элиминирование даёт C=C; уходит Ph₃PBr₂.',
+ ref:{u:'Трифенилфосфин, нагревание в растворителе (ДМФА, бензол).',
+ m:'Нуклеофильный фосфор атакует Br, а не углерод; уходящий карбанион-подобный центр выталкивает второй Br⁻ в анти-положении.',
+ s:'Стереоспецифично (анти-элиминирование), положение C=C фиксировано.',
+ l:'Тот же реагент, что и в реакции Виттига, но здесь он работает как «отниматель» брома.'}},
+{id:'p_nai',g:'prep',t:3,cat:'elim',eq:'vic',from:'мезо-CH3–CHBr–CHBr–CH3',fromN:'мезо-2,3-дибромбутан',to:'транс-CH3–CH=CH–CH3',toN:'транс-бут-2-ен',
+ rg:'NaI, CH3OH (р-ль)',name:'Дегалогенирование иодидом натрия (стереоспецифичное)',
+ note:'I⁻ атакует Br, второй Br уходит анти → из мезо-дибромида образуется транс-бут-2-ен, из рацемата – цис.',
+ ref:{u:'NaI в метаноле или ацетоне, нагревание.',
+ m:'I⁻ отрывает Br⁺ (образуется IBr), одновременно в анти-положении уходит Br⁻ – согласованное E2-подобное элиминирование.',
+ s:'Строго анти → стереоспецифично: мезо → транс(E), (±) → цис(Z). Удобно проверять конфигурацию дибромида.',
+ l:'Вместе с анти-присоединением Br₂ получается круг: транс-алкен + Br₂ → мезо; мезо + NaI → снова транс.'}},
+{id:'d_h2so4',g:'prep',t:1,cat:'elim',eq:'dehyd',from:'CH3–CH2–OH',fromN:'этанол',to:'CH2=CH2',toN:'этилен',
+ rg:'H2SO4 (конц.), t > 140 °C',name:'Внутримолекулярная дегидратация спиртов',
+ note:'Выше 140 °C отщепляется вода внутри молекулы → алкен. Ниже 140 °C идёт межмолекулярная дегидратация → диэтиловый эфир.',
+ fakes:['H2SO4 (конц.), t < 140 °C','NaOH (спирт. р-р), t'],
+ ref:{u:'Концентрированная H₂SO₄, около 170 °C для этанола. Вторичные и третичные спирты дегидратируются в более мягких условиях.',
+ m:'Первичные спирты – E2 через протонированную OH-группу; вторичные и третичные – E1 через карбокатион.',
+ s:'Правило Зайцева: образуется наиболее замещённый алкен. Через карбокатион возможны перегруппировки.',
+ l:'Температура решает всё: < 140 °C – простой эфир, > 140 °C – алкен.'}},
+{id:'d_h3po4',g:'prep',t:1,cat:'elim',eq:'dehyd',from:'CH3–CH(OH)–CH2–CH3',fromN:'бутан-2-ол',to:'CH3–CH=CH–CH3',toN:'бут-2-ен (в основном транс)',
+ rg:'H3PO4 (85 %), t',name:'Дегидратация спиртов (правило Зайцева)',
+ note:'E1: протонирование OH, уход воды, карбокатион теряет H⁺ так, чтобы получился более замещённый алкен.',
+ fakes:['KOH, спирт (р-ль), t'],
+ ref:{u:'85 % H₃PO₄ при нагревании. Фосфорная кислота почти не окисляет и не обугливает, в отличие от H₂SO₄.',
+ m:'R–OH + H⁺ → R–OH₂⁺ → R⁺ + H₂O → алкен + H⁺.',
+ s:'Зайцев: бут-2-ен основной, транс > цис; бут-1-ен – минорный.',
+ l:'Основание (KOH) не дегидратирует спирт: OH⁻ – плохая уходящая группа, сначала её надо протонировать.'}},
+{id:'d_al2o3',g:'prep',t:2,cat:'elim',eq:'dehyd',from:'CH3–CH2–CH2–OH',fromN:'пропан-1-ол',to:'CH3–CH=CH2',toN:'пропен',
+ rg:'Al2O3, 350–400 °C',name:'Газофазная дегидратация спиртов на Al₂O₃',
+ note:'Пары спирта пропускают над оксидом алюминия; кислотные центры поверхности отщепляют воду.',
+ ref:{u:'Al₂O₃ (также ThO₂), 350–450 °C, газовая фаза.',
+ m:'Согласованное отщепление на кислотно-основных центрах поверхности, близкое к E2.',
+ s:'Перегруппировок меньше, чем в растворах кислот. При 250 °C над Al₂O₃ из этанола получается диэтиловый эфир.',
+ l:'Al₂O₃ при 425 °C с этанолом и ZnO – это уже синтез бутадиена по Лебедеву, другой процесс.'}},
+{id:'d_khso4',g:'prep',t:2,cat:'elim',eq:'dehyd',from:'(CH3)2C(OH)–CH2–CH3',fromN:'2-метилбутан-2-ол',to:'(CH3)2C=CH–CH3',toN:'2-метилбут-2-ен',
+ rg:'KHSO4, t',name:'Дегидратация спиртов гидросульфатом калия',
+ note:'Кислая соль KHSO₄ – твёрдая мягкая кислота: при нагревании отщепляет воду, особенно легко от третичных спиртов.',
+ ref:{u:'Сплавление или нагревание спирта с безводным KHSO₄.',
+ m:'E1 через третичный карбокатион.',
+ s:'Зайцев: трёхзамещённый алкен основной.',
+ l:'Тот же KHSO₄ при нагревании с глицерином даёт акролеин – качественная реакция на глицерин.'}},
+{id:'d_oxalic',g:'prep',t:2,cat:'elim',eq:'dehyd',from:'(CH3)3C–OH',fromN:'трет-бутанол',to:'(CH3)2C=CH2',toN:'2-метилпропен',
+ rg:'H2C2O4 (щавелевая к-та), t',name:'Дегидратация третичных спиртов щавелевой кислотой',
+ note:'Третичный карбокатион очень стабилен, поэтому хватает мягкой органической кислоты.',
+ ref:{u:'Безводная щавелевая кислота, нагревание.',
+ m:'E1: протонирование, уход воды, трет-бутил-катион отдаёт H⁺.',
+ s:'Ряд лёгкости дегидратации: третичные > вторичные > первичные.',
+ l:'Первичные спирты щавелевой кислотой практически не дегидратируются.'}},
+{id:'d_zncl2',g:'prep',t:2,cat:'elim',eq:'dehyd',from:'(CH3)2CH–CH(OH)–CH3',fromN:'3-метилбутан-2-ол',to:'(CH3)2C=CH–CH3',toN:'2-метилбут-2-ен',
+ rg:'ZnCl2, t',name:'Дегидратация спиртов с ZnCl₂',
+ note:'ZnCl₂ – кислота Льюиса: координирует кислород OH и облегчает его уход; дальше E1 по Зайцеву.',
+ fakes:['ZnCl2, HCl (конц.), 20 °C'],
+ ref:{u:'Безводный ZnCl₂, нагревание.',
+ m:'R–OH···ZnCl₂ → R⁺ + [HOZnCl₂]⁻ → алкен.',
+ s:'Зайцев: самый замещённый алкен. Здесь вторичный карбокатион может перейти в третичный (1,2-гидридный сдвиг) – продукт тот же.',
+ l:'ZnCl₂ + HCl (конц.) на холоду – это реактив Лукаса: он замещает OH на Cl, а не отщепляет воду.'}},
+{id:'e_koh',g:'prep',t:1,cat:'elim',from:'CH3–CHBr–CH2–CH3',fromN:'2-бромбутан',to:'CH3–CH=CH–CH3',toN:'бут-2-ен',
+ rg:'KOH, спирт (р-ль), t',name:'Дегидрогалогенирование (E2, правило Зайцева)',
+ note:'Небольшое основание отрывает β-H у более замещённого атома C → более замещённый, термодинамически выгодный алкен.',
+ fakes:['KOH, H2O (р-ль), t'],
+ ref:{u:'Спиртовой раствор KOH (или NaOH, EtONa в EtOH) при нагревании.',
+ m:'E2: основание отрывает β-H одновременно с уходом Br⁻; нужна анти-перипланарная ориентация H и Br.',
+ s:'Зайцев: бут-2-ен (транс > цис) основной, бут-1-ен минорный.',
+ l:'Водный KOH даёт спирт (SN), спиртовой – алкен (E). «Спиртом спирт не сделаешь».'}},
+{id:'e_tbuok',g:'prep',t:2,cat:'elim',from:'CH3–CHBr–CH2–CH3',fromN:'2-бромбутан',to:'CH2=CH–CH2–CH3',toN:'бут-1-ен',
+ rg:'t-BuOK, t-BuOH (р-ль)',name:'Дегидрогалогенирование по Гофману (объёмное основание)',
+ note:'Громоздкий трет-бутоксид не может подойти к внутреннему β-H и отрывает H концевой CH₃ → менее замещённый алкен.',
+ ref:{u:'Трет-бутоксид калия в трет-бутаноле (или ДМСО), нагревание. Похоже работают LDA, DBU с объёмными субстратами.',
+ m:'E2, кинетический контроль: выигрывает самый доступный β-H.',
+ s:'Правило Гофмана: преобладает наименее замещённый алкен.',
+ l:'Тот же субстрат с KOH/спирт даёт бут-2-ен. Разница только в размере основания.'}},
+{id:'e_cope',g:'prep',t:3,cat:'elim',eq:'amine',from:'CH3–CH2–CH2–N(CH3)2',fromN:'N,N-диметилпропан-1-амин',to:'CH3–CH=CH2',toN:'пропен',
+ rg:'1) H2O2 (или mCPBA); 2) t, 120–150 °C',name:'Реакция Коупа (элиминирование N-оксидов)',
+ note:'Третичный амин окисляется в N-оксид, который при нагревании отщепляет (CH₃)₂NOH через пятичленное циклическое ПС.',
+ ref:{u:'Окисление третичного амина H₂O₂ или надкислотой, затем нагревание N-оксида до 100–150 °C (без внешнего основания).',
+ m:'Внутримолекулярное син-элиминирование (Ei): кислород N-оксида сам отрывает β-H, циклическое пятичленное переходное состояние.',
+ s:'Син-элиминирование; преимущественно менее замещённый алкен (по Гофману), так как концевые H доступнее.',
+ l:'Не путай с перегруппировкой Коупа (сигматропная перегруппировка 1,5-диенов) – это другая реакция с тем же именем.'}},
+{id:'e_hofmann',g:'prep',t:3,cat:'elim',eq:'amine',from:'CH3–CH(NH2)–CH2–CH3',fromN:'бутан-2-амин',to:'CH2=CH–CH2–CH3',toN:'бут-1-ен',
+ rg:'1) CH3I (изб.); 2) Ag2O, H2O; 3) t',name:'Расщепление по Гофману (исчерпывающее метилирование)',
+ note:'Амин → четвертичная соль → гидроксид тетраалкиламмония; при нагревании E2 с уходом N(CH₃)₃ даёт менее замещённый алкен.',
+ ref:{u:'1) избыток CH₃I – метилирование до R–N⁺(CH₃)₃ I⁻; 2) влажный Ag₂O заменяет I⁻ на OH⁻; 3) нагревание 100–200 °C.',
+ m:'E2: OH⁻ отрывает β-H, уходит нейтральный триметиламин.',
+ s:'Правило Гофмана: преобладает наименее замещённый алкен (объёмная уходящая группа и более кислые концевые H).',
+ l:'Тот же автор – перегруппировка Гофмана (амид → амин с Br₂/NaOH). Это разные реакции.'}},
+{id:'w_wittig',g:'prep',t:2,cat:'carb',from:'(CH3)2C=O',fromN:'ацетон',to:'(CH3)2C=CH2',toN:'2-метилпропен',
+ rg:'Ph3P=CH2 (илид фосфора)',name:'Реакция Виттига',
+ note:'Илид атакует C=O, через оксафосфетан образуются алкен и Ph₃P=O. Двойная связь встаёт ровно на место C=O.',
+ fakes:['CH3MgBr, затем H2O'],
+ ref:{u:'Илид получают из соли [Ph₃P–CH₃]⁺Br⁻ и сильного основания (BuLi, NaH), затем добавляют альдегид или кетон.',
+ m:'Нуклеофильная атака илида по C=O → бетаин/оксафосфетан (четырёхчленный цикл) → распад на алкен и Ph₃P=O (движущая сила – прочная связь P=O).',
+ s:'Положение C=C задаётся однозначно. Нестабилизированные илиды дают преимущественно Z-алкены, стабилизированные (с C=O рядом) – E.',
+ l:'CH₃MgBr с кетоном даст третичный спирт, а не алкен.'}},
+{id:'w_mcmurry',g:'prep',t:3,cat:'carb',from:'2 (CH3)2C=O',fromN:'ацетон (2 молекулы)',to:'(CH3)2C=C(CH3)2',toN:'2,3-диметилбут-2-ен',
+ rg:'TiCl3 (TiCl4), Zn(Cu) или LiAlH4',name:'Реакция Мак-Мурри (восстановительное сочетание)',
+ note:'Низковалентный титан переносит электроны на C=O, два кетильных радикала сшиваются, затем Ti отрывает оба кислорода → C=C.',
+ fakes:['Mg, бензол, затем H2O'],
+ ref:{u:'TiCl₃ или TiCl₄, восстановленные Zn(Cu), LiAlH₄, K или Li; ТГФ, кипячение.',
+ m:'Одноэлектронный перенос → кетил-радикалы → пинаколят титана → деоксигенирование на поверхности Ti с образованием TiO₂.',
+ s:'Хорошо даёт симметричные и напряжённые (даже тетразамещённые) алкены, внутримолекулярно – циклы.',
+ l:'Mg (амальгама) с ацетоном останавливается на пинаконе – диоле. Титану хватает сил оторвать кислород.'}},
+{id:'w_cuprate',g:'prep',t:3,cat:'carb',from:'цис-CH3–CH=CH–Br',fromN:'цис-1-бромпропен',to:'цис-CH3–CH=CH–C2H5',toN:'цис-пент-2-ен',
+ rg:'(C2H5)2CuLi, эфир (р-ль)',name:'Сочетание винилгалогенидов с диалкилкупратами лития (Кори–Хауса)',
+ note:'Алкил из купрата замещает галоген у sp²-углерода с сохранением конфигурации двойной связи.',
+ fakes:['C2H5MgBr, эфир (р-ль)','C2H5Br, Na (Вюрц)'],
+ ref:{u:'Купрат Гилмана R₂CuLi (из 2 RLi + CuI) в эфире или ТГФ, низкая температура.',
+ m:'Окислительное присоединение C–Hal к Cu(I) → Cu(III), затем восстановительное элиминирование R–C.',
+ s:'Стереоспецифично: цис-винилбромид → цис-алкен, транс → транс.',
+ l:'Реактив Гриньяра и натрий (Вюрц) с винилгалогенидами практически не реагируют: связь C(sp²)–Hal для них слишком прочная.'}},
+/* ---------- ХИМИЧЕСКИЕ СВОЙСТВА ---------- */
+{id:'h_ni',g:'prop',t:1,cat:'red',eq:'h2',from:'CH2=CH–CH3',fromN:'пропен',to:'CH3–CH2–CH3',toN:'пропан',
+ rg:'H2, Ni, t, p',name:'Гетерогенное каталитическое гидрирование',
+ note:'H₂ и алкен адсорбируются на поверхности металла, оба H садятся с одной стороны – син-присоединение.',
+ ref:{u:'H₂ с Ni (Ni Ренея, нагрев и давление), Pd, Pt (PtO₂ Адамса) при комнатной температуре, а также Ru, Rh, Os.',
+ m:'Диссоциативная адсорбция H₂ на металле, π-адсорбция алкена, последовательная передача двух H с поверхности.',
+ s:'Син-присоединение: из 1,2-диметилциклогексена – цис-1,2-диметилциклогексан. Легче гидрируются менее замещённые C=C.',
+ l:'Теплоты гидрирования показывают стабильность алкенов: чем меньше теплота, тем стабильнее (транс < цис, больше заместителей – меньше).'}},
+{id:'h_pt',g:'prop',t:2,cat:'red',eq:'h2',from:'(CH3)2C=CH–CH3',fromN:'2-метилбут-2-ен',to:'(CH3)2CH–CH2–CH3',toN:'2-метилбутан',
+ rg:'H2, Pt (или Pd/C), 20 °C',name:'Гетерогенное каталитическое гидрирование',
+ note:'Pt и Pd активнее никеля – работают уже при комнатной температуре и атмосферном давлении.',
+ ref:{u:'H₂, Pt (PtO₂ восстанавливается до Pt in situ) или Pd/C, 20–25 °C, 1 атм, растворитель EtOH или AcOH.',
+ m:'То же, что и на Ni: адсорбция и син-перенос H с поверхности.',
+ s:'Син-присоединение.',
+ l:'Pd на CaCO₃ с солями свинца (Линдлар) – «отравленный», алкены почти не трогает.'}},
+{id:'h_wilk',g:'prop',t:3,cat:'red',eq:'h2',from:'CH2=CH–CH2–CH3',fromN:'бут-1-ен',to:'CH3–CH2–CH2–CH3',toN:'бутан',
+ rg:'H2, RhCl(PPh3)3 (кат. Уилкинсона)',name:'Гомогенное гидрирование (катализатор Уилкинсона)',
+ note:'Растворимый комплекс родия: присоединяет H₂, координирует алкен и переносит на него два атома H.',
+ ref:{u:'H₂, 1–5 мол. % RhCl(PPh₃)₃ в бензоле или толуоле, комнатная температура.',
+ m:'Цикл: диссоциация PPh₃ → окислительное присоединение H₂ → координация алкена → миграционное внедрение (гидрид → C) → восстановительное элиминирование алкана.',
+ s:'Син-присоединение. Сильно чувствителен к пространственным затруднениям: моно- и 1,2-дизамещённые C=C восстанавливаются, тетразамещённые – нет. Не трогает C=O, NO₂, CN.',
+ l:'Гомогенный = катализатор растворён (Уилкинсон); гетерогенный = твёрдый металл (Ni, Pd, Pt, Ru, Rh, Os).'}},
+{id:'h_diimide',g:'prop',t:3,cat:'red',eq:'h2',from:'CH2=CH–CH2–OH',fromN:'аллиловый спирт',to:'CH3–CH2–CH2–OH',toN:'пропан-1-ол',
+ rg:'HN=NH (диимид; N2H4, H2O2, Cu²⁺)',name:'Восстановление алкенов диимидом',
+ note:'Два атома H переносятся синхронно с одной стороны через циклическое переходное состояние, выделяется N₂.',
+ ref:{u:'Диимид генерируют in situ из гидразина и окислителя (H₂O₂, O₂, Cu²⁺) или из TsNHNH₂ при нагревании.',
+ m:'Согласованный перициклический перенос двух H, шестичленное ПС.',
+ s:'Син-присоединение; легче восстанавливаются менее замещённые и напряжённые C=C.',
+ l:'Удобен там, где H₂/металл мог бы порвать C–Hal, O–O, N–O или сместить двойную связь.'}},
+{id:'a_hydr',g:'prop',t:1,cat:'add',ex:['a_oxyhg'],from:'CH2=CH–CH3',fromN:'пропен',to:'CH3–CH(OH)–CH3',toN:'пропан-2-ол',
+ rg:'H2O, H2SO4 (разб.), t',name:'Кислотная гидратация (по Марковникову)',
+ note:'H⁺ присоединяется к более гидрогенизированному C, образуется вторичный карбокатион, к нему – вода.',
+ fakes:['H2O, NaOH, t'],
+ ref:{u:'Вода с разбавленной H₂SO₄ или H₃PO₄ (в промышленности – H₃PO₄ на силикагеле, 300 °C, давление).',
+ m:'AdE через карбокатион: H⁺ → R⁺ → R–OH₂⁺ → R–OH.',
+ s:'Правило Марковникова. Карбокатион может перегруппироваться (1,2-сдвиги H или CH₃).',
+ l:'Только этилен даёт первичный спирт (этанол). Если перегруппировка нежелательна – оксимеркурирование.'}},
+{id:'a_oxyhg',g:'prop',t:2,cat:'add',from:'(CH3)3C–CH=CH2',fromN:'3,3-диметилбут-1-ен',to:'(CH3)3C–CH(OH)–CH3',toN:'3,3-диметилбутан-2-ол',
+ rg:'1) Hg(OAc)2, H2O/ТГФ (р-ль); 2) NaBH4',name:'Оксимеркурирование–демеркурирование',
+ note:'Через мостиковый меркурониевый ион, без свободного карбокатиона – поэтому без перегруппировок. Ориентация по Марковникову.',
+ ref:{u:'1) Ацетат ртути(II) в смеси вода–ТГФ, 20 °C; 2) NaBH₄ в щелочи заменяет HgOAc на H.',
+ m:'Hg(OAc)⁺ образует мостиковый ион, вода атакует более замещённый C (на нём больше δ+), анти. NaBH₄ рвёт C–Hg по радикальному механизму.',
+ s:'Марковников, без перегруппировок углеродного скелета.',
+ l:'Здесь кислотная гидратация дала бы 2,3-диметилбутан-2-ол – после метильного сдвига. В этом и смысл реакции.'}},
+{id:'a_solvohg',g:'prop',t:3,cat:'add',from:'CH2=CH–CH3',fromN:'пропен',to:'CH3–CH(OCH3)–CH3',toN:'2-метоксипропан',
+ rg:'1) Hg(OAc)2, CH3OH (р-ль); 2) NaBH4',name:'Сольвомеркурирование (алкоксимеркурирование)',
+ note:'Вместо воды нуклеофилом выступает спирт-растворитель → простой эфир по Марковникову.',
+ fakes:['CH3OH, NaOH, t'],
+ ref:{u:'1) Hg(OAc)₂ или Hg(O₂CCF₃)₂ в спирте; 2) NaBH₄.',
+ m:'Как оксимеркурирование: меркурониевый ион раскрывается молекулой растворителя ROH.',
+ s:'Марковников, без перегруппировок. Растворитель задаёт нуклеофил: H₂O → спирт, ROH → эфир, AcOH → сложный эфир.',
+ l:'Объёмные спирты (трет-бутанол) плохо работают с Hg(OAc)₂ – берут трифторацетат ртути.'}},
+{id:'a_h2so4',g:'prop',t:2,cat:'add',from:'CH2=CH2',fromN:'этилен',to:'CH3–CH2–OSO3H',toN:'этилсерная кислота',
+ rg:'H2SO4 (конц.), 0 °C',name:'Присоединение серной кислоты (AdE)',
+ note:'H⁺ к одному атому C, гидросульфат-ион – к другому. Образуется алкилсерная кислота.',
+ ref:{u:'Концентрированная H₂SO₄ на холоду (около 0 °C).',
+ m:'AdE через карбокатион; нуклеофил – HSO₄⁻.',
+ s:'Марковников (у пропена – изопропилсерная кислота).',
+ l:'При кипячении алкилсерной кислоты с водой получается спирт – старый сернокислотный способ гидратации. С той же H₂SO₄, но при 170 °C, спирт, наоборот, дегидратируется.'}},
+{id:'a_hbr',g:'prop',t:1,cat:'add',from:'CH2=CH–CH3',fromN:'пропен',to:'CH3–CHBr–CH3',toN:'2-бромпропан',
+ rg:'HBr (без перекисей)',name:'Гидрогалогенирование по Марковникову (AdE)',
+ note:'H⁺ присоединяется к концевому CH₂, Br⁻ – к более стабильному вторичному карбокатиону.',
+ ref:{u:'Газообразный HBr или его раствор в AcOH, темнота, без перекисей.',
+ m:'AdE: π-комплекс → карбокатион → присоединение Br⁻.',
+ s:'Правило Марковникова; возможны перегруппировки карбокатиона.',
+ l:'Перекиси (ROOR) переключают HBr на радикальный механизм и ориентацию против Марковникова.'}},
+{id:'a_kharasch',g:'prop',t:2,cat:'rad',eq:'antiBr',from:'CH2=CH–CH3',fromN:'пропен',to:'CH3–CH2–CH2Br',toN:'1-бромпропан',
+ rg:'HBr, ROOR (или hν)',name:'Присоединение HBr по Харашу (перекисный эффект)',
+ note:'Цепной радикальный процесс: Br• присоединяется к концевому C, давая вторичный радикал → Br оказывается на конце, против Марковникова.',
+ fakes:['HCl, ROOR'],
+ ref:{u:'HBr в присутствии пероксидов (ROOR, (PhCOO)₂) или при облучении.',
+ m:'Инициирование: ROOR → 2 RO•; RO• + HBr → ROH + Br•. Рост цепи: Br• + CH₂=CH–CH₃ → BrCH₂–C•H–CH₃; радикал + HBr → продукт + Br•.',
+ s:'Против Марковникова: ориентацию определяет стабильность радикала, а не катиона.',
+ l:'Работает только с HBr. Для HCl стадия H-переноса слишком медленная, для HI – присоединение I• невыгодно.'}},
+{id:'a_halohydrin',g:'prop',t:2,cat:'add',from:'CH2=CH–CH3',fromN:'пропен',to:'CH2Cl–CH(OH)–CH3',toN:'1-хлорпропан-2-ол',
+ rg:'Cl2, H2O (HOCl)',name:'Синтез галогенгидринов',
+ note:'Хлорониевый ион раскрывается водой по более замещённому C (там больше δ+) → OH на вторичном, Cl на концевом атоме.',
+ fakes:['HOCl… нет: HCl, H2O2'],
+ ref:{u:'Хлорная или бромная вода (Cl₂/H₂O, Br₂/H₂O), либо NBS в водном ДМСО.',
+ m:'AdE через мостиковый галогенониевый ион; вода в большом избытке перехватывает его раньше, чем Cl⁻.',
+ s:'Анти-присоединение; OH – по Марковникову (к более замещённому C).',
+ l:'Из хлоргидрина щёлочь замыкает эпоксид. Так в промышленности получают пропиленоксид и эпихлоргидрин.'}},
+{id:'a_br2',g:'prop',t:1,cat:'add',from:'CH2=CH–CH3',fromN:'пропен',to:'CH2Br–CHBr–CH3',toN:'1,2-дибромпропан',
+ rg:'Br2, CCl4 (р-ль), 20 °C',name:'Присоединение брома (ионное AdE / радикальное)',
+ note:'Ионно – через бромониевый ион, анти-присоединение. Обесцвечивание бромной воды – качественная реакция на C=C.',
+ fakes:['Br2, FeBr3'],
+ ref:{u:'Br₂ в CCl₄ или CH₂Cl₂, 20 °C, темнота (ионно). При облучении на холоду – радикальное присоединение с тем же продуктом.',
+ m:'Ионно: π-комплекс → бромониевый ион → атака Br⁻ с обратной стороны. Радикально: Br• + C=C → β-бромалкил-радикал + Br₂ → продукт + Br•.',
+ s:'Ионный путь – стереоспецифичное анти-присоединение: транс-бут-2-ен → мезо-2,3-дибромбутан, цис → рацемат.',
+ l:'При высокой температуре (или с NBS) вместо присоединения идёт аллильное замещение. FeBr₃ – катализатор для аренов, алкенам не нужен.'}},
+{id:'a_nocl',g:'prop',t:3,cat:'add',from:'(CH3)2C=CH2',fromN:'2-метилпропен',to:'(CH3)2CCl–CH2–N=O',toN:'2-хлор-2-метил-1-нитрозопропан',
+ rg:'NOCl',name:'Присоединение нитрозилхлорида (реакция Тильдена)',
+ note:'Электрофил NO⁺ присоединяется к менее замещённому C, Cl⁻ – к третичному атому.',
+ fakes:['NO2Cl… нет: HNO3, H2SO4'],
+ ref:{u:'Нитрозилхлорид (или NaNO₂ + HCl, или изоамилнитрит + HCl), низкая температура.',
+ m:'AdE: NO⁺ – электрофил, Cl⁻ – нуклеофил; в основном анти-присоединение.',
+ s:'По Марковникову: NO к CH₂, Cl к более замещённому C.',
+ l:'Нитрозохлориды обычно димеризуются (синие мономеры → бесцветные димеры), вторичные изомеризуются в оксимы. Исторически – реакция для идентификации терпенов.'}},
+{id:'a_ch2',g:'prop',t:3,cat:'cyc',eq:'cp',from:'CH2=CH–CH3',fromN:'пропен',to:'CH3–CH{r3:CH2}CH2',toN:'метилциклопропан',
+ rg:'CH2I2, Zn(Cu)',name:'Циклопропанирование по Симмонсу–Смиту',
+ note:'Карбеноид IZnCH₂I переносит группу CH₂ на двойную связь согласованно, с сохранением конфигурации алкена.',
+ fakes:['CH2Cl2, Zn, t'],
+ ref:{u:'Дииодметан и цинк-медная пара в эфире (вариант Фурукавы – Et₂Zn).',
+ m:'Образуется карбеноид ICH₂ZnI; перенос CH₂ через «бабочкообразное» ПС, свободный карбен не возникает.',
+ s:'Стереоспецифично (син): цис-алкен → цис-циклопропан. OH-группа рядом направляет реагент на свою сторону.',
+ l:'Безопаснее диазометана и не даёт побочного внедрения в C–H.'}},
+{id:'a_ch2n2',g:'prop',t:3,cat:'cyc',eq:'cp',from:'цис-CH3–CH=CH–CH3',fromN:'цис-бут-2-ен',to:'цис-CH3–CH{r3:CH2}CH–CH3',toN:'цис-1,2-диметилциклопропан',
+ rg:'CH2N2, hν',name:'Присоединение метилена :CH₂ (из диазометана)',
+ note:'Фотолиз CH₂N₂ даёт синглетный карбен, который присоединяется к C=C согласованно: из цис-алкена – цис-циклопропан.',
+ ref:{u:'Диазометан при облучении (hν) или с катализатором (Cu, Pd(OAc)₂).',
+ m:'CH₂N₂ → :CH₂ + N₂. Синглетный карбен присоединяется в одну стадию; триплетный – двухстадийно (бирадикал), стереоспецифичность теряется.',
+ s:'Синглетный карбен – стереоспецифично, сохраняется геометрия алкена.',
+ l:'Свободный :CH₂ очень активен и внедряется ещё и в связи C–H, поэтому чистый препаративный путь – Симмонс–Смит.'}},
+{id:'a_ccl2',g:'prop',t:3,cat:'cyc',from:'CH2=CH–CH3',fromN:'пропен',to:'CH3–CH{r3:CCl2}CH2',toN:'1,1-дихлор-2-метилциклопропан',
+ rg:'CHCl3, t-BuOK (или NaOH 50 %, межфазный кат.)',name:'Присоединение дихлоркарбена',
+ note:'Основание отрывает H⁺ от CHCl₃, анион CCl₃⁻ теряет Cl⁻ → :CCl₂, который присоединяется к C=C.',
+ fakes:['CCl4, hν'],
+ ref:{u:'Хлороформ + t-BuOK, либо 50 % NaOH с катализатором межфазного переноса (ТЭБАХ, метод Мąкоши).',
+ m:'α-Элиминирование: CHCl₃ → CCl₃⁻ → :CCl₂ + Cl⁻. Синглетный дихлоркарбен присоединяется согласованно.',
+ s:'Стереоспецифично (син). Получаются гем-дигалогенциклопропаны.',
+ l:'CCl₄ при облучении – радикальное присоединение Cl и CCl₃ (по Харашу), без цикла.'}},
+{id:'a_nitrene',g:'prop',t:3,cat:'cyc',from:'CH2=CH–CH3',fromN:'пропен',to:'CH3–CH{r3:N–CO2Et}CH2',toN:'этил-2-метилазиридин-1-карбоксилат',
+ rg:'EtO2C–N3, hν',name:'Присоединение нитренов (азиридирование)',
+ note:'Фотолиз азида даёт нитрен R–N: (азотный аналог карбена); он присоединяется к C=C с образованием азиридина.',
+ fakes:['NH3, t'],
+ ref:{u:'Азид (этоксикарбонилазид, сульфонилазиды) при облучении или нагревании; современный вариант – PhI=NTs с солями Cu или Rh.',
+ m:'R–N₃ → R–N: + N₂. Синглетный нитрен – согласованное присоединение, триплетный – ступенчатое.',
+ s:'Синглетный нитрен стереоспецифичен, триплетный – нет.',
+ l:'Нитрен ≈ карбен с азотом в центре. Продукт – трёхчленный цикл с атомом N (азиридин).'}},
+{id:'b_oh',g:'prop',t:2,cat:'add',from:'CH2=CH–CH3',fromN:'пропен',to:'CH3–CH2–CH2–OH',toN:'пропан-1-ол',
+ rg:'1) BH3·ТГФ (B2H6); 2) H2O2, NaOH',name:'Гидроборирование–окисление (реакция Брауна)',
+ note:'B присоединяется к менее замещённому C, H – к более замещённому, син. Окисление заменяет B на OH с сохранением конфигурации.',
+ ref:{u:'1) Диборан или BH₃·ТГФ (9-BBN для большей селективности), 0–25 °C; 2) щелочной H₂O₂.',
+ m:'Четырёхцентровое ПС: B и H одновременно присоединяются к одной стороне C=C (син). Затем HOO⁻ атакует бор, алкил мигрирует с B на O.',
+ s:'Против Марковникова и син-присоединение; без перегруппировок.',
+ l:'Ориентацию задают стерика и полярность B–H (B – электрофил, H уходит как гидрид). Результат – «анти-Марковниковский» спирт.'}},
+{id:'b_br',g:'prop',t:3,cat:'add',eq:'antiBr',from:'CH2=CH–CH3',fromN:'пропен',to:'CH3–CH2–CH2Br',toN:'1-бромпропан',
+ rg:'1) BH3·ТГФ; 2) Br2, CH3ONa, CH3OH (р-ль)',name:'Гидроборирование–галогенолиз (Браун)',
+ note:'Триалкилборан расщепляется галогеном в присутствии основания → алкилгалогенид против Марковникова.',
+ ref:{u:'1) BH₃·ТГФ; 2) Br₂ и CH₃ONa в метаноле (или I₂ и NaOH для иодидов).',
+ m:'Основание образует борат-комплекс, галоген атакует связь C–B (для Br₂ – с обращением конфигурации у атома C).',
+ s:'Против Марковникова: галоген на концевом C.',
+ l:'Тот же продукт даёт HBr с перекисями (Хараш). На экзамене спрашивают оба пути.'}},
+{id:'x_cl500',g:'prop',t:2,cat:'rad',from:'CH2=CH–CH3',fromN:'пропен',to:'CH2=CH–CH2Cl',toN:'3-хлорпропен (аллилхлорид)',
+ rg:'Cl2, 500 °C',name:'Аллильное хлорирование (SR)',
+ note:'При высокой температуре присоединение Cl₂ обратимо и невыгодно, идёт радикальное замещение H у аллильного атома C.',
+ fakes:['Cl2, CCl4 (р-ль), 20 °C'],
+ ref:{u:'Газофазное хлорирование при 400–500 °C (низкая концентрация Cl₂).',
+ m:'Цепной радикальный: Cl• отрывает аллильный H (слабая связь C–H), аллильный радикал стабилизирован сопряжением, + Cl₂ → продукт + Cl•.',
+ s:'Двойная связь сохраняется; у несимметричных аллильных радикалов возможна смесь изомеров (аллильная перегруппировка).',
+ l:'Тот же Cl₂ при 20 °C в CCl₄ – присоединение (1,2-дихлорпропан). Решает температура.'}},
+{id:'x_nbs',g:'prop',t:2,cat:'rad',from:'CH2=CH–CH3',fromN:'пропен',to:'CH2=CH–CH2Br',toN:'3-бромпропен (аллилбромид)',
+ rg:'NBS, ROOR (или hν), CCl4 (р-ль)',name:'Реакция Воля–Циглера (аллильное бромирование NBS)',
+ note:'NBS поддерживает очень низкую концентрацию Br₂: присоединение к C=C подавлено, а цепное замещение аллильного H идёт.',
+ fakes:['NBS, H2O, ДМСО (р-ль)'],
+ ref:{u:'N-бромсукцинимид в CCl₄ при кипячении, инициатор – пероксид (ROOR), AIBN или облучение.',
+ m:'Br• отрывает аллильный H → аллильный радикал + Br₂ → продукт + Br•. HBr, образующийся при этом, реагирует с NBS и даёт новую порцию Br₂.',
+ s:'Замещение у аллильного атома, C=C сохраняется; возможна аллильная перегруппировка.',
+ l:'NBS в воде/ДМСО без инициатора работает иначе – даёт бромгидрины. ROOR или hν обязательны для радикального пути.'}},
+{id:'o_wagner',g:'prop',t:1,cat:'ox',from:'CH2=CH–CH3',fromN:'пропен',to:'CH2(OH)–CH(OH)–CH3',toN:'пропан-1,2-диол',
+ rg:'KMnO4, H2O, 0–5 °C',name:'Реакция Вагнера (мягкое окисление)',
+ note:'Через циклический манганатный эфир – син-диол. Обесцвечивание розового раствора и бурый осадок MnO₂ – качественная реакция на C=C.',
+ ref:{u:'Разбавленный водный KMnO₄, нейтральная или слабощелочная среда, холод. Альтернатива – OsO₄ (каталитически с NMO).',
+ m:'[3+2]-Циклоприсоединение MnO₄⁻ к C=C → циклический эфир → гидролиз.',
+ s:'Син-дигидроксилирование: цис-бут-2-ен → мезо-диол.',
+ l:'При нагревании и в кислой среде KMnO₄ разрывает связь C=C (жёсткое окисление). Добавлено мной: частое звено цепочек.'}},
+{id:'o_hot',g:'prop',t:2,cat:'ox',from:'CH3–CH=CH–CH3',fromN:'бут-2-ен',to:'2 CH3–COOH',toN:'уксусная кислота',
+ rg:'KMnO4, H2SO4, t',name:'Жёсткое окисление (разрыв C=C)',
+ note:'Каждый фрагмент =CH–R превращается в R–COOH, =CH₂ – в CO₂, =CR₂ – в кетон.',
+ ref:{u:'Подкисленный KMnO₄ или K₂Cr₂O₇/H₂SO₄ при нагревании.',
+ m:'Сначала диол, затем окислительный разрыв связи C–C.',
+ s:'По продуктам восстанавливают положение двойной связи в исходном алкене.',
+ l:'Неорганика (MnSO₄, K₂SO₄, CO₂ от =CH₂) в ответах не пишется. Добавлено мной: частое звено цепочек.'}},
+{id:'o_ozon',g:'prop',t:2,cat:'ox',from:'(CH3)2C=CH–CH3',fromN:'2-метилбут-2-ен',to:'(CH3)2C=O + CH3–CHO',toN:'ацетон + ацетальдегид',
+ rg:'1) O3; 2) Zn, CH3COOH (или (CH3)2S)',name:'Озонолиз (с восстановительной обработкой)',
+ note:'Озон разрывает C=C через озонид; восстановительная обработка даёт альдегиды и кетоны без переокисления до кислот.',
+ ref:{u:'1) O₃ в CH₂Cl₂ или MeOH при –78 °C; 2) Zn/AcOH, (CH₃)₂S или PPh₃. Окислительная обработка (H₂O₂) даёт кислоты.',
+ m:'Механизм Криге: первичный озонид (мольозонид) → карбонил + карбонилоксид → вторичный озонид → расщепление.',
+ s:'Каждый атом C двойной связи становится атомом C карбонильной группы.',
+ l:'Сравни с KMnO₄/H⁺: там альдегид окисляется дальше до кислоты. Добавлено мной: частое звено цепочек.'}},
+{id:'o_epox',g:'prop',t:2,cat:'ox',from:'(CH3)2C=CH2',fromN:'2-метилпропен',to:'(CH3)2C{r3:O}CH2',toN:'2,2-диметилоксиран',
+ rg:'mCPBA (RCO3H), CH2Cl2 (р-ль)',name:'Эпоксидирование по Прилежаеву',
+ note:'Надкислота переносит атом кислорода на C=C согласованно («бабочка»), конфигурация алкена сохраняется.',
+ fakes:['O2, Ag, 250 °C'],
+ ref:{u:'м-Хлорпербензойная кислота (или CH₃CO₃H, HCOOOH) в CH₂Cl₂, 0–25 °C.',
+ m:'Согласованный перенос O через циклическое ПС «бабочка».',
+ s:'Стереоспецифично (син): цис-алкен → цис-эпоксид. Более замещённые (электронодонорные) C=C реагируют быстрее.',
+ l:'O₂/Ag при 250 °C работает только для этилена (окись этилена в промышленности). Добавлено мной: частое звено цепочек.'}}
+,
+{id:'i_al2o3',g:'prop',t:2,cat:'iso',eq:'dehyd',from:'CH2=CH–CH2–CH3',fromN:'бут-1-ен',to:'CH3–CH=CH–CH3',toN:'бут-2-ен',
+ rg:'Al2O3, 500 °C',name:'Изомеризация алкенов (миграция двойной связи)',
+ note:'На кислотных центрах Al₂O₃ двойная связь сдвигается к середине цепи – к более замещённому, термодинамически устойчивому алкену.',
+ ref:{u:'Al₂O₃ (или алюмосиликаты, H₃PO₄ на носителе), 300–500 °C, газовая фаза.',
+ m:'Протонирование C=C кислотным центром → карбокатион → отщепление H⁺ с другой стороны (правило Зайцева).',
+ s:'Равновесие сдвинуто к более замещённому алкену: бут-1-ен → бут-2-ен (транс > цис).',
+ l:'Добавлено мной для цепочки из ДЗ № 4 (задача 6). Не путай с дегидратацией: здесь исходное вещество уже алкен, вода не отщепляется.'}},
+{id:'b_h',g:'prop',t:3,cat:'red',eq:'h2',from:'(CH3)2C=CH2',fromN:'2-метилпропен',to:'(CH3)2CH–CH3',toN:'2-метилпропан',
+ rg:'1) B2H6; 2) CH3COOH, t',name:'Гидроборирование–протонолиз (восстановление алкенов)',
+ note:'Бор присоединяется к C=C, затем карбоновая кислота заменяет B на H. В итоге – гидрирование без H₂ и металла.',
+ ref:{u:'1) B₂H₆ или BH₃·ТГФ; 2) кипячение с CH₃COOH (или пропионовой кислотой).',
+ m:'Син-гидроборирование → триалкилборан → протонолиз связи C–B через циклическое шестичленное ПС с кислотой (с сохранением конфигурации).',
+ s:'Итог – син-присоединение двух атомов H к двойной связи.',
+ l:'Вторая стадия решает всё: H₂O₂/NaOH – спирт против Марковникова, CH₃COOH – алкан. Добавлено мной для цепочки из ДЗ № 4 (задача 10).'}}
+];
+const RM=Object.fromEntries(R.map(r=>[r.id,r]));
+/* clean up fakes: drop entries with "…" (internal notes) */
+R.forEach(r=>{ if(r.fakes) r.fakes=r.fakes.filter(f=>!f.includes('…')); });
+
+/* ================= wrong products for "what forms?" questions ================= */
+const WP={
+ p_dehydrog:['CH≡C–CH3','CH2=C=CH2'],
+ p_lindlar:['транс-CH3–CH=CH–CH3','CH3–CH2–CH2–CH3'],
+ p_dibal:['транс-C2H5–CH=CH–C2H5','C2H5–CH2–CH2–C2H5'],
+ p_diimide_yne:['транс-CH3–CH=CH–C2H5','CH3–CH2–CH2–CH2–CH3'],
+ p_na_nh3:['цис-CH3–CH=CH–CH3','CH3–CH2–CH2–CH3'],
+ p_zn:['CH2{r3:CH2}CH2','CH≡C–CH3'],
+ p_pph3:['CH3–CH=CH–CH3','CH≡C–CH2–CH3'],
+ p_nai:['цис-CH3–CH=CH–CH3','CH2=CH–CH2–CH3'],
+ d_h2so4:['CH3–CH2–O–CH2–CH3','CH3–CHO'],
+ d_h3po4:['CH2=CH–CH2–CH3','CH3–CO–CH2–CH3'],
+ d_al2o3:['CH3–CH2–CH2–O–CH2–CH2–CH3','CH3–CH2–CHO'],
+ d_khso4:['CH2=C(CH3)–CH2–CH3','(CH3)2CH–CH=CH2'],
+ d_oxalic:['(CH3)3C–O–C(CH3)3','CH3–CH=CH–CH3'],
+ d_zncl2:['(CH3)2CH–CH=CH2','(CH3)2CH–CHCl–CH3'],
+ e_koh:['CH2=CH–CH2–CH3','CH3–CH(OH)–CH2–CH3'],
+ e_tbuok:['CH3–CH=CH–CH3','CH3–CH(OC(CH3)3)–CH2–CH3'],
+ e_cope:['CH3–CH2–CH2–OH','CH3–CH2–CHO'],
+ e_hofmann:['CH3–CH=CH–CH3','CH3–CH(OH)–CH2–CH3'],
+ w_wittig:['(CH3)3C–OH','CH3–CH=CH–CH3'],
+ w_mcmurry:['(CH3)2C(OH)–C(OH)(CH3)2','(CH3)2CH–OH'],
+ w_cuprate:['транс-CH3–CH=CH–C2H5','CH3–CH=CH–CH=CH–CH3'],
+ h_ni:['CH≡C–CH3'],
+ h_pt:['(CH3)2CH–CH=CH2','CH3–CH2–CH2–CH2–CH3'],
+ h_wilk:['CH3–CH=CH–CH3','CH2=CH–CH=CH2'],
+ h_diimide:['CH3–CH2–CHO','CH2=CH–CH3'],
+ a_hydr:['CH3–CH2–CH2–OH','CH3–CO–CH3'],
+ a_oxyhg:['(CH3)2C(OH)–CH(CH3)2','(CH3)3C–CH2–CH2–OH'],
+ a_solvohg:['CH3–CH2–CH2–OCH3','CH3–CH(OH)–CH3'],
+ a_h2so4:['CH3–CH2–OH','CH3–CH2–O–CH2–CH3'],
+ a_hbr:['CH3–CH2–CH2Br','CH2Br–CHBr–CH3'],
+ a_kharasch:['CH3–CHBr–CH3','CH2=CH–CH2Br'],
+ a_halohydrin:['CH2(OH)–CHCl–CH3','CH2Cl–CHCl–CH3'],
+ a_br2:['CH2=CH–CH2Br','CH3–CHBr–CH3'],
+ a_nocl:['(CH3)2C(N=O)–CH2Cl','(CH3)2CCl–CH2Cl'],
+ a_ch2:['CH2=CH–CH2–CH3','CH3–CH=CH–CH3'],
+ a_ch2n2:['транс-CH3–CH{r3:CH2}CH–CH3','CH3–CH2–CH=CH–CH3'],
+ a_ccl2:['CH3–CHCl–CH2–CCl3','CH3–CH{r3:CH2}CH2'],
+ a_nitrene:['CH3–CH{r3:NH}CH2','CH3–CH{r3:O}CH2'],
+ b_oh:['CH3–CH(OH)–CH3','CH3–CH2–CHO'],
+ b_br:['CH3–CHBr–CH3','CH3–CH2–CH2–OH'],
+ x_cl500:['CH2Cl–CHCl–CH3','CH3–CHCl–CH3'],
+ x_nbs:['CH2Br–CHBr–CH3','CH2Br–CH(OH)–CH3'],
+ o_wagner:['CH3–COOH','CH3–CH{r3:O}CH2'],
+ o_hot:['CH3–CHO','CH3–CH(OH)–CH(OH)–CH3'],
+ o_ozon:['(CH3)2C=O + CH3–COOH','(CH3)2C(OH)–CH(OH)–CH3'],
+ o_epox:['(CH3)2C(OH)–CH2–OH','(CH3)2CH–CHO'],
+ i_al2o3:['CH2=CH–CH=CH2','CH3–CH2–CH2–CH3'],
+ b_h:['(CH3)2CH–CH2–OH','(CH3)3C–OH']
+};
+
+/* ================= chains ================= */
+const CH=[
+ {id:'c1',name:'Пропанол → 1,3-дибромпропан',steps:[{r:'d_al2o3'},{r:'x_nbs'},{r:'a_kharasch',to:'BrCH2–CH2–CH2Br',toN:'1,3-дибромпропан',wp:['CH3–CHBr–CH2Br','CH2Br–CHBr–CH2Br']}]},
+ {id:'c2',name:'Стереохимия бут-2-ина',steps:[{r:'p_na_nh3'},{r:'a_br2',to:'мезо-CH3–CHBr–CHBr–CH3',toN:'мезо-2,3-дибромбутан',wp:['(±)-CH3–CHBr–CHBr–CH3','CH2Br–CH=CH–CH3']},{r:'p_nai'}]},
+ {id:'c3',name:'Перенос OH на конец цепи',steps:[{r:'d_h3po4'},{r:'a_hbr',to:'CH3–CHBr–CH2–CH3',toN:'2-бромбутан',ex:['a_kharasch','b_br'],wp:['CH3–CHBr–CHBr–CH3','CH3–CH2–CH2–CH2Br']},{r:'e_tbuok'},{r:'b_oh',to:'HO–CH2–CH2–CH2–CH3',toN:'бутан-1-ол',wp:['CH3–CH(OH)–CH2–CH3','CH3–CH2–CH2–CHO']}]},
+ {id:'c4',name:'Ацетон → диол',steps:[{r:'w_wittig'},{r:'o_wagner',to:'(CH3)2C(OH)–CH2–OH',toN:'2-метилпропан-1,2-диол',wp:['(CH3)2C=O','(CH3)2C(OH)–CH3']}]},
+ {id:'c5',name:'Алкин → цис-циклопропан',steps:[{r:'p_lindlar'},{r:'a_ch2n2'}]},
+ {id:'c6',name:'Путь к эпихлоргидрину',steps:[{r:'p_dehydrog'},{r:'x_cl500'},{r:'a_halohydrin',to:'ClCH2–CH(OH)–CH2Cl',toN:'1,3-дихлорпропан-2-ол',wp:['ClCH2–CHCl–CH2–OH','ClCH2–CHCl–CH2Cl']}]},
+ {id:'c7',name:'Амин → альдегиды',steps:[{r:'e_cope'},{r:'o_ozon',to:'CH3–CHO + HCHO',toN:'ацетальдегид + формальдегид',wp:['CH3–COOH','CH3–CO–CH3']}]},
+ {id:'c8',name:'Бромид → эпоксид',steps:[{r:'e_koh',from:'(CH3)3C–Br',fromN:'2-бром-2-метилпропан',to:'(CH3)2C=CH2',toN:'2-метилпропен',ex:['e_tbuok'],wp:['(CH3)3C–OH','CH3–CH=CH–CH3']},{r:'o_epox'}]},
+ {id:'c9',name:'Два кетона → один алкан',steps:[{r:'w_mcmurry'},{r:'h_pt',to:'(CH3)2CH–CH(CH3)2',toN:'2,3-диметилбутан',wp:['(CH3)2C(OH)–C(OH)(CH3)2','(CH3)2CH–CH2–CH2–CH3']}]},
+ {id:'c10',name:'Гексин → цис-эпоксид',steps:[{r:'p_dibal'},{r:'o_epox',to:'цис-C2H5–CH{r3:O}CH–C2H5',toN:'цис-2,3-диэтилоксиран',wp:['транс-C2H5–CH{r3:O}CH–C2H5','C2H5–CH(OH)–CH(OH)–C2H5']}]},
+ {id:'dz4_6',name:'ДЗ № 4, задача 6',steps:[
+   {r:'d_h2so4',from:'HO–CH2–CH(CH3)–CH(CH3)2',fromN:'2,3-диметилбутан-1-ол',to:'CH2=C(CH3)–CH(CH3)2',toN:'2,3-диметилбут-1-ен',L:'A',
+    wp:['(CH3)2CH–CH(CH3)–CH2–O–CH2–CH(CH3)–CH(CH3)2','OHC–CH(CH3)–CH(CH3)2'],
+    note2:'Как в задачнике: первичный спирт отщепляет воду по E2 и даёт алкен с концевой связью. При долгом нагревании с кислотой он перегруппировался бы в 2,3-диметилбут-2-ен (это вещество D).'},
+   {r:'a_kharasch',src:0,to:'BrCH2–CH(CH3)–CH(CH3)2',toN:'1-бром-2,3-диметилбутан',L:'B',wp:['(CH3)2CBr–CH(CH3)2','BrCH2–CBr(CH3)–CH(CH3)2']},
+   {r:'a_hbr',src:0,to:'(CH3)2CBr–CH(CH3)2',toN:'2-бром-2,3-диметилбутан',L:'C',ex:['a_kharasch','b_br'],wp:['BrCH2–CH(CH3)–CH(CH3)2','BrCH2–CBr(CH3)–CH(CH3)2']},
+   {r:'i_al2o3',src:0,to:'(CH3)2C=C(CH3)2',toN:'2,3-диметилбут-2-ен',L:'D',wp:['CH2=C(CH3)–C(CH3)=CH2','(CH3)2CH–CH(CH3)2']},
+   {r:'a_halohydrin',src:0,to:'ClCH2–C(OH)(CH3)–CH(CH3)2',toN:'1-хлор-2,3-диметилбутан-2-ол',L:'E',wp:['HO–CH2–CCl(CH3)–CH(CH3)2','ClCH2–CCl(CH3)–CH(CH3)2']}]},
+ {id:'dz4_10',name:'ДЗ № 4, задача 10',steps:[
+   {r:'p_na_nh3',from:'HC≡C–CH(CH3)–CH2–CH3',fromN:'3-метилпент-1-ин',to:'CH2=CH–CH(CH3)–CH2–CH3',toN:'3-метилпент-1-ен',L:'A',ex:['p_lindlar','p_dibal','p_diimide_yne'],
+    wp:['CH3–CH2–CH(CH3)–CH2–CH3','CH3–CH=C(CH3)–CH2–CH3'],
+    note2:'У концевой двойной связи цис/транс-изомеров нет, поэтому здесь неважно, Na/NH₃ или Линдлар.'},
+   {r:'b_oh',src:0,to:'HO–CH2–CH2–CH(CH3)–CH2–CH3',toN:'3-метилпентан-1-ол',L:'C',wp:['CH3–CH(OH)–CH(CH3)–CH2–CH3','CH3–CH2–C(OH)(CH3)–CH2–CH3'],
+    note2:'В задачнике это две стрелки: A → B (B₂H₆, триалкилборан) → C (H₂O₂). Здесь они объединены.'},
+   {r:'b_h',src:0,to:'CH3–CH2–CH(CH3)–CH2–CH3',toN:'3-метилпентан',L:'E',wp:['HO–CH2–CH2–CH(CH3)–CH2–CH3','CH3–CO–O–CH2–CH2–CH(CH3)–CH2–CH3'],
+    note2:'В задачнике: B (триалкилборан) + CH₃COOH → E. Здесь стрелки A → B → E объединены.'},
+   {r:'o_ozon',src:0,to:'CH3–CH2–CH(CH3)–CHO + HCHO',toN:'2-метилбутаналь + формальдегид',L:'G',wp:['CH3–CH2–CH(CH3)–COOH + HCOOH','CH3–CH2–CO–CH3 + CH3–CHO'],
+    note2:'В задачнике это две стрелки: O₃ → F (озонид), Zn/CH₃COOH → G. Здесь они объединены.'}]}
+];
+
+/* ================= locations ================= */
+const LOCS=[
+ {id:'lab',name:'Лаборатория',verb:'Обустрой лабораторию',items:[
+   {id:'hood',n:'Вытяжной шкаф',d:'Без него с Br₂ и NOCl лучше не работать.',p:2},
+   {id:'poster',n:'Плакат «C=C»',d:'σ- и π-связь на стене – чтобы не забывать.',p:3},
+   {id:'still',n:'Установка для перегонки',d:'Отгонять этилен из этанола с H₂SO₄.',p:3},
+   {id:'shelf',n:'Полка с реактивами',d:'KMnO₄, NBS, mCPBA и прочие друзья.',p:4},
+   {id:'gc',n:'Газовый хроматограф',d:'Отличит цис- от транс-бутена по времени удерживания.',p:5}]},
+ {id:'cracker',name:'Установка пиролиза',verb:'Построй установку пиролиза',items:[
+   {id:'furnace',n:'Печь пиролиза',d:'Этан при 850 °C превращается в этилен.',p:5},
+   {id:'column',n:'Ректификационная колонна',d:'Делит этилен, пропен и бутены.',p:6},
+   {id:'sphere',n:'Шаровой газгольдер',d:'Хранит сжиженный пропен.',p:6},
+   {id:'compressor',n:'Компрессор',d:'Гонит пирогаз через всю установку.',p:7},
+   {id:'flare',n:'Факел',d:'Сжигает сбросы при аварийной остановке.',p:8}]},
+ {id:'poly',name:'Полимерный завод',verb:'Запусти полимерный завод',items:[
+   {id:'reactor',n:'Реактор Циглера–Натта',d:'TiCl₄ + AlEt₃ – и этилен становится полиэтиленом.',p:8},
+   {id:'extruder',n:'Экструдер плёнки',d:'Выдувает рукав из расплава полиэтилена.',p:9},
+   {id:'silo',n:'Силосы для гранул',d:'Тонны белых гранул ПЭ и ПП.',p:10},
+   {id:'tank',n:'Вагон-цистерна',d:'Возит сжиженный пропен по железной дороге.',p:11},
+   {id:'sign',n:'Вывеска завода',d:'С твоим ником на фасаде.',p:13}]}
+];
+const ITEM=Object.fromEntries(LOCS.flatMap(l=>l.items.map(i=>[i.id,i])));
+
+/* ================= state ================= */
+const KEY='dvoinaya-svyaz-v1';
+const fresh=()=>({nick:'',stars:0,level:1,owned:[],stats:{},seen:[],loc:0,chains:{},off:[],mode:'novice'});
+let state=fresh();
+try{const s=JSON.parse(localStorage.getItem(KEY)||'null'); if(s) state=Object.assign(fresh(),s);}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(state));}catch(e){}}
+
+/* ================= scene drawing ================= */
+const rc=(x,y,w,h,c,rx=0,ex='')=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${rx}" style="fill:var(--${c})" ${ex}/>`;
+const ci=(x,y,r,c,ex='')=>`<circle cx="${x}" cy="${y}" r="${r}" style="fill:var(--${c})" ${ex}/>`;
+const pa=(d,c,ex='')=>`<path d="${d}" style="fill:var(--${c})" ${ex}/>`;
+const st=(d,c,w=2,ex='')=>`<path d="${d}" style="fill:none;stroke:var(--${c});stroke-width:${w}" stroke-linecap="round" stroke-linejoin="round" ${ex}/>`;
+const tx=(x,y,t,c,size,ex='')=>`<text x="${x}" y="${y}" style="fill:var(--${c});font-family:var(--f-display);font-size:${size}px" text-anchor="middle" ${ex}>${t}</text>`;
+const flame=(x,y,s)=>`<g class="flame">${pa(`M${x} ${y} C${x-8*s} ${y-8*s} ${x-3*s} ${y-16*s} ${x} ${y-24*s} C${x+3*s} ${y-16*s} ${x+8*s} ${y-8*s} ${x} ${y} Z`,'sc-fire2')}${pa(`M${x} ${y} C${x-4*s} ${y-5*s} ${x-1.5*s} ${y-10*s} ${x} ${y-15*s} C${x+1.5*s} ${y-10*s} ${x+4*s} ${y-5*s} ${x} ${y} Z`,'sc-fire')}</g>`;
+
+const BASE={
+ lab:()=>{let s=rc(0,0,400,160,'sc-wall'); for(let y=20;y<160;y+=20) s+=st(`M0 ${y} H400`,'sc-tile',1); s+=rc(0,160,400,60,'sc-floor');
+   s+=rc(105,112,285,8,'sc-dark',2)+rc(112,120,271,40,'sc-wood')+st('M202 124 V156 M292 124 V156','sc-wood2',2)+rc(150,136,20,3,'sc-wood2',1)+rc(240,136,20,3,'sc-wood2',1)+rc(330,136,20,3,'sc-wood2',1); return s;},
+ cracker:()=>rc(0,0,400,172,'sc-sky')+ci(352,36,14,'sc-white','opacity=".7"')+rc(0,170,400,50,'sc-ground')+rc(0,196,400,8,'sc-road'),
+ poly:()=>rc(0,0,400,172,'sc-sky')+rc(0,170,400,50,'sc-ground')+st('M0 200 H400 M0 210 H400','sc-rail',2)+Array.from({length:20},(_,i)=>rc(i*20+4,198,6,14,'sc-rail',1,'opacity=".6"')).join('')
+};
+const DRAW={
+ hood:()=>rc(30,6,46,14,'sc-steel2',2)+rc(10,20,86,140,'sc-steel',4)+rc(18,32,70,76,'sc-glass',2)+rc(18,60,70,4,'sc-steel2')+ci(40,96,7,'sc-liq1')+rc(38,82,4,10,'sc-glass','0','style="fill:var(--sc-glass);stroke:var(--sc-steel2)"')+rc(58,88,14,18,'sc-liq2',2)+rc(18,108,70,8,'sc-dark')+rc(18,120,70,36,'sc-steel2',2)+st('M53 124 V152','sc-steel',2),
+ poster:()=>rc(112,14,62,50,'sc-paper',3)+`<ellipse cx="143" cy="27" rx="12" ry="7" style="fill:var(--sc-orange);opacity:.8"/><ellipse cx="143" cy="51" rx="12" ry="7" style="fill:var(--sc-liq3);opacity:.8"/>`+tx(143,45,'C=C','sc-ink',15),
+ still:()=>rc(154,66,3,46,'sc-steel2')+rc(150,76,14,3,'sc-steel2')+rc(160,98,32,14,'sc-dark',3)+ci(176,90,11,'sc-glass','style="fill:var(--sc-glass);stroke:var(--sc-steel2);stroke-width:1.5"')+pa('M166 93 A11 11 0 0 0 186 93 Z','sc-liq1')+rc(173,70,6,12,'sc-glass','0','style="fill:var(--sc-glass);stroke:var(--sc-steel2);stroke-width:1.5"')+st('M178 73 L232 96','sc-steel2',8)+st('M178 73 L232 96','sc-glass',4)+ci(236,104,7,'sc-glass','style="fill:var(--sc-glass);stroke:var(--sc-steel2);stroke-width:1.5"')+pa('M230 106 A7 7 0 0 0 242 106 Z','sc-liq1'),
+ shelf:()=>rc(208,62,96,4,'sc-wood')+rc(214,66,3,8,'sc-wood')+rc(295,66,3,8,'sc-wood')+rc(214,42,10,20,'sc-liq2',2)+rc(216,38,6,4,'sc-dark')+rc(230,36,13,26,'sc-glass',2,'style="fill:var(--sc-glass);stroke:var(--sc-steel2)"')+rc(231,48,11,13,'sc-liq3',1)+rc(250,46,10,16,'sc-dark',2)+rc(266,40,12,22,'sc-liq1',2)+rc(268,36,8,4,'sc-dark')+rc(284,48,10,14,'sc-orange',2),
+ gc:()=>rc(292,76,82,36,'sc-steel',4)+rc(300,82,36,22,'sc-dark',2)+st('M303 100 L310 100 L312 86 L314 100 L321 100 L323 92 L325 100 L333 100','sc-liq1',1.5)+ci(348,88,3.5,'sc-orange')+ci(360,88,3.5,'sc-steel2')+rc(342,96,26,10,'sc-steel2',2),
+ furnace:()=>rc(80,36,14,58,'sc-steel2')+ci(87,26,8,'sc-smoke','opacity=".8"')+ci(96,14,10,'sc-smoke','opacity=".6"')+rc(20,92,92,78,'sc-brick',3)+st('M20 112 H112 M20 132 H112 M20 152 H112 M50 92 V112 M80 112 V132 M50 132 V152 M80 152 V170','sc-brick2',1.5)+rc(36,118,58,26,'sc-dark',3)+flame(52,142,1)+flame(66,142,1.2)+flame(80,142,0.9),
+ column:()=>rc(112,138,22,6,'sc-steel2')+rc(134,24,26,146,'sc-steel',3)+`<ellipse cx="147" cy="24" rx="13" ry="6" style="fill:var(--sc-steel)"/>`+rc(126,62,42,3,'sc-steel2')+rc(126,108,42,3,'sc-steel2')+st('M164 30 V170 M170 30 V170','sc-steel2',1.5)+st('M164 40 H170 M164 52 H170 M164 76 H170 M164 88 H170 M164 120 H170 M164 132 H170 M164 146 H170 M164 158 H170','sc-steel2',1),
+ sphere:()=>rc(196,128,4,42,'sc-steel2')+rc(240,128,4,42,'sc-steel2')+rc(218,134,4,36,'sc-steel2')+ci(220,110,36,'sc-white')+`<ellipse cx="220" cy="110" rx="36" ry="6" style="fill:none;stroke:var(--sc-steel);stroke-width:1.5"/>`+ci(208,96,8,'sc-glass','opacity=".7"'),
+ compressor:()=>rc(266,140,60,30,'sc-steel2',3)+rc(298,126,30,18,'sc-orange',3)+ci(282,155,9,'sc-dark')+st('M282 148 V162 M275 155 H289','sc-steel',1.5),
+ flare:()=>rc(355,30,8,140,'sc-steel')+[40,64,88,112,136].map(y=>rc(355,y,8,10,'sc-orange')).join('')+st('M359 60 L336 170 M359 60 L385 170','sc-steel2',1)+flame(359,30,1.1),
+ reactor:()=>rc(44,48,16,18,'sc-dark',2)+rc(24,72,56,88,'sc-steel',6)+`<ellipse cx="52" cy="72" rx="28" ry="10" style="fill:var(--sc-steel)"/>`+rc(30,160,6,10,'sc-steel2')+rc(68,160,6,10,'sc-steel2')+ci(52,112,9,'sc-glass','style="fill:var(--sc-glass);stroke:var(--sc-steel2);stroke-width:2"')+tx(52,145,'ПЭ','sc-dark',11),
+ extruder:()=>rc(98,148,90,12,'sc-steel2',3)+pa('M108 128 H128 L122 148 H114 Z','sc-steel')+rc(100,160,8,10,'sc-steel2')+rc(178,160,8,10,'sc-steel2')+`<ellipse cx="200" cy="92" rx="13" ry="52" style="fill:var(--sc-glass);opacity:.85;stroke:var(--sc-steel);stroke-width:1.5"/>`+st('M186 34 V170 M214 34 V170 M186 34 H214','sc-steel2',2)+ci(196,34,4,'sc-dark')+ci(204,34,4,'sc-dark'),
+ silo:()=>[222,254].map(x=>pa(`M${x} 48 L${x+13} 30 L${x+26} 48 Z`,'sc-steel')+rc(x,48,26,104,'sc-white')+pa(`M${x} 152 L${x+13} 166 L${x+26} 152 Z`,'sc-steel')+st(`M${x} 80 H${x+26} M${x} 116 H${x+26}`,'sc-steel',1)).join('')+tx(235,72,'ПЭ','sc-dark',10)+tx(267,72,'ПП','sc-dark',10),
+ tank:()=>rc(288,192,100,6,'sc-dark')+rc(290,168,96,26,'sc-white',13)+rc(290,178,96,5,'sc-orange')+tx(338,176,'ПРОПЕН','sc-dark',8)+[304,318,358,372].map(x=>ci(x,203,6,'sc-dark')).join(''),
+ sign:()=>rc(306,48,4,58,'sc-steel2')+rc(374,48,4,58,'sc-steel2')+rc(292,16,100,36,'sc-orange',4)+`<text x="342" y="40" text-anchor="middle" style="fill:#fff;font-family:var(--f-display);font-size:${Math.max(8,Math.min(15,150/Math.max(5,(state.nick||'').length+4)))}px">${esc(state.nick||'Завод')}</text>`
+};
+let lastBought=null;
+function drawScene(li){
+  const L=LOCS[li]; let s=BASE[L.id]();
+  L.items.forEach(it=>{ if(state.owned.includes(it.id)) s+= it.id===lastBought?`<g class="popin">${DRAW[it.id]()}</g>`:DRAW[it.id](); });
+  if(!L.items.some(it=>state.owned.includes(it.id))) s+=tx(200,98,'Здесь пока пусто','sc-steel2',14,'opacity=".9"');
+  return `<svg viewBox="0 0 400 220" role="img" aria-label="${esc(L.name)}">${s}</svg>`;
+}
+
+/* ================= home ================= */
+const $stars=$('#stars');
+let viewLoc=state.loc||0;
+const locOpen=i=>i===0||LOCS[i-1].items.every(it=>state.owned.includes(it.id));
+const isPro=()=>state.mode==='pro';
+const isOpen=id=>isPro()||state.seen.includes(id);
+const maxTier=()=>isPro()?3:state.level<3?1:state.level<5?2:3;
+const chainUnlocked=()=>isPro()||state.level>=3;
+function renderHome(){
+  $stars.textContent=state.stars;
+  if(!locOpen(viewLoc)) viewLoc=0;
+  const L=LOCS[viewLoc];
+  $('#sceneSvg').innerHTML=drawScene(viewLoc);
+  $('#locTitle').textContent=L.name;
+  const n=L.items.filter(it=>state.owned.includes(it.id)).length;
+  $('#locProg').textContent=`построено ${n} из ${L.items.length}`;
+  $('#locTabs').innerHTML=LOCS.map((l,i)=>`<button class="tab" role="tab" type="button" data-i="${i}" aria-selected="${i===viewLoc}" ${locOpen(i)?'':'disabled'}>${locOpen(i)?'':'Закрыто · '}${esc(l.name)}</button>`).join('');
+  $('#upTitle').textContent=L.verb;
+  $('#ups').innerHTML=L.items.map(it=>{const own=state.owned.includes(it.id);
+    return `<div class="up"><div style="min-width:0"><h3>${esc(it.n)}</h3><p>${esc(it.d)}</p></div>${own?'<span class="done">✓ готово</span>':`<button class="buy" type="button" data-b="${it.id}" ${state.stars>=it.p?'':'disabled'}>★ ${it.p}</button>`}</div>`;}).join('');
+  $('#lvl').textContent=state.level;
+  $('#lvlNote').textContent='уровень';
+  $('#chainBtn').disabled=!chainUnlocked();
+  $('#chainNote').textContent=chainUnlocked()?'превращения по шагам':'откроется на 3 уровне';
+  $('#kbCount').textContent=`${R.filter(r=>isOpen(r.id)).length} / ${R.length}`;
+  $('#nickBtn').textContent=state.nick||'Ввести ник';
+  document.querySelectorAll('#modeSw [data-mode]').forEach(b=>b.setAttribute('aria-checked',String(b.dataset.mode===state.mode)));
+  lastBought=null;
+}
+$('#locTabs').addEventListener('click',e=>{const b=e.target.closest('[data-i]'); if(!b||b.disabled) return; viewLoc=+b.dataset.i; state.loc=viewLoc; save(); renderHome();});
+$('#ups').addEventListener('click',e=>{const b=e.target.closest('[data-b]'); if(!b) return; const it=ITEM[b.dataset.b];
+  if(state.stars<it.p||state.owned.includes(it.id)) return;
+  state.stars-=it.p; state.owned.push(it.id); lastBought=it.id;
+  const L=LOCS[viewLoc]; const done=L.items.every(x=>state.owned.includes(x.id)); save(); renderHome();
+  if(done && viewLoc<LOCS.length-1) toast(`Открыта новая локация: ${LOCS[viewLoc+1].name}`);
+  else if(done) toast('Комбинат построен полностью!'); else toast(`Построено: ${it.n}`);
+});
+
+/* ================= question generation ================= */
+function exclSet(r,extra){const s=new Set([r.id,...(r.ex||[]),...(extra||[])]); if(r.eq) R.forEach(x=>{if(x.eq===r.eq) s.add(x.id);}); return s;}
+function buildOpts(r,extra){
+  const ex=exclSet(r,extra); const bad=new Set([...ex].map(id=>RM[id].rg)); bad.delete(r.rg);
+  const out=[r.rg], used=new Set([r.rg]);
+  const add=x=>{if(out.length<4&&!used.has(x)&&!bad.has(x)){used.add(x);out.push(x);}};
+  shuffle(r.fakes||[]).slice(0,1).forEach(add);
+  const pool=shuffle(R.filter(x=>!ex.has(x.id)));
+  pool.filter(x=>x.cat===r.cat).forEach(x=>{ if(out.length<3) add(x.rg); });
+  pool.forEach(x=>add(x.rg));
+  const opts=shuffle(out); return {opts,ans:opts.indexOf(r.rg)};
+}
+function buildProdOpts(r,ov={}){
+  const to=ov.to||r.to, from=ov.from||r.from;
+  const out=[to], used=new Set([to]);
+  const add=x=>{if(out.length<4&&x&&!used.has(x)){used.add(x);out.push(x);}};
+  shuffle(ov.wp||WP[r.id]||[]).slice(0,2).forEach(add);
+  shuffle(R.filter(x=>x.id!==r.id&&x.from===from)).forEach(x=>add(x.to));
+  shuffle(R.filter(x=>x.id!==r.id&&x.cat===r.cat)).forEach(x=>add(x.to));
+  shuffle(R).forEach(x=>add(x.to));
+  const opts=shuffle(out); return {opts,ans:opts.indexOf(to)};
+}
+function makeQ(r,ov={},type='rg'){
+  const rr=ov.rg?Object.assign({},r,{rg:ov.rg,dis:undefined}):r;
+  return Object.assign({type,rid:r.id,rg:rr.rg,note2:ov.note2||'',from:ov.from||r.from,fromN:ov.fromN||r.fromN,to:ov.to||r.to,toN:ov.toN||r.toN,done:false,pick:-1},type==='pr'?buildProdOpts(r,ov):buildOpts(rr,ov.ex));
+}
+const BOX_W=[3,2,1.2,.6,.3];
+function weight(r){
+  if(!tierOn(r)) return 0;
+  if(state.off.includes(r.id)) return 0;
+  const mt=maxTier(); if(r.t>mt) return 0;
+  const s=state.stats[r.id]; let w=s?BOX_W[s.b||0]:2.5;
+  if(r.t<mt) w*=.6; return w;
+}
+function pickN(n){
+  let pool=R.map(r=>({r,w:weight(r)})).filter(x=>x.w>0), out=[];
+  while(out.length<n&&pool.length){const tot=pool.reduce((a,x)=>a+x.w,0); let v=Math.random()*tot, i=0;
+    for(;i<pool.length;i++){v-=pool[i].w; if(v<=0) break;} i=Math.min(i,pool.length-1); out.push(pool[i].r); pool.splice(i,1);}
+  return out;
+}
+function chainTier(c){return Math.max(...c.steps.map(s=>RM[s.r].t));}
+function resolveChain(c){
+  const out=[], s0=c.steps[0], st=s0.from||RM[s0.r].from, stN=s0.fromN||RM[s0.r].fromN;
+  c.steps.forEach((s,i)=>{const r=RM[s.r]; const src=s.src!==undefined?s.src:i-1;
+    const from=src<0?(s.from||(i?st:r.from)):out[src].to, fromN=src<0?(s.fromN||(i?stN:r.fromN)):out[src].toN;
+    out.push({s,r,src,from,fromN,to:s.to||r.to,toN:s.toN||r.toN,L:s.L||''});});
+  return out;
+}
+
+/* ================= play ================= */
+let round=null, cur='home';
+function show(v){cur=v; ['home','play','summary','kb'].forEach(id=>$('#'+id).hidden=id!==v); window.scrollTo(0,0); if(v==='home') renderHome();}
+function startQuiz(){
+  const rs=pickN(8);
+  if(!rs.length){toast('Все доступные реакции выключены в справочнике');return;}
+  const types=shuffle(rs.map((_,i)=>i<rs.length/2?'rg':'pr'));
+  round={mode:'quiz',qs:rs.map((r,i)=>makeQ(r,{},types[i])),i:0,right:0,miss:[],earned:0};
+  show('play'); renderQ();
+}
+function startChain(){
+  const mt=maxTier(); const okc=c=>c.steps.every(x=>!state.off.includes(x.r)); const cs=CHa().filter(c=>chainTier(c)<=mt&&okc(c)); if(!cs.length){toast('Нет цепочек: в каждой есть выключенная реакция');return;}
+  const minPlays=Math.min(...cs.map(c=>state.chains[c.id]||0)); const pick=shuffle(cs.filter(c=>(state.chains[c.id]||0)===minPlays))[0];
+  const res=resolveChain(pick);
+  const types=res.map(()=>Math.random()<.5?'rg':'pr');
+  if(types.length>1&&types.every(t=>t===types[0])){const j=Math.floor(Math.random()*types.length); types[j]=types[j]==='rg'?'pr':'rg';}
+  res.forEach((x,i)=>{if(x.s.type) types[i]=x.s.type;});
+  round={mode:'chain',chain:pick,res,qs:res.map((x,i)=>makeQ(x.r,{from:x.from,fromN:x.fromN,to:x.to,toN:x.toN,ex:x.s.ex,rg:x.s.rg,note2:x.s.note2,wp:x.s.wp||(x.s.to?[]:WP[x.r.id])},types[i])),i:0,right:0,miss:[],earned:0};
+  show('play'); renderQ();
+}
+function cmpHTML(f,n){return `<div class="cmp"><div class="fx">${F(f)}</div>${n?`<small>${stereo(esc(n))}</small>`:''}</div>`;}
+function renderQ(){
+  const q=round.qs[round.i], n=round.qs.length;
+  $('#playInfo').textContent= round.mode==='quiz'?`Уровень ${state.level} · превращение ${round.i+1} из ${n}`:`Цепочка «${round.chain.name}» · шаг ${round.i+1} из ${n}`;
+  $('#dots').innerHTML=round.qs.map((x,i)=>`<i class="${x.done?(x.pick===x.ans?'ok':'no'):''} ${i===round.i?'cur':''}"></i>`).join('');
+  if(round.mode==='quiz'&&q.type==='pr'){
+    $('#qEyebrow').textContent='Что получится? Выбери органический продукт';
+    $('#qBody').innerHTML=`<div class="rx">${cmpHTML(q.from,q.fromN)}<div class="arrow rgw"><span class="rgt">${F(RM[q.rid].rg)}</span>${ARROW}</div>${q.done?cmpHTML(q.to,q.toN):'<span class="qmark">?</span>'}</div>`;
+  } else if(round.mode==='quiz'){
+    $('#qEyebrow').textContent='Подбери реагенты и условия';
+    $('#qBody').innerHTML=`<div class="rx">${cmpHTML(q.from,q.fromN)}<div class="arrow"><span>?</span>${ARROW}</div>${cmpHTML(q.to,q.toN)}</div>`;
+  } else {
+    $('#qEyebrow').textContent= q.type==='pr'?'Цепочка превращений: что получится на выделенном шаге?':'Цепочка превращений: подбери реагенты для выделенной стрелки';
+    const res=round.res, LT=j=>res[j].L||('X<sub>'+(j+1)+'</sub>');
+    const shown=j=>!(round.qs[j].type==='pr'&&!round.qs[j].done);
+    const cmpL=(f,n,L)=>`<div class="cmp"><div class="fx">${F(f)}</div><small>${L?`<b class="lt">${L}</b> `:''}${n?stereo(esc(n)):''}</small></div>`;
+    let h=`<div class="chain">${cmpL(round.qs[0].from,round.qs[0].fromN,res[0].s.fromL||'')}`;
+    round.qs.forEach((x,i)=>{
+      const src=res[i].src;
+      if(i>0&&src!==i-1){
+        if(src<0) h+=`<div class="branch">${res[i].s.fromL?'Другой путь к '+LT(i):'От исходного вещества'}</div>${cmpL(x.from,x.fromN,res[i].s.fromL||'')}`;
+        else h+=`<div class="branch">От вещества ${LT(src)}</div>${shown(src)?cmpL(x.from,x.fromN,res[src].L):''}`;
+      }
+      const now=i===round.i&&!x.done;
+      const cls=now?(x.type==='pr'?'curp':'cur'):x.done?(x.pick===x.ans?'ok':'no'):'';
+      const lab=(x.done||x.type==='pr')?F(x.rg):(now?'?':'');
+      const prod=(x.type==='pr'&&!x.done)?`<div class="cmp"><div class="hid ${now?'cur':''}">${now?'?':LT(i)}</div></div>`:cmpL(x.to,x.toN,res[i].L);
+      h+=`<div class="carr ${cls}"><span class="ln"></span><span class="rg">${lab}</span></div>${prod}`;
+    });
+    $('#qBody').innerHTML=h+'</div>';
+  }
+  $('#opts').innerHTML=q.opts.map((o,k)=>{let c=''; if(q.done){ if(k===q.ans) c='ok'; else if(k===q.pick) c='no'; }
+    return `<button class="opt ${c} ${q.type==='pr'?'pr':''}" type="button" data-k="${k}" ${q.done?'disabled':''}><span class="k">${k+1}</span><span>${F(o)}</span></button>`;}).join('');
+  $('#fb').innerHTML=q.done?fbHTML(q):'';
+  if(q.done) $('#nextBtn').focus();
+}
+function fbHTML(q){
+  const r=RM[q.rid], ok=q.pick===q.ans;
+  return `<div class="fb ${ok?'ok':'no'}">
+    <span class="v">${ok?'Верно, +1 ★':'Неверно'}</span>
+    <button class="rname" type="button" data-ref="${r.id}">${esc(r.name)}</button>
+    ${ok?'':(q.type==='pr'?`<p><b>Правильно:</b> ${F(q.to)} – ${stereo(esc(q.toN))}</p>`:`<p><b>Нужно:</b> ${F(q.rg||r.rg)}</p>`)}
+    <p>${esc(r.note)}</p>${q.note2?`<p class="note2">${esc(q.note2)}</p>`:''}
+    ${q.isNew?`<span class="newtag">Новая реакция в справочнике (${state.seen.length}/${R.length})</span>`:''}
+  </div>
+  <button class="btn next" id="nextBtn" type="button">${round.i<round.qs.length-1?'Дальше':'Итоги'} <small>Enter</small></button>`;
+}
+function answer(k){
+  const q=round.qs[round.i]; if(q.done) return;
+  q.done=true; q.pick=k; const ok=k===q.ans, id=q.rid;
+  const s=state.stats[id]||(state.stats[id]={r:0,w:0,b:0});
+  if(ok){s.r++; s.b=Math.min(4,(s.b||0)+1); round.right++; state.stars++; round.earned++;}
+  else {s.w++; s.b=0; if(!round.miss.includes(id)) round.miss.push(id);}
+  q.isNew=!isPro()&&!state.seen.includes(id); if(!state.seen.includes(id)) state.seen.push(id);
+  $stars.textContent=state.stars; save(); renderQ();
+}
+function next(){
+  const q=round.qs[round.i]; if(!q.done) return;
+  if(round.i<round.qs.length-1){round.i++; renderQ(); return;}
+  finish();
+}
+function finish(){
+  const n=round.qs.length, perfect=round.right===n; let bonus=0;
+  if(round.mode==='quiz'&&perfect) bonus=3;
+  if(round.mode==='chain'&&perfect) bonus=2;
+  state.stars+=bonus; round.earned+=bonus; state.level++;
+  if(round.mode==='chain') state.chains[round.chain.id]=(state.chains[round.chain.id]||0)+1;
+  save();
+  const newTier=maxTier();
+  $('#sumBox').innerHTML=`
+    <span class="eyebrow">${round.mode==='quiz'?'Уровень пройден':'Цепочка решена'}</span>
+    <div class="lvl"><span class="big">${round.right} / ${n}</span><span class="muted">верных ответов</span></div>
+    <p style="margin:0">Заработано: <b>★ ${round.earned}</b>${bonus?` (из них бонус ${bonus} за ${round.mode==='quiz'?'уровень':'цепочку'} без ошибок)`:''}. Теперь уровень ${state.level}.</p>
+    ${!isPro()&&state.level===3?'<p style="margin:0"><b>Открыты цепочки превращений.</b></p>':''}
+    ${!isPro()&&state.level===5?'<p style="margin:0"><b>Открыты все реакции</b>, включая Коупа, Мак-Мурри и карбены.</p>':''}
+    ${round.miss.length?`<div style="display:flex;flex-direction:column;gap:8px"><b>Повтори:</b><div class="chips">${round.miss.map(id=>`<button class="chip" type="button" data-ref="${id}">${esc(RM[id].name)}</button>`).join('')}</div></div>`:'<p style="margin:0">Без ошибок – отличная работа.</p>'}
+    <div class="chips"><button class="btn" type="button" id="againBtn">${round.mode==='quiz'?'Следующий уровень':'Ещё цепочку'}</button><button class="btn ghost" type="button" id="homeBtn">На площадку</button></div>`;
+  const mode=round.mode; round=null; show('summary');
+  $('#againBtn').onclick=()=>mode==='quiz'?startQuiz():startChain();
+  $('#homeBtn').onclick=()=>show('home');
+}
+$('#opts').addEventListener('click',e=>{const b=e.target.closest('[data-k]'); if(b) answer(+b.dataset.k);});
+$('#fb').addEventListener('click',e=>{ if(e.target.closest('#nextBtn')) next(); });
+$('#quitBtn').onclick=()=>{round=null; show('home');};
+$('#playBtn').onclick=startQuiz;
+$('#chainBtn').onclick=()=>{ if(chainUnlocked()) startChain(); };
+document.addEventListener('click',e=>{const b=e.target.closest('[data-ref]'); if(b) openRef(b.dataset.ref);});
+document.addEventListener('keydown',e=>{
+  if(!$('#modal').hidden){ if(e.key==='Escape'&&modalClosable) closeModal(); return; }
+  if(cur!=='play'||!round) return;
+  const q=round.qs[round.i];
+  if(!q.done&&/^[1-4]$/.test(e.key)&&+e.key<=q.opts.length){answer(+e.key-1);}
+  else if(q.done&&e.key==='Enter'){e.preventDefault(); next();}
+});
+
+/* ================= difficulty tiers ================= */
+const TIERN=['','Базовый','Средний','Продвинутый'];
+const tierOn=r=>!(state.tierOff||[]).includes(r.t);
+const CHa=()=>CH.filter(c=>c.steps.every(x=>tierOn(RM[x.r])));
+function renderTiers(){const el=$('#kbTiers'); if(!el) return;
+  el.innerHTML='<span class="muted">Уровни сложности в заданиях:</span>'+[1,2,3].map(t=>{const on=!(state.tierOff||[]).includes(t), n=R.filter(r=>r.t===t).length;
+    return `<button class="tierb" type="button" data-tier="${t}" aria-pressed="${on}"><i></i>${TIERN[t]} <small>${n}</small></button>`;}).join('');}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-tier]'); if(!b) return; const t=+b.dataset.tier;
+  const off=state.tierOff||[]; const was=off.includes(t); state.tierOff=was?off.filter(x=>x!==t):[...off,t]; save();
+  renderTiers(); if(!$('#kb').hidden) renderKB();
+  toast(was?`${TIERN[t]} уровень снова в заданиях`:`${TIERN[t]} уровень убран из заданий и цепочек`);});
+
+/* ================= knowledge base ================= */
+let kbFilter='all';
+const GNAME={prep:'Получение',prop:'Свойства'};
+function renderKB(){
+  const offN=state.off.length; $('#kbCount2').textContent=(isPro()?`режим «Про»: открыты все ${R.length}`:`открыто ${state.seen.length} из ${R.length}`)+(offN?` · выключено из заданий ${offN}`:''); $('#kbAllOn').hidden=!offN;
+  renderTiers();
+  $('#kbSeg').innerHTML=[['all','Все'],['prep','Получение алкенов'],['prop','Химические свойства']].map(([k,n])=>`<button class="tab" role="tab" type="button" data-f="${k}" aria-selected="${kbFilter===k}">${n}</button>`).join('');
+  const list=R.filter(r=>kbFilter==='all'||r.g===kbFilter);
+  const open=list.filter(r=>isOpen(r.id)), closed=list.filter(r=>!isOpen(r.id));
+  const TBLK=['','Базовые','Средние','Продвинутые'];
+  $('#kgrid').innerHTML=[1,2,3].map(T=>{const o=open.filter(r=>r.t===T), c=closed.filter(r=>r.t===T); if(!o.length&&!c.length) return '';
+  return `<section><div class="thead"><h3>${TBLK[T]}</h3><span>открыто ${o.length} из ${o.length+c.length}</span></div><div class="kgrid">`+o.map(r=>{const s=state.stats[r.id]||{r:0,w:0};
+    const off=state.off.includes(r.id);
+    return `<button class="kc ${off?'off':''}" type="button" data-ref="${r.id}"><span class="gtag">${GNAME[r.g]} · ${TIERN[r.t].toLowerCase()}</span>${tierOn(r)?'':'<span class="toff">уровень выключен</span>'}${off?'<span class="offtag">не в заданиях</span>':''}<h3>${esc(r.name)}</h3><div class="mini">${F(r.from)} → ${F(r.to)}</div><span class="stat">верно ${s.r} · ошибок ${s.w}</span></button>`;}).join('')
+   + c.map(r=>`<div class="kc locked" aria-label="Ещё не открыто"><span class="q">?</span><span style="font-size:13px">${GNAME[r.g]} · встреть в игре</span></div>`).join('')+'</div></section>';}).join('');
+}
+$('#kbSeg').addEventListener('click',e=>{const b=e.target.closest('[data-f]'); if(!b) return; kbFilter=b.dataset.f; renderKB();});
+$('#kbBtn').onclick=()=>{renderKB(); show('kb');};
+$('#kbBack').onclick=()=>show('home');
+$('#kbAllOn').onclick=()=>{state.off=[]; save(); renderKB(); toast('Все реакции снова в заданиях');};
+
+/* ================= modal ================= */
+let modalClosable=true, lastFocus=null;
+function openModal(html,closable=true){lastFocus=document.activeElement; modalClosable=closable; $('#mbox').innerHTML=html; $('#modal').hidden=false; const f=$('#mbox').querySelector('input,button'); if(f) f.focus();}
+function closeModal(){$('#modal').hidden=true; if(lastFocus&&lastFocus.focus) lastFocus.focus();}
+$('#modal').addEventListener('click',e=>{ if(e.target.id==='modal'&&modalClosable) closeModal(); if(e.target.closest('[data-close]')) closeModal(); });
+function openRef(id){
+  const r=RM[id]; if(!r) return; const s=state.stats[id]||{r:0,w:0};
+  const tier=['','базовая','средняя','продвинутая'][r.t];
+  openModal(`<span class="gtag">${GNAME[r.g]} алкенов · ${tier}</span>
+   <h2>${esc(r.name)}</h2>
+   <label class="incl" for="inclChk"><input type="checkbox" id="inclChk" ${state.off.includes(id)?'':'checked'}><span>Включать в задания <small>– уровни и цепочки</small></span></label>
+   <div class="rx">${cmpHTML(r.from,r.fromN)}<div class="arrow"><span class="rgt">${F(r.rg)}</span>${ARROW}</div>${cmpHTML(r.to,r.toN)}</div>
+   <p style="margin:0">${esc(r.note)}</p>
+   <dl class="ref">
+     <div><dt>Условия и реагенты</dt><dd>${esc(r.ref.u)}</dd></div>
+     <div><dt>Механизм</dt><dd>${esc(r.ref.m)}</dd></div>
+     <div><dt>Селективность и стереохимия</dt><dd>${esc(r.ref.s)}</dd></div>
+     <div><dt>Не перепутай</dt><dd>${esc(r.ref.l)}</dd></div>
+   </dl>
+   <div class="mfoot"><span class="muted" style="font-size:13px">Твоя статистика: верно ${s.r}, ошибок ${s.w}</span><button class="btn ghost" type="button" data-close>Закрыть</button></div>`);
+  $('#inclChk').onchange=e=>{
+    state.off=state.off.filter(x=>x!==id); if(!e.target.checked) state.off.push(id);
+    save(); if(cur==='kb') renderKB();
+    toast(e.target.checked?'Реакция снова в заданиях':'Реакция убрана из заданий');
+  };
+}
+
+/* ================= nick ================= */
+const LAT={a:'а',e:'е',o:'о',p:'р',c:'с',x:'х',y:'у',k:'к',m:'м',t:'т',h:'н',b:'в',u:'и',n:'п',i:'и','0':'о','3':'з','4':'ч','6':'б','@':'а','1':'и','$':'с'};
+const BAD=['хуй','хуе','хуя','хуё','пизд','бля','сука','суки','мудак','мудил','пидор','пидар','пидр','гандон','шлюх','залуп','дроч','ниггер','нигер','хохол','жид','чурк','гитлер','нацист','зигхайл','еблан','ебат','ебан','ёбан','уеб','уёб','долбоеб','fuck','shit','bitch','nigg','cunt','dick','nazi','hitler','whore','fag'];
+function badNick(n){
+  const low=n.toLowerCase().replace(/\s+/g,'');
+  if(/1488|88$|卐|卍/.test(low)) return true;
+  const cyr=low.replace(/[a-z0-9@$]/g,ch=>LAT[ch]||ch).replace(/ё/g,'е');
+  const plain=low.replace(/[^a-z]/g,'');
+  return BAD.some(w=>{const wc=w.replace(/ё/g,'е'); return cyr.includes(wc)||plain.includes(w)||low.includes(w);}) || /(^|[^а-я])еб/.test(cyr);
+}
+const JOKES=['Цис-Изомер','Транс-Форматор','Бромониевый Ион','Мистер Линдлар','Карбокатион','Зайцев-младший','Антимарковников','Сэр Виттиг','Пи-Связь','Озонид'];
+function openNick(){
+  const first=!state.nick;
+  openModal(`<h2>${first?'Добро пожаловать на комбинат':'Сменить ник'}</h2>
+   <p style="margin:0" class="muted">Как тебя называть? Ник виден только тебе и появится на вывеске завода.</p>
+   <label for="nickIn" class="eyebrow">Ник</label>
+   <input id="nickIn" class="nickin" maxlength="18" autocomplete="off" value="${esc(state.nick)}" placeholder="например, Цис-Изомер">
+   <p class="err" id="nickErr"></p>
+   <div class="chips">${shuffle(JOKES).slice(0,4).map(j=>`<button class="chip" type="button" data-j="${esc(j)}">${esc(j)}</button>`).join('')}</div>
+   <div class="mfoot"><span></span><div class="chips">${first?'':'<button class="btn ghost" type="button" data-close>Отмена</button>'}<button class="btn" type="button" id="nickSave">Сохранить</button></div></div>`,!first);
+  const inp=$('#nickIn');
+  $('#mbox').querySelectorAll('[data-j]').forEach(b=>b.onclick=()=>{inp.value=b.dataset.j; inp.focus();});
+  const go=()=>{const v=inp.value.trim().replace(/\s+/g,' ');
+    if(v.length<2){$('#nickErr').textContent='Ник должен быть от 2 до 18 символов.'; return;}
+    if(badNick(v)){$('#nickErr').textContent='Такой ник не подойдёт. Выбери другой или возьми один из вариантов ниже.'; return;}
+    state.nick=v; save(); closeModal(); renderHome(); toast(`Привет, ${v}!`);};
+  $('#nickSave').onclick=go; inp.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault(); go();}});
+}
+$('#nickBtn').onclick=openNick;
+$('#modeSw').addEventListener('click',e=>{const b=e.target.closest('[data-mode]'); if(!b||b.dataset.mode===state.mode) return;
+  state.mode=b.dataset.mode; save(); renderHome(); if(cur==='kb') renderKB();
+  toast(isPro()?'Режим «Про»: все реакции и цепочки открыты. В справочнике выбирай, какие тренировать':'Режим «Новичок»: реакции открываются по мере игры');});
+
+/* ================= reset ================= */
+$('#resetBox').addEventListener('click',e=>{
+  if(e.target.id==='resetBtn'){ $('#resetBox').innerHTML='<span>Точно? Звёзды, стройка, уровень и справочник обнулятся.</span><button class="danger" type="button" id="resYes">Да, сбросить</button><button class="link" type="button" id="resNo">Отмена</button>'; return; }
+  if(e.target.id==='resYes'){ const nick=state.nick; state=Object.assign(fresh(),{nick}); viewLoc=0; save(); toast('Прогресс сброшен'); }
+  if(e.target.id==='resYes'||e.target.id==='resNo'){ $('#resetBox').innerHTML='<button class="link" id="resetBtn" type="button">Сбросить прогресс</button>'; renderHome(); }
+});
+
+/* ================= toast ================= */
+let tt=null;
+function toast(m){let t=$('.toast'); if(!t){t=document.createElement('div'); t.className='toast'; t.setAttribute('role','status'); document.body.appendChild(t);} t.textContent=m; t.hidden=false; clearTimeout(tt); tt=setTimeout(()=>t.hidden=true,2400);}
+
+/* ================= boot ================= */
+renderHome();
+if(!state.nick) openNick();
+</script>
+
+</body></html>

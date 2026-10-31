@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}[hidden]{display:none!important}</style>
+<title>Игры по органике</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Russo+One&family=Golos+Text:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: one column – short header, then a 2×2 grid of game cards (1 column on phones); each card is one big link */
+:root{
+  --bg:#E9EEF0; --surface:#FFFFFF; --surface2:#F2F5F6; --ink:#15232B; --muted:#5A6B74; --line:#D3DCE0;
+  --accent:#E2621B; --accent-ink:#FFFFFF; --steel:#2F5566;
+  --c-aro:#5B3FD1; --c-ene:#E2621B; --c-yne:#1F8A9E; --c-diene:#B3367A;
+  --f-display:"Russo One","Arial Black",sans-serif; --f-body:"Golos Text","Segoe UI",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#10181D; --surface:#1A252C; --surface2:#213039; --ink:#E5EDF0; --muted:#9AAEB7; --line:#2E3F48;
+  --accent:#FF8A47; --accent-ink:#1A1206; --steel:#8FB6C7;
+  --c-aro:#A08CFF; --c-ene:#FF8A47; --c-yne:#4FC3D6; --c-diene:#F07AB8;
+  color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#10181D; --surface:#1A252C; --surface2:#213039; --ink:#E5EDF0; --muted:#9AAEB7; --line:#2E3F48;
+  --accent:#FF8A47; --accent-ink:#1A1206; --steel:#8FB6C7;
+  --c-aro:#A08CFF; --c-ene:#FF8A47; --c-yne:#4FC3D6; --c-diene:#F07AB8;
+  color-scheme:dark }
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.5;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 48px}
+.wrap{max-width:980px;margin:0 auto;display:flex;flex-direction:column;gap:22px}
+h1,h2{font-family:var(--f-display);font-weight:400;margin:0;letter-spacing:.01em;text-wrap:balance}
+header{display:flex;flex-direction:column;gap:6px}
+header h1{font-size:clamp(26px,6vw,36px);line-height:1.1}
+header p{margin:0;color:var(--muted);max-width:60ch}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+@media (max-width:640px){.grid{grid-template-columns:minmax(0,1fr)}}
+.game{--c:var(--accent);display:grid;grid-template-columns:96px minmax(0,1fr);gap:16px;align-items:center;
+  background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px;color:inherit;text-decoration:none;
+  transition:transform .15s,border-color .15s,box-shadow .15s}
+.game:hover{border-color:var(--c);transform:translateY(-2px);box-shadow:0 6px 0 -2px color-mix(in srgb,var(--c) 35%,transparent)}
+.game:focus-visible{outline:3px solid var(--c);outline-offset:3px}
+.pic{width:96px;height:96px;border-radius:14px;background:color-mix(in srgb,var(--c) 12%,var(--surface));display:grid;place-items:center;color:var(--c)}
+.pic svg{width:76px;height:76px}
+.pic svg *{stroke:currentColor;fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.body{display:flex;flex-direction:column;gap:6px;min-width:0}
+.row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.body h2{font-size:21px}
+.badge{display:inline-flex;align-items:baseline;background:var(--c);color:var(--surface);border-radius:7px;padding:2px 8px 4px;font-weight:700;font-size:14px;line-height:1.2}
+.badge sub{font-size:.7em;line-height:0;vertical-align:-.3em}
+.body p{margin:0;color:var(--muted);font-size:14px}
+.go{margin-top:2px;font-weight:700;color:var(--c);font-size:14px}
+.go::after{content:" →"}
+.aro{--c:var(--c-aro)} .ene{--c:var(--c-ene)} .yne{--c:var(--c-yne)} .diene{--c:var(--c-diene)}
+footer{color:var(--muted);font-size:13px}
+@media (prefers-reduced-motion:reduce){.game{transition:none}.game:hover{transform:none}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <h1>Игры по органике</h1>
+    <p>Отвечай на вопросы, получай звёзды и обустраивай локации. Выбери тему.</p>
+  </header>
+
+  <nav class="grid" aria-label="Игры">
+    <a class="game aro" href="aromadom.html">
+      <span class="pic" aria-hidden="true"><svg viewBox="0 0 80 80"><polygon points="40,10 66,25 66,55 40,70 14,55 14,25"/><path d="M45,18.6 62,28.4M62,51.6 45,61.4M18,51.6V28.4"/></svg></span>
+      <span class="body">
+        <span class="row"><h2>Аромадом</h2><span class="badge">Ar</span></span>
+        <p>Арены: по структуре выбери название и наоборот. Бензол, ксилолы, нафталин, фенолы, кислоты.</p>
+        <span class="go">Играть</span>
+      </span>
+    </a>
+
+    <a class="game ene" href="alkeny.html">
+      <span class="pic" aria-hidden="true"><svg viewBox="0 0 80 80"><path d="M10,52 26,40 54,40 70,28M26,34 54,34"/></svg></span>
+      <span class="body">
+        <span class="row"><h2>Алкены</h2><span class="badge">C<sub>n</sub>H<sub>2n</sub></span></span>
+        <p>Получение и свойства: реагенты, продукты, цепочки. Зайцев и Гофман, Марковников и Хараш.</p>
+        <span class="go">Играть</span>
+      </span>
+    </a>
+
+    <a class="game yne" href="alkiny.html">
+      <span class="pic" aria-hidden="true"><svg viewBox="0 0 80 80"><path d="M10,40H70M22,32H58M22,48H58"/></svg></span>
+      <span class="body">
+        <span class="row"><h2>Алкины</h2><span class="badge">C<sub>n</sub>H<sub>2n–2</sub></span></span>
+        <p>Ацетилен и гомологи: Кучеров, Линдлар, ацетилениды, олигомеризация.</p>
+        <span class="go">Играть</span>
+      </span>
+    </a>
+
+    <a class="game diene" href="alkadieny.html">
+      <span class="pic" aria-hidden="true"><svg viewBox="0 0 80 80"><path d="M8,52 26,30 44,52 62,30 72,42M17,50 27,38M53,50 63,38"/></svg></span>
+      <span class="body">
+        <span class="row"><h2>Алкадиены</h2><span class="badge">C<sub>n</sub>H<sub>2n–2</sub></span></span>
+        <p>Сопряжённые диены: 1,2- и 1,4-присоединение, Дильс–Альдер, Лебедев, озонолиз.</p>
+        <span class="go">Играть</span>
+      </span>
+    </a>
+  </nav>
+
+  <footer>Прогресс каждой игры хранится в твоём браузере. Ник общий для всех игр.</footer>
+</div>
+
+</body>
+</html>
