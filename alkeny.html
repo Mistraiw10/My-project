@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body><script>(function(){var K='dvoinaya-svyaz-v1',S='orgchem-nick',O=['aromadom-v1', 'alkiny-v1', 'alkadieny-v1'];try{var ls=localStorage,sh=ls.getItem(S);if(!sh){for(var i=0;i<O.length&&!sh;i++){try{var o=JSON.parse(ls.getItem(O[i])||'null');if(o&&o.nick)sh=o.nick;}catch(e){}}}var st=JSON.parse(ls.getItem(K)||'null')||{};if(sh&&!st.nick){st.nick=String(sh).slice(0,18);ls.setItem(K,JSON.stringify(st));}else if(sh&&st.nick&&st.nick!==sh){st.nick=String(sh).slice(0,18);ls.setItem(K,JSON.stringify(st));}var set=Storage.prototype.setItem;Storage.prototype.setItem=function(k,v){set.call(this,k,v);if(k===K){try{var n=JSON.parse(v).nick;if(n)set.call(this,S,n);}catch(e){}}};}catch(e){}})();</script><a href="index.html" style="display:block;max-width:1060px;margin:0 auto;padding:12px 0 0;color:var(--muted);font:600 14px var(--f-body);text-decoration:none">← Все игры</a>
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body><script>(function(){var K='dvoinaya-svyaz-v1',S='orgchem-nick',O=['aromadom-v1', 'alkiny-v1', 'alkadieny-v1'];try{var ls=localStorage,sh=ls.getItem(S);if(!sh){for(var i=0;i<O.length&&!sh;i++){try{var o=JSON.parse(ls.getItem(O[i])||'null');if(o&&o.nick)sh=o.nick;}catch(e){}}}var st=JSON.parse(ls.getItem(K)||'null')||{};if(sh&&!st.nick){st.nick=String(sh).slice(0,18);ls.setItem(K,JSON.stringify(st));}else if(sh&&st.nick&&st.nick!==sh){st.nick=String(sh).slice(0,18);ls.setItem(K,JSON.stringify(st));}var set=Storage.prototype.setItem;Storage.prototype.setItem=function(k,v){set.call(this,k,v);if(k===K){try{var n=JSON.parse(v).nick;if(n)set.call(this,S,n);}catch(e){}}};}catch(e){}})();</script><a href="hub" style="display:block;max-width:1060px;margin:0 auto;padding:12px 0 0;color:var(--muted);font:600 14px var(--f-body);text-decoration:none">← Все игры</a>
 <title>Алкены</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -768,15 +768,15 @@ const KEY='dvoinaya-svyaz-v1';
 const fresh=()=>({nick:'',stars:0,level:1,owned:[],stats:{},seen:[],loc:0,chains:{},off:[],mode:'novice'});
 let state=fresh();
 try{const s=JSON.parse(localStorage.getItem(KEY)||'null'); if(s) state=Object.assign(fresh(),s);}catch(e){}
-/* общий ник для всех игр, выбирается в хабе (index.html) */
+/* общий ник для всех игр, выбирается в хабе (hub.html) */
 const NICK='organika-nick';
 try{const g=localStorage.getItem(NICK); if(g) state.nick=g; else if(state.nick) localStorage.setItem(NICK,state.nick);}catch(e){}
 /* ?ref=1 – режим справочника для хаба: открыто всё, без шапки, ничего не меняется */
 const REF=new URLSearchParams(location.search).has('ref');
-if(REF){document.documentElement.classList.add('ref'); document.head.insertAdjacentHTML('beforeend','<style>header.top,a[href="index.html"],#kb .kbhead,#kbTiers,#kbTools,.inq,.thead>span,.jump small,.incl,.offtag,.toff{display:none!important}</style>');}
+if(REF){document.documentElement.classList.add('ref'); document.head.insertAdjacentHTML('beforeend','<style>header.top,a[href="hub"],#kb .kbhead,#kbTiers,#kbTools,.inq,.thead>span,.jump small,.incl,.offtag,.toff{display:none!important}</style>');}
 /* сводка для хаба: прогресс, последняя игра, дни занятий */
 /* облако (вход, резервная копия, рейтинг) – необязательно, без него всё работает */
-if(!REF){ const cs=document.createElement('script'); cs.src='cloud.js'; document.head.appendChild(cs); }
+if(!REF){ const cs=document.createElement('script'); cs.src='cloud.js?v=2'; document.head.appendChild(cs); }
 const GAME='alkeny';
 function hubSync(){ if(REF) return; try{
   const H=JSON.parse(localStorage.getItem('organika-hub')||'{}'), d=new Date();
@@ -1156,6 +1156,8 @@ function jumpBar(){
   bar.hidden=secs.length<2;
 }
 { const base=renderKB; renderKB=function(){ base.apply(this,arguments); jumpBar(); }; }
+/* переключатель «Новичок / Про» живёт только в справочнике, шапка игры остаётся чистой */
+{ const kh=document.querySelector('#kb .kbhead'), ms=document.getElementById('modeSw'); if(kh&&ms){ ms.style.marginLeft='auto'; kh.appendChild(ms); } }
 if(REF){renderKB(); show('kb');} else if(!state.nick) openNick();
 </script>
 

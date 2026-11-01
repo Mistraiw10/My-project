@@ -65,6 +65,27 @@ async function signIn(email,password){
   forgetSync();
   keep(await req('/auth/v1/token?grant_type=password',{method:'POST',body:{email,password},auth:false}));
 }
+/* Восстановление пароля: письмо со ссылкой, ссылка возвращает на сайт с токеном в адресе (#access_token=…&type=recovery) */
+async function recover(email){
+  const back=location.origin+location.pathname.replace(/[^/]*$/,'');   // хаб в той же папке
+  await req('/auth/v1/recover?redirect_to='+encodeURIComponent(back),{method:'POST',body:{email},auth:false});
+}
+/* Разобрать адрес после перехода по ссылке из письма. null – ссылки нет. */
+async function fromLink(){
+  const hs=location.hash.slice(1);
+  if(!/(^|&)(access_token|error)=/.test(hs)) return null;
+  const p=new URLSearchParams(hs);
+  history.replaceState(null,'',location.pathname+location.search);   // убрать токен из адресной строки
+  if(p.get('error')) return {error:p.get('error_code')||p.get('error'),message:p.get('error_description')||''};
+  const at=p.get('access_token');
+  const user=await req('/auth/v1/user',{headers:{Authorization:'Bearer '+at},auth:false});
+  forgetSync();
+  keep({access_token:at,refresh_token:p.get('refresh_token'),expires_in:+p.get('expires_in')||3600,user});
+  return {type:p.get('type')||''};
+}
+async function setPassword(password){
+  await req('/auth/v1/user',{method:'PUT',body:{password}});
+}
 async function signOut(){
   try{ await req('/auth/v1/logout',{method:'POST'}); }catch(e){}
   ls.del(SESS); forgetSync();
@@ -166,7 +187,7 @@ async function subscription(){
 window.Cloud={
   user:()=>{const s=session(); return s?s.user:null;},
   online:()=>online,
-  signUp,signIn,signOut,getProfile,saveProfile,
+  signUp,signIn,signOut,recover,fromLink,setPassword,getProfile,saveProfile,
   nickFree:n=>req('/rest/v1/rpc/nick_available',{method:'POST',body:{p_nick:n}}),
   pull,push,sync,queue,leaderboard,subscription
 };
