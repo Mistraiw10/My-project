@@ -1,0 +1,1071 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8">
+<link rel="manifest" href="manifest.webmanifest?v=2"><meta name="theme-color" content="#6E7FD8"><link rel="icon" href="icons/favicon.png?v=2"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=2">
+<meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Органика">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<script>if('serviceWorker' in navigator&&location.protocol.indexOf('http')===0)navigator.serviceWorker.register('sw.js').catch(function(){})</script>
+<script>try{var t=localStorage.getItem('organika-theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}if(location.protocol==='file:')document.addEventListener('DOMContentLoaded',function(){document.querySelectorAll('a[href="hub"]').forEach(function(a){a.setAttribute('href','hub.html')})});</script>
+<script src="nickfilter.js?v=2"></script><script src="me.js?v=4"></script><script src="lives.js?v=2"></script>
+<title>Цепочки</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700&family=Nunito:wght@400;600;700;800&display=swap">
+<style>
+/* Layout: chains game. Header strip, factory scene, two columns (factory shop | chain list), play screen = pipeline map + question.
+   Palette «Пастельный завод»: lavender-white background, periwinkle accent, mint secondary, soft pastel tanks. */
+:root{
+  --bg:#F2F3FB; --surface:#FFFFFF; --surface2:#F7F8FE; --ink:#24284A; --muted:#6E7396; --line:#E1E4F3;
+  --accent:#6E7FD8; --accent-ink:#FFFFFF; --accent-soft:#E5E9FB; --steel:#4FA58C;
+  --good:#1E8A64; --good-bg:#DDF3E9; --bad:#C8435A; --bad-bg:#FBE4E9; --star:#E0A21A;
+  --f-display:"Unbounded","Trebuchet MS",sans-serif; --f-body:"Nunito","Segoe UI",system-ui,sans-serif;
+  --sc-sky:#E3EAFB; --sc-sky2:#F7F0FA; --sc-sun:#FFE29A; --sc-hill:#D3EADB; --sc-ground:#E8EFE1; --sc-road:#DADEEA; --sc-line:#FFFFFF;
+  --sc-pink:#F5C0D0; --sc-peach:#FAD2B4; --sc-mint:#BDE4D4; --sc-blue:#BCD3F5; --sc-lav:#D5CCF4; --sc-lemon:#F6E4A2;
+  --sc-steel:#CBD0E0; --sc-steel2:#A9B0C8; --sc-white:#FFFFFF; --sc-ink:#454A6E; --sc-leaf:#A8D59F; --sc-leaf2:#8BC183;
+  --sc-trunk:#C9A27E; --sc-flame:#FFB27A; --sc-flame2:#FFD98C; --sc-glass:#DAE8FA;
+  --liq-ene:#F7C29C; --liq-diene:#F2A9C2; --liq-yne:#9EC3F0;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#171A2B; --surface:#20243A; --surface2:#272C46; --ink:#ECEEFF; --muted:#A3A8CC; --line:#343A5C;
+  --accent:#9AA8F2; --accent-ink:#171A2B; --accent-soft:#2C3260; --steel:#7FD0B8;
+  --good:#4CD39F; --good-bg:#143A2C; --bad:#FF7C93; --bad-bg:#40202A; --star:#FFC23D;
+  --sc-sky:#2A3152; --sc-sky2:#332F4E; --sc-sun:#E5C46A; --sc-hill:#2D4A3E; --sc-ground:#2A3932; --sc-road:#393E56; --sc-line:#6C7396;
+  --sc-pink:#B98197; --sc-peach:#C2967A; --sc-mint:#6EA893; --sc-blue:#6F8CC0; --sc-lav:#8C80BF; --sc-lemon:#BDA968;
+  --sc-steel:#7B83A2; --sc-steel2:#636B8B; --sc-white:#D8DBEF; --sc-ink:#1C1F33; --sc-leaf:#5E8E59; --sc-leaf2:#4D7849;
+  --sc-trunk:#8A6A50; --sc-flame:#E59A62; --sc-flame2:#EBC270; --sc-glass:#3A4A66;
+  --liq-ene:#C98E66; --liq-diene:#C17994; --liq-yne:#6E93C4;
+  color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --bg:#171A2B; --surface:#20243A; --surface2:#272C46; --ink:#ECEEFF; --muted:#A3A8CC; --line:#343A5C;
+  --accent:#9AA8F2; --accent-ink:#171A2B; --accent-soft:#2C3260; --steel:#7FD0B8;
+  --good:#4CD39F; --good-bg:#143A2C; --bad:#FF7C93; --bad-bg:#40202A; --star:#FFC23D;
+  --sc-sky:#2A3152; --sc-sky2:#332F4E; --sc-sun:#E5C46A; --sc-hill:#2D4A3E; --sc-ground:#2A3932; --sc-road:#393E56; --sc-line:#6C7396;
+  --sc-pink:#B98197; --sc-peach:#C2967A; --sc-mint:#6EA893; --sc-blue:#6F8CC0; --sc-lav:#8C80BF; --sc-lemon:#BDA968;
+  --sc-steel:#7B83A2; --sc-steel2:#636B8B; --sc-white:#D8DBEF; --sc-ink:#1C1F33; --sc-leaf:#5E8E59; --sc-leaf2:#4D7849;
+  --sc-trunk:#8A6A50; --sc-flame:#E59A62; --sc-flame2:#EBC270; --sc-glass:#3A4A66;
+  --liq-ene:#C98E66; --liq-diene:#C17994; --liq-yne:#6E93C4;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.5;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:max(12px,env(safe-area-inset-top,0px)) 40px}
+.wrap{max-width:1060px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+main.wrap{width:100%}
+.toHub{display:block;max-width:1060px;margin:0 auto;padding:2px 0 14px;color:var(--muted);font:600 14px var(--f-body);text-decoration:none}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,input:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+h1,h2,h3{font-family:var(--f-display);font-weight:700;margin:0;text-wrap:balance;letter-spacing:-.01em}
+sub{font-size:.72em;line-height:0}
+.muted{color:var(--muted)}
+/* header */
+.top{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.logo{display:flex;align-items:center;gap:10px;margin-right:auto}
+.logo h1{font-size:22px}
+.logo .badge{display:inline-flex;align-items:center;background:var(--accent);color:var(--accent-ink);border-radius:8px;padding:4px 9px 5px;font-weight:700;font-size:15px;line-height:1.2;font-family:var(--f-display)}
+.pill{display:inline-flex;align-items:center;gap:6px;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-weight:600;font-variant-numeric:tabular-nums}
+.pill .st{color:var(--star)}
+.pill.lives .heart{width:16px;height:16px;fill:#E0475B;flex:none;display:block}
+.pill.lives b{line-height:1}
+.pill.lives small:empty{display:none}
+.pill.lives small{font-weight:600;color:var(--muted);font-size:12.5px}
+.nick{background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-weight:600}
+/* home */
+.scene{background:var(--surface);border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:0 8px 24px -14px color-mix(in srgb,var(--accent) 45%,transparent)}
+.scene svg{display:block;width:100%;height:auto}
+.scene .cap{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 14px;border-top:1px solid var(--line);flex-wrap:wrap}
+.scene .cap b{font-family:var(--f-display);font-weight:400}
+.grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:16px;align-items:start}
+@media (max-width:760px){.grid{grid-template-columns:minmax(0,1fr)}.panel{order:-1}}
+.box{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:18px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.box h2{font-size:17px}
+.ups{display:flex;flex-direction:column;gap:8px}
+.up{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--surface2)}
+.up h3{font-family:var(--f-body);font-weight:700;font-size:15px}
+.up p{margin:0;color:var(--muted);font-size:13px}
+.buy{border:0;background:var(--accent);color:var(--accent-ink);border-radius:8px;padding:7px 12px;font-weight:700;white-space:nowrap;font-variant-numeric:tabular-nums}
+.buy:disabled{background:var(--line);color:var(--muted);cursor:not-allowed}
+.done{color:var(--good);font-weight:700;white-space:nowrap}
+.tabs{display:flex;gap:8px;flex-wrap:wrap}
+.tab{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:8px 12px;font-weight:700;font-size:14px;display:inline-flex;align-items:center;gap:8px}
+.tab i{width:10px;height:10px;border-radius:50%;background:var(--liq)}
+.tab .cnt{font-weight:600;color:var(--muted)}
+.tab[aria-selected="true"]{border-color:var(--accent);background:var(--accent-soft)}
+.mode{display:inline-flex;background:var(--surface2);border:1px solid var(--line);border-radius:999px;padding:3px;gap:2px;align-self:flex-start}
+.mode button{border:0;background:none;border-radius:999px;padding:4px 12px;font-weight:700;font-size:14px;color:var(--muted)}
+.mode button[aria-checked="true"]{background:var(--steel);color:var(--surface)}
+.chs{display:flex;flex-direction:column;gap:8px}
+.ch{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:center;text-align:left;border:1px solid var(--line);background:var(--surface2);border-radius:12px;padding:10px 12px}
+.ch:hover{border-color:var(--accent)}
+.ch .ic{width:38px;height:38px;border-radius:10px;background:color-mix(in srgb,var(--liq) 45%,var(--surface));display:grid;place-items:center}
+.ch .ic svg{width:26px;height:26px}
+.ch b{display:block;font-size:15px;line-height:1.3}
+.ch small{display:block;color:var(--muted);font-size:12.5px}
+.ch .stt{font-size:12.5px;font-weight:700;color:var(--muted);white-space:nowrap;text-align:right}
+.ch .stt.ok{color:var(--good)}
+.btn.play{justify-content:space-between;text-align:left}
+.btn.play small{font-weight:600;font-size:13px;opacity:.85}
+.levers{display:flex;gap:8px;flex-wrap:wrap}
+.lever{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 12px 6px 8px;font-weight:700;font-size:14px}
+.lever i{width:30px;height:17px;border-radius:999px;background:var(--line);position:relative;flex:none;transition:background .15s}
+.lever i::after{content:"";position:absolute;top:2px;left:2px;width:13px;height:13px;border-radius:50%;background:var(--surface);transition:left .15s}
+.lever[aria-checked="true"]{border-color:var(--liq,var(--accent))}
+.lever[aria-checked="true"] i{background:var(--liq,var(--accent))}
+.lever[aria-checked="true"] i::after{left:15px}
+.lever small{color:var(--muted);font-weight:600}
+@media (prefers-reduced-motion:reduce){.lever i,.lever i::after{transition:none}}
+.kbhead{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.tblocks{display:grid;gap:24px}
+.thead{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin:0 0 10px;padding-bottom:6px;border-bottom:2px solid var(--line)}
+.thead h3{font-family:var(--f-display);font-weight:400;font-size:20px}
+.thead span{color:var(--muted);font-weight:600;font-size:14px}
+.cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px}
+.cc{border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:12px 14px;text-align:left;display:flex;flex-direction:column;gap:6px;min-width:0}
+.cc:hover{border-color:var(--accent)}
+.cc .top2{display:flex;align-items:center;gap:10px}
+.cc .ic{width:34px;height:34px;border-radius:9px;background:color-mix(in srgb,var(--liq) 45%,var(--surface));display:grid;place-items:center;flex:none}
+.cc .ic svg{width:24px;height:24px}
+.cc b{font-size:15px;line-height:1.3}
+.cc .mini{font-size:13.5px;color:var(--muted);overflow-x:auto;white-space:nowrap;line-height:2}
+.cc .stt{font-size:12.5px;font-weight:700;color:var(--muted)}
+.cc .stt.ok{color:var(--good)}
+.cc.locked{background:var(--surface2);border-style:dashed;cursor:default;align-items:center;justify-content:center;min-height:96px;color:var(--muted);text-align:center;gap:2px}
+.cc.locked .q{font-family:var(--f-display);font-size:26px}
+.mbox.wide{max-width:760px}
+/* схема из коллекции: дерево веществ с реагентами на стрелках */
+.scheme{display:flex;flex-direction:column;gap:12px;background:var(--surface2);border-radius:14px;padding:12px;overflow-x:auto}
+.shead,.sprod{display:flex;gap:10px;align-items:baseline;border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:6px 10px;min-width:0}
+.shead{border-color:color-mix(in srgb,var(--liq) 80%,var(--line));background:color-mix(in srgb,var(--liq) 22%,var(--surface))}
+.shead .lt,.sprod .lt{font-family:var(--f-display);color:var(--accent);min-width:18px}
+.shead .fx2,.sprod .fx2{font-weight:700;overflow-wrap:anywhere}
+.shead small,.sprod small{display:block;color:var(--muted);font-size:12.5px;font-weight:600}
+/* ветки: от вещества линия идёт вниз, потом вбок к реагенту; дальше стрелка к продукту */
+.sbr{margin-left:18px;display:flex;flex-direction:column}
+.sstep{position:relative;padding:8px 0 0 26px}
+.sstep::before{content:"";position:absolute;left:0;top:0;width:20px;height:calc(8px + 1.15em);border-left:3px solid color-mix(in srgb,var(--liq) 75%,var(--line));border-bottom:3px solid color-mix(in srgb,var(--liq) 75%,var(--line));border-bottom-left-radius:10px}
+.sstep:not(:last-child)::after{content:"";position:absolute;left:0;top:0;bottom:0;border-left:3px solid color-mix(in srgb,var(--liq) 75%,var(--line))}
+.sline{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.srgb{display:inline-flex;align-items:center;gap:6px;border:1px dashed var(--accent);background:var(--accent-soft);color:var(--ink);border-radius:999px;padding:3px 10px;font-size:13.5px;font-weight:700;line-height:1.5}
+button.srgb:hover,button.srgb[aria-expanded="true"]{border-style:solid}
+span.srgb{border-color:var(--line);background:var(--surface)}
+.srgb i{font-style:normal;font-family:var(--f-display);font-size:10px;width:16px;height:16px;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center}
+.sarw{color:var(--accent);font-weight:800;font-size:18px}
+.sprod{flex:1 1 220px}
+.snote{margin:6px 0 2px;font-size:13.5px;color:var(--muted);background:var(--surface);border-radius:10px;padding:6px 10px;border-left:3px solid var(--accent)}
+.vfoot{justify-content:space-between;align-items:center}
+.also{font-size:13px;color:var(--muted);font-weight:600;flex:1;min-width:180px}
+/* быстрый переход по темам коллекции */
+.jump{position:sticky;top:0;z-index:6;display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:10px 0;background:var(--bg)}
+.jump button{flex:none;white-space:nowrap;font-size:14px;font-weight:700;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:6px 14px}
+.jump button:hover{border-color:var(--accent);color:var(--accent)}
+.jump small{font-weight:600;color:var(--muted);margin-left:4px}
+#collGrid section{scroll-margin-top:64px}
+/* тренировка из коллекции: без звёзд и жизней */
+body.train #starsPill,body.train #bpPill,body.train .lives .heart,body.train #livesN,body.train #livesT{display:none}
+.lives .trn{display:none;font-weight:700;color:var(--steel)}
+body.train .lives .trn{display:inline}
+.rules{font-size:13.5px;color:var(--muted);margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px}
+.rules li::marker{color:var(--accent)}
+.reset{margin-top:6px;padding-top:12px;border-top:1px dashed var(--line);display:flex;gap:8px;flex-wrap:wrap;align-items:center;font-size:13px}
+.link{background:none;border:0;padding:0;color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+.danger{background:var(--bad);color:#fff;border:0;border-radius:8px;padding:6px 10px;font-weight:700}
+.btn{border:0;border-radius:14px;padding:12px 16px;font-weight:700;font-size:16px;background:var(--accent);color:var(--accent-ink);display:inline-flex;justify-content:center;align-items:center;gap:8px}
+.btn.ghost{background:var(--surface2);color:var(--ink);border:1px solid var(--line)}
+/* play */
+.bar{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.back{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:8px 12px;font-weight:700}
+.dots{display:flex;gap:5px;flex-wrap:wrap}
+.dots i{width:12px;height:12px;border-radius:3px;background:var(--line)}
+.dots i.ok{background:var(--good)} .dots i.no{background:var(--bad)} .dots i.cur{outline:2px solid var(--accent);outline-offset:1px}
+.pgrid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);grid-template-areas:"map q" "leg q";gap:16px;align-items:start}
+.pgrid>.mapc{grid-area:map} .pgrid>.legc{grid-area:leg} .pgrid>.qcard{grid-area:q}
+@media (max-width:820px){.pgrid{grid-template-columns:minmax(0,1fr);grid-template-areas:"map" "q" "leg"}}
+.mapc{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:12px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.mapc .ttl{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;align-items:baseline;padding:2px 4px}
+.mapc .ttl b{font-family:var(--f-display);font-weight:400;font-size:15px}
+.map{background:repeating-linear-gradient(0deg,transparent 0 23px,color-mix(in srgb,var(--line) 55%,transparent) 23px 24px),repeating-linear-gradient(90deg,transparent 0 23px,color-mix(in srgb,var(--line) 55%,transparent) 23px 24px),var(--surface2);border-radius:14px;padding:6px;overflow-x:auto}
+.map svg{display:block;margin:0 auto;width:auto;height:auto;max-width:100%;max-height:40vh}
+@media (min-width:821px){.map svg{max-height:60vh}}
+.tank .bd{stroke:var(--sc-steel2);stroke-width:1.2}
+.tank.unk .bd{fill:var(--surface);stroke:var(--muted);stroke-dasharray:3 3}
+.tank.cur .bd{stroke:var(--accent);stroke-width:2.6;stroke-dasharray:none}
+.tank.cur{animation:pulse 1.4s ease-in-out infinite;transform-box:fill-box;transform-origin:50% 50%}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.07)}}
+.tank text{font-family:var(--f-display);font-size:11px;fill:var(--sc-ink);text-anchor:middle;dominant-baseline:central}
+.tank.unk text{fill:var(--muted)}
+.pipe{fill:none;stroke-linecap:round;stroke-linejoin:round}
+.pipe.o{stroke:var(--sc-steel);stroke-width:8}
+.pipe.i{stroke:var(--surface);stroke-width:4}
+.pipe.i.full{stroke:var(--liq)}
+.pipe.i.leak{stroke:var(--bad)}
+.pipe.i.flow{stroke-dasharray:100;animation:flow .9s ease-out both}
+@keyframes flow{from{stroke-dashoffset:100}to{stroke-dashoffset:0}}
+.chev{fill:none;stroke:var(--sc-steel2);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.legend{display:flex;flex-direction:column;gap:4px;font-size:13.5px}
+.legend div{display:grid;grid-template-columns:28px minmax(0,1fr);gap:8px;align-items:baseline;padding:4px 6px;border-radius:8px}
+.legend div.new{background:color-mix(in srgb,var(--liq) 30%,transparent)}
+.legend .lt{font-family:var(--f-display);color:var(--accent);text-align:center}
+.legend .fx2{font-weight:700;overflow-wrap:anywhere}
+.legend small{display:block;color:var(--muted);font-size:12.5px;font-weight:600}
+.qcard{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:18px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.rx{display:flex;align-items:center;gap:22px;flex-wrap:wrap;justify-content:center;padding:10px 4px 4px}
+.cmp{display:flex;flex-direction:column;align-items:center;gap:2px;min-width:0;text-align:center;max-width:100%}
+.fx{font-size:clamp(17px,3.6vw,22px);font-weight:700;line-height:2;overflow-x:auto;max-width:100%}
+.cmp small{color:var(--muted);font-size:13px}
+.lbl{font-family:var(--f-display);color:var(--accent);font-size:13px}
+.arrow{display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--accent);font-weight:700;max-width:240px;text-align:center;margin:0 6px}
+.arrow svg{width:70px;height:16px}
+.arrow .rgt{font-size:14px;color:var(--ink);font-weight:700;line-height:1.35}
+.qmark{font-family:var(--f-display);font-size:30px;color:var(--accent);line-height:1;min-width:40px;text-align:center;border:2px dashed var(--accent);border-radius:12px;padding:8px 14px}
+.opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+@media (max-width:620px){.opts{grid-template-columns:minmax(0,1fr)}}
+.opt{display:flex;gap:10px;align-items:center;text-align:left;border:2px solid var(--line);background:var(--surface);border-radius:12px;padding:10px 12px;font-size:16px;font-weight:700;line-height:1.9;min-width:0}
+.opt:hover:not(:disabled){border-color:var(--accent)}
+.opt .k{flex:none;width:24px;height:24px;border-radius:6px;background:var(--surface2);display:grid;place-items:center;font-size:13px;font-weight:700;color:var(--muted);line-height:1}
+.opt span:last-child{min-width:0;overflow-wrap:anywhere}
+.opt.ok{border-color:var(--good);background:var(--good-bg)} .opt.no{border-color:var(--bad);background:var(--bad-bg)}
+.opt:disabled{cursor:default}
+.fb{border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;gap:6px}
+.fb.ok{background:var(--good-bg)} .fb.no{background:var(--bad-bg)}
+.fb .v{font-family:var(--f-display);font-size:17px}
+.fb.ok .v{color:var(--good)} .fb.no .v{color:var(--bad)}
+.fb p{margin:0}
+#fb{display:flex;flex-direction:column;gap:12px}
+#fb:empty{display:none}
+.next{align-self:flex-end}
+/* summary */
+.sum{display:flex;flex-direction:column;gap:14px;align-items:flex-start}
+.sum .big{font-family:var(--f-display);font-size:40px;line-height:1;font-variant-numeric:tabular-nums}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+/* modal, toast */
+.modal{position:fixed;inset:0;background:rgba(10,18,22,.55);display:flex;align-items:center;justify-content:center;z-index:50;padding:16px}
+.mbox{background:var(--surface);border-radius:16px;max-width:520px;width:100%;max-height:100%;overflow:auto;padding:20px;display:flex;flex-direction:column;gap:12px;border:1px solid var(--line)}
+.mbox h2{font-size:20px}
+.mfoot{display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap}
+.toast{position:fixed;left:50%;bottom:calc(18px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:10px;font-weight:600;z-index:60;max-width:calc(100% - 32px)}
+@keyframes pop{0%{transform:scale(.6);opacity:0}70%{transform:scale(1.06)}100%{transform:scale(1);opacity:1}}
+.popin{animation:pop .5s ease-out;transform-box:fill-box;transform-origin:50% 100%}
+@keyframes flick{0%,100%{transform:scaleY(1)}50%{transform:scaleY(.86)}}
+.flame{transform-box:fill-box;transform-origin:50% 100%;animation:flick 1.4s ease-in-out infinite}
+@keyframes drift{0%{transform:translateY(0);opacity:.85}100%{transform:translateY(-10px);opacity:.25}}
+.steam{animation:drift 3s ease-in-out infinite alternate}
+@media (prefers-reduced-motion:reduce){.popin,.flame,.steam,.tank.cur,.pipe.i.flow{animation:none}}
+</style></head><body>
+<a class="toHub" href="hub">← Все игры</a>
+<div class="wrap">
+  <header class="top">
+    <div class="logo"><span class="badge" aria-hidden="true">A → B</span><h1>Цепочки</h1></div>
+    <span class="pill" title="Звёзды из других игр: вход в цепочку стоит 10 ★" id="starsPill"><span class="st">★</span><span id="stars">0</span></span>
+    <span class="pill" title="Чертежи: даются за собранные цепочки, на них строится завод" id="bpPill"><span aria-hidden="true">📐</span><span id="bp">0</span></span>
+    <span class="pill lives" title="Жизни - общие для Алкенов, Алкинов, Алкадиенов и Цепочек"><svg class="heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.6-4.6-9.5-9.3C1.2 8 3.1 4.5 6.6 4.5c2.2 0 3.7 1.3 5.4 3.2 1.7-1.9 3.2-3.2 5.4-3.2 3.5 0 5.4 3.5 4.1 6.7-1.9 4.7-9.5 9.3-9.5 9.3z"/></svg><b id="livesN">5</b><small id="livesT"></small><span class="trn">Тренировка</span></span>
+    <button class="nick" id="nickBtn" type="button">Ввести ник</button>
+  </header>
+
+  <!-- HOME -->
+  <main id="home" class="wrap">
+    <section class="scene" aria-label="Твой химзавод">
+      <div id="sceneSvg"></div>
+      <div class="cap"><b>Химзавод</b><span class="muted" id="sceneProg"></span></div>
+    </section>
+    <div class="grid">
+      <section class="box">
+        <h2>Обустрой завод</h2>
+        <div class="ups" id="ups"></div>
+      </section>
+      <section class="box panel">
+        <button class="btn play" id="playBtn" type="button"><span id="playLbl">Играть · уровень 1</span><small id="playNote"></small></button>
+        <div class="levers" role="radiogroup" aria-label="Какие цепочки" id="topics"></div>
+        <button class="btn ghost play" id="collBtn" type="button"><span>Коллекция цепочек</span><small id="collCnt"></small></button>
+        <ul class="rules">
+          <li>Каждая цепочка - схема превращений. Найди все вещества по буквам, а иногда - реагент на стрелке.</li>
+          <li>Выбери, какие цепочки решать. «Любые» - вперемешку, сначала те, что ещё не собраны.</li>
+          <li>Вход в цепочку - 10 ★. Они списываются со звёзд, заработанных в Аромадоме, Алкенах, Алкинах и Алкадиенах.</li>
+          <li>Собранная цепочка даёт 📐 чертёж, а без ошибок - два. За чертежи строится завод, уровень растёт с каждой цепочкой.</li>
+          <li>Верный ответ - новый участок трубопровода. Ошибка забирает жизнь и вырастает сорняком в саду.</li>
+          <li>Собранная цепочка попадает в коллекцию, там её можно повторять бесплатно.</li>
+        </ul>
+        <div class="reset" id="resetBox"><button class="link" id="resetBtn" type="button">Сбросить прогресс</button></div>
+      </section>
+    </div>
+  </main>
+
+  <!-- PLAY -->
+  <main id="play" hidden class="wrap" style="gap:14px">
+    <div class="bar">
+      <button class="back" id="quitBtn" type="button">← Выйти</button>
+      <span class="muted" id="playInfo"></span>
+      <div class="dots" id="dots" aria-hidden="true"></div>
+    </div>
+    <div class="pgrid">
+      <section class="mapc" aria-label="Трубопровод цепочки">
+        <div class="ttl"><b id="mapTitle"></b><span class="muted" id="mapTopic" style="font-size:13px"></span></div>
+        <div class="map" id="map"></div>
+      </section>
+      <section class="mapc legc" aria-label="Найденные вещества">
+        <span class="eyebrow">Найденные вещества</span>
+        <div class="legend" id="legend"></div>
+      </section>
+      <section class="qcard">
+        <div class="eyebrow" id="qEyebrow"></div>
+        <div id="qBody"></div>
+        <div class="opts" id="opts"></div>
+        <div id="fb" aria-live="polite"></div>
+      </section>
+    </div>
+  </main>
+
+  <!-- COLLECTION -->
+  <main id="coll" hidden class="wrap" style="gap:14px">
+    <div class="kbhead">
+      <button class="back" id="collBack" type="button">← К заводу</button>
+      <h2 style="font-size:20px">Коллекция цепочек</h2>
+      <span class="muted" id="collCnt2"></span>
+      <div class="mode" role="radiogroup" aria-label="Режим коллекции" id="modeSw" style="margin-left:auto"><button type="button" role="radio" data-mode="novice" title="Видны только собранные цепочки">Новичок</button><button type="button" role="radio" data-mode="pro" title="Все цепочки открыты">Про</button></div>
+    </div>
+    <nav class="jump" id="collJump" aria-label="Быстрый переход по темам"></nav>
+    <div class="tblocks" id="collGrid"></div>
+  </main>
+
+  <!-- SUMMARY -->
+  <main id="summary" hidden class="wrap">
+    <section class="box sum" id="sumBox"></section>
+  </main>
+</div>
+
+<div class="modal" id="modal" hidden><div class="mbox" id="mbox" role="dialog" aria-modal="true"></div></div>
+
+<script>
+/* ================= helpers ================= */
+const $=s=>document.querySelector(s);
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const plural=(n,a,b,c)=>{const m=n%10,h=n%100; return m===1&&h!==11?a:m>=2&&m<=4&&(h<12||h>14)?b:c;};
+function fsub(t){return t.replace(/([A-Za-z\)\]])(\d+)/g,'$1<sub>$2</sub>');}
+function stereo(t){return t.replace(/(^|[\s(+])(цис|транс|мезо)-/g,'$1<i>$2</i>-');}
+/* формула: цифры - индексами, {r3:X} - трёхчленный цикл (X - вершина над связью), как в играх с реакциями */
+function F(s){
+  return String(s).split(/(\{r3:[^}]*\})/).map(p=>{
+    const m=p.match(/^\{r3:(.*)\}$/);
+    if(m) return `<span class="r3"><span class="r3l">${fsub(esc(m[1]))}</span><svg viewBox="0 0 40 20" preserveAspectRatio="none" aria-hidden="true"><path d="M0 20 H40"/><path d="M0 20 L18 1"/><path d="M22 1 L40 20"/></svg></span>`;
+    return stereo(fsub(esc(p)));
+  }).join('');
+}
+document.head.insertAdjacentHTML('beforeend','<style>.r3{display:inline-block;position:relative;width:2.3em;height:1.9em;padding-top:.95em;vertical-align:.33em;margin:0 .15em}.r3 svg{position:absolute;left:0;bottom:0;width:100%;height:.95em;overflow:visible}.r3 path{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linejoin:round;vector-effect:non-scaling-stroke}.r3l{position:absolute;top:0;left:50%;transform:translateX(-50%);font-size:.82em;white-space:nowrap;line-height:1.15}</style>');
+const ARROW='<svg viewBox="0 0 70 16" aria-hidden="true"><path d="M2 8 H64" stroke="currentColor" stroke-width="2.5" fill="none"/><path d="M56 2 L67 8 L56 14" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linejoin="round"/></svg>';
+
+/* ================= цепочки =================
+   Переписаны из задачников (папка Учеба/Органика): ДЗ - «Задачник для дз», ЗОХ - «Задачник по органической химии»,
+   СЕМ - «Задачи для семинаров». n: буква → [формула, название, неверные варианты, пояснение, не-подсказывать].
+   Неверные варианты - правдоподобные ошибки; «не-подсказывать» - вещества, которые тоже можно защитить
+   (перегруппировки, смеси изомеров), - их не бывает среди вариантов, чтобы не путать.
+   e: [откуда, куда, реагент, вид реакции]. Вид нужен, чтобы в режиме «Про» не предлагать равноценный реагент.
+   g: буквы, которые даны сразу (озониды и т. п.); S - исходное вещество, тоже дано. */
+const TOPICS=[
+  {id:'ene',name:'Алкены',liq:'var(--liq-ene)'},
+  {id:'diene',name:'Алкадиены',liq:'var(--liq-diene)'},
+  {id:'yne',name:'Алкины',liq:'var(--liq-yne)'}
+];
+const CH=[
+/* ---------- АЛКЕНЫ ---------- */
+{id:'e1',t:'ene',name:'Разветвлённый спирт',src:'ДЗ № 4, задача 6',
+ n:{S:['HO–CH2–CH(CH3)–CH(CH3)2','2,3-диметилбутан-1-ол'],
+    A:['CH2=C(CH3)–CH(CH3)2','2,3-диметилбут-1-ен',['(CH3)2CH–CH(CH3)–CH2–O–CH2–CH(CH3)–CH(CH3)2','OHC–CH(CH3)–CH(CH3)2'],'Серная кислота отщепляет воду: OH уходит с C-1, H - с соседнего C-2. Перегруппировку здесь не учитываем - устойчивый 2,3-диметилбут-2-ен дальше даёт Al₂O₃ (вещество D).',['(CH3)2C=C(CH3)2']],
+    B:['BrCH2–CH(CH3)–CH(CH3)2','1-бром-2,3-диметилбутан',['BrCH2–CBr(CH3)–CH(CH3)2'],'С перекисью HBr присоединяется по радикальному механизму - Br встаёт к концевому CH₂ (эффект Хараша).'],
+    C:['(CH3)2CBr–CH(CH3)2','2-бром-2,3-диметилбутан',['BrCH2–CBr(CH3)–CH(CH3)2'],'По Марковникову: H - к CH₂, Br - к третичному атому.'],
+    D:['(CH3)2C=C(CH3)2','2,3-диметилбут-2-ен',['CH2=C(CH3)–C(CH3)=CH2','(CH3)2CH–CH(CH3)2'],'Al₂O₃ при 500 °C переносит двойную связь в самое замещённое, устойчивое положение.'],
+    E:['ClCH2–C(OH)(CH3)–CH(CH3)2','1-хлор-2,3-диметилбутан-2-ол',['HO–CH2–CCl(CH3)–CH(CH3)2','ClCH2–CCl(CH3)–CH(CH3)2'],'Cl⁺ идёт к концевому CH₂, OH - к более замещённому атому (по Марковникову).'],
+    F:['CH2=C(CH3)–CBr(CH3)2','3-бром-2,3-диметилбут-1-ен',['BrCH2–CBr(CH3)–CH(CH3)2'],'NBS бромирует аллильное положение; легче всего рвётся третичная C–H рядом с двойной связью.',['BrCH2–C(CH3)=C(CH3)2']]},
+ e:[['S','A','H2SO4, t','dehyd'],['A','B','HBr, H2O2','hbr_rad'],['A','C','HBr','hbr'],['A','D','Al2O3, 500 °C','isom'],['A','E','HOCl','hocl'],['A','F','NBS, H2O2','nbs']]},
+{id:'e2',t:'ene',name:'Изоамиловый спирт',src:'ЗОХ, задача 2.36 а',
+ n:{S:['(CH3)2CH–CH2–CH2–OH','3-метилбутан-1-ол'],
+    A:['(CH3)2CH–CH=CH2','3-метилбут-1-ен',['(CH3)2CH–CH2–CHO'],'При t > 140 °C серная кислота отщепляет воду внутри молекулы - получается алкен.',['(CH3)2C=CH–CH3']],
+    I:['[(CH3)2CH–CH2–CH2]2O','диизоамиловый эфир',['(CH3)2CH–CH2–CH2–OSO3H'],'При t < 140 °C вода отщепляется между двумя молекулами спирта - получается простой эфир.'],
+    H:['(CH3)2CBr–CH=CH2','3-бром-3-метилбут-1-ен',['(CH3)2CH–CHBr–CH2Br'],'NBS с перекисью бромирует аллильное положение - третичный C–H у двойной связи.',['BrCH2–CH=C(CH3)2']],
+    G:['(CH3)2CH–CH2–CH2Br','1-бром-3-метилбутан',['(CH3)2CH–CHBr–CH3'],'С перекисью - против Марковникова (эффект Хараша): Br к концевому атому.'],
+    B:['(CH3)2CH–CHBr–CH3','2-бром-3-метилбутан',['(CH3)2CH–CH2–CH2Br'],'По Марковникову: Br к более замещённому атому двойной связи.',['(CH3)2CBr–CH2–CH3']],
+    C:['(CH3)2C=CH–CH3','2-метилбут-2-ен',['(CH3)2CH–CH(OCH3)–CH3'],'Щёлочь в метаноле отщепляет HBr по Зайцеву - к самому замещённому алкену.'],
+    D:['(CH3)2C{r3:CH2}CH–CH3','1,1,2-триметилциклопропан',['(CH3)2C(I)–CH(CH2I)–CH3'],'Реакция Симмонса-Смита: CH₂ из CH₂I₂ встраивается по двойной связи - получается циклопропан.'],
+    E:['(CH3)2C{r3:O}CH–CH3','2,2,3-триметилоксиран',['(CH3)2C(OH)–CH(OH)–CH3'],'Надкислота (реакция Прилежаева) даёт эпоксид.'],
+    F:['(CH3)2C(OH)–CH(OH)–CH3','2-метилбутан-2,3-диол',['CH3–CO–CH3 + CH3–COOH'],'Холодный разбавленный KMnO₄ (реакция Вагнера) даёт диол.']},
+ e:[['S','A','H2SO4, t > 140 °C','dehyd'],['S','I','H2SO4, t < 140 °C','ether'],['A','H','NBS, ROOR','nbs'],['A','G','HBr, ROOR','hbr_rad'],['A','B','HBr','hbr'],['B','C','NaOH, MeOH','elim'],['C','D','CH2I2, Zn/Cu','ss'],['C','E','CF3CO3H','epox'],['C','F','KMnO4, H2O, 0-5 °C','wagner']]},
+{id:'e3',t:'ene',name:'Бутан → кетон',src:'СЕМ, задача 33 а',
+ n:{S:['CH3–CH2–CH2–CH3','бутан'],
+    A:['CH3–CHBr–CH2–CH3','2-бромбутан',['CH3–CH2–CH2–CH2Br'],'Бром на свету избирателен: замещает H у вторичного атома.'],
+    B:['CH3–CH2–CH(CH3)–CH(CH3)–CH2–CH3','3,4-диметилгексан',['CH3–(CH2)6–CH3','CH2=CH–CH2–CH3'],'Реакция Вюрца: два остатка втор-бутила соединяются.'],
+    C:['CH3–CH2–CBr(CH3)–CH(CH3)–CH2–CH3','3-бром-3,4-диметилгексан',['BrCH2–CH2–CH(CH3)–CH(CH3)–CH2–CH3'],'Бром на свету замещает H у третичного атома.'],
+    D:['CH3–CH2–C(CH3)=C(CH3)–CH2–CH3','3,4-диметилгекс-3-ен',['CH3–CH2–C(=CH2)–CH(CH3)–CH2–CH3'],'Отщепление HBr по Зайцеву - получается самый замещённый алкен.'],
+    E:['2 CH3–CO–CH2–CH3','бутан-2-он (2 молекулы)',['2 CH3–CH2–COOH','CH3–CH2–CHO + CH3–CO–CH3'],'Озонолиз с цинком: на месте C=C - две группы C=O. Молекула симметричная, поэтому кетон один.']},
+ e:[['S','A','Br2, hν','rad_br'],['A','B','Na, t','wurtz'],['B','C','Br2 (1 экв.), hν','rad_br'],['C','D','KOH, спирт, t','elim'],['D','E','1. O3 2. Zn + CH3COOH','ozon']]},
+{id:'e4',t:'ene',name:'Оксимеркурирование',src:'СЕМ, задача 34',
+ n:{S:['(CH3)2CH–CH=CH2','3-метилбут-1-ен'],
+    A:['(CH3)2CH–CHBr–CH3','2-бром-3-метилбутан',['(CH3)2CH–CH2–CH2Br'],'По Марковникову: Br к более замещённому атому.',['(CH3)2CBr–CH2–CH3']],
+    B:['(CH3)2C=CH–CH3','2-метилбут-2-ен',['(CH3)2CH–CH(OH)–CH3'],'Отщепление HBr по Зайцеву.'],
+    C:['(CH3)2C(OH)–CH(HgOAc)–CH3','продукт оксимеркурирования',['(CH3)2C(HgOAc)–CH(OH)–CH3'],'Hg(OAc)₂ и вода присоединяются по Марковникову: OH - к более замещённому атому, HgOAc - к соседнему.'],
+    D:['(CH3)2C(OH)–CH2–CH3','2-метилбутан-2-ол',['(CH3)2CH–CH(OH)–CH3'],'NaBH₄ заменяет HgOAc на H. Итог - гидратация по Марковникову без перегруппировок.']},
+ e:[['S','A','HBr','hbr'],['A','B','KOH, EtOH','elim'],['B','C','Hg(OAc)2, H2O–ТГФ','oxyhg'],['C','D','NaBH4, H2O','nabh4']]},
+{id:'e5',t:'ene',name:'Спирт → эпоксид',src:'СЕМ, задача 61 а',
+ n:{S:['CH3–CH2–CH(CH3)–CH2–CH2–OH','3-метилпентан-1-ол'],
+    A:['CH2=CH–CH(CH3)–CH2–CH3','3-метилпент-1-ен',['CH3–CH2–CH(CH3)–CH2–CHO'],'Внутримолекулярная дегидратация первичного спирта - двойная связь на конце цепи.',['CH3–CH=C(CH3)–CH2–CH3']],
+    B:['CH3–CHBr–CH(CH3)–CH2–CH3','2-бром-3-метилпентан',['BrCH2–CH2–CH(CH3)–CH2–CH3'],'По Марковникову.',['CH3–CH2–CBr(CH3)–CH2–CH3']],
+    C:['CH3–CH=C(CH3)–CH2–CH3','3-метилпент-2-ен',['CH3–CH(OCH3)–CH(CH3)–CH2–CH3'],'Отщепление по Зайцеву - к более замещённому алкену.'],
+    D:['CH3–CH{r3:O}C(CH3)–CH2–CH3','2-этил-2,3-диметилоксиран',['CH3–CH(OH)–C(OH)(CH3)–CH2–CH3'],'Трифторнадуксусная кислота - эпоксидирование по Прилежаеву.']},
+ e:[['S','A','H2SO4, t','dehyd'],['A','B','HBr','hbr'],['B','C','NaOH, MeOH','elim'],['C','D','CF3CO3H','epox']]},
+{id:'e6',t:'ene',name:'Бутанол → диол',src:'СЕМ, задача 61 б',
+ n:{S:['CH3–CH2–CH2–CH2–OH','бутан-1-ол'],
+    A:['CH2=CH–CH2–CH3','бут-1-ен',['CH3–CH2–CH2–CHO'],'Al₂O₃ при нагревании отщепляет воду; у первичного спирта связь встаёт на конец цепи.',['CH3–CH=CH–CH3']],
+    B:['CH3–CH2–CH(OH)–CH2–HgOAc','продукт оксимеркурирования',['CH3–CH2–CH(HgOAc)–CH2–OH'],'OH - к более замещённому атому, HgOAc - к концевому.'],
+    C:['CH3–CH2–CH(OH)–CH3','бутан-2-ол',['CH3–CH2–CH2–CH2–OH'],'NaBH₄ убирает ртуть - получается спирт по Марковникову.'],
+    D:['CH3–CH=CH–CH3','бут-2-ен',['CH2=CH–CH2–CH3'],'Дегидратация вторичного спирта по Зайцеву - бут-2-ен.'],
+    E:['CH3–CH(OH)–CH(OH)–CH3','бутан-2,3-диол',['2 CH3–COOH'],'KMnO₄ на холоду в нейтральной среде (реакция Вагнера) - диол.']},
+ e:[['S','A','Al2O3, t','dehyd'],['A','B','Hg(OAc)2, ТГФ/H2O','oxyhg'],['B','C','NaBH4','nabh4'],['C','D','Al2O3, t','dehyd'],['D','E','KMnO4, H2O, 0 °C, pH 7.5','wagner']]},
+{id:'e7',t:'ene',name:'Алкин → алкен и дальше',src:'ДЗ № 4, задача 10',g:['F'],
+ n:{S:['HC≡C–CH(CH3)–CH2–CH3','3-метилпент-1-ин'],
+    A:['CH2=CH–CH(CH3)–CH2–CH3','3-метилпент-1-ен',['CH3–CH2–CH(CH3)–CH2–CH3'],'Na в жидком аммиаке восстанавливает тройную связь только до двойной.'],
+    F:['озонид A','озонид'],
+    G:['CH3–CH2–CH(CH3)–CHO + HCHO','2-метилбутаналь + формальдегид',['CH3–CH2–CH(CH3)–COOH + HCOOH','CH3–CH2–CO–CH3 + CH3–CHO'],'Цинк в уксусной кислоте восстановительно разлагает озонид - получаются альдегиды.'],
+    B:['(CH3–CH2–CH(CH3)–CH2–CH2)3B','триалкилборан',['(CH3–CH2–CH(CH3)–CH(CH3))3B'],'Бор присоединяется к концевому атому (против Марковникова).'],
+    C:['HO–CH2–CH2–CH(CH3)–CH2–CH3','3-метилпентан-1-ол',['CH3–CH(OH)–CH(CH3)–CH2–CH3'],'H₂O₂ в щёлочи заменяет бор на OH - спирт против Марковникова.'],
+    E:['CH3–CH2–CH(CH3)–CH2–CH3','3-метилпентан',['CH3–CO–O–CH2–CH2–CH(CH3)–CH2–CH3'],'Протонолиз: уксусная кислота заменяет бор на водород - получается алкан.'],
+    D:['CH3–CH(OH)–CH(CH3)–CH2–CH3','3-метилпентан-2-ол',['HO–CH2–CH2–CH(CH3)–CH2–CH3'],'Кислотная гидратация - по Марковникову.']},
+ e:[['S','A','Na, NH3 (ж.)','na_nh3'],['A','F','O3','ozon1'],['F','G','Zn/CH3COOH','zn_ac'],['A','B','B2H6','bor'],['B','C','H2O2, OH⁻','h2o2'],['B','E','CH3COOH','protol'],['A','D','H2O, H2SO4','hydr']]},
+
+/* ---------- АЛКАДИЕНЫ ---------- */
+{id:'d1',t:'diene',name:'Пропен → аллен',src:'ДЗ № 5, задача 2',g:['X'],
+ n:{S:['CH2=CH–CH3','пропен'],
+    X:['CH2=CBr–CH2Br','2,3-дибромпроп-1-ен'],
+    A:['CH2=CH–CH2Br','3-бромпроп-1-ен',['CH3–CHBr–CH2Br'],'NBS бромирует аллильное положение, двойная связь остаётся.'],
+    B:['CH2=C=CH2','пропадиен (аллен)',['CH2=CH–CH2–OH'],'KOH в спирте отщепляет HBr - получается кумулированный диен. Тот же аллен даёт 2,3-дибромпропен с цинком.',['HC≡C–CH3']],
+    C:['CH2=CBr–CH3','2-бромпропен',['BrCH2–CH=CH2'],'H⁺ присоединяется к крайнему атому аллена, Br - к центральному.'],
+    D:['CH3–CBr2–CH3','2,2-дибромпропан',['CH3–CHBr–CH2Br'],'Второй HBr - снова по Марковникову: оба Br у центрального атома.'],
+    E:['CH2=CBr–CH2Br','2,3-дибромпроп-1-ен',['CH2Br–CH=CHBr'],'Одна молекула Br₂ присоединяется по одной из двойных связей аллена.'],
+    F:['CH2Br–CBr2–CH2Br','1,2,2,3-тетрабромпропан',['CHBr2–CHBr–CH2Br'],'Вторая молекула Br₂ - по оставшейся двойной связи.'],
+    G:['CH3–CO–CH3','ацетон',['CH3–CH2–CHO','CH2=CH–CH2–OH'],'Вода присоединяется к центральному атому → енол → ацетон.']},
+ e:[['S','A','NBS, H2O2','nbs'],['A','B','KOH, EtOH','elim'],['X','B','Zn','zn'],['B','C','HBr','hbr'],['C','D','HBr','hbr'],['B','E','Br2','br2'],['E','F','Br2','br2'],['B','G','H2O, H⁺','hydr']]},
+{id:'d2',t:'diene',name:'Свойства изопрена',src:'ДЗ № 5, задача 4',g:['F'],
+ n:{S:['CH2=C(CH3)–CH=CH2','изопрен'],
+    A:['CH2Br–CBr(CH3)–CH=CH2','3,4-дибром-3-метилбут-1-ен',['BrCH2–C(CH3)=CH–CH2Br'],'−80 °C - кинетический контроль: 1,2-присоединение по более замещённой двойной связи.'],
+    B:['(CH3)2C=CH–CH2Br','1-бром-3-метилбут-2-ен',['(CH3)2CBr–CH=CH2'],'50 °C - термодинамический контроль: 1,4-присоединение.'],
+    C:['(CH3)2CBr–CH=CH2','3-бром-3-метилбут-1-ен',['(CH3)2C=CH–CH2Br'],'−80 °C - кинетический контроль: 1,2-присоединение.'],
+    D:['HO–CH2–C(OH)(CH3)–CH(OH)–CH2–OH','2-метилбутан-1,2,3,4-тетраол',['CH3–CO–COOH + 2 CO2'],'Разбавленный KMnO₄ на холоду (реакция Вагнера) гидроксилирует обе двойные связи.'],
+    E:['CH3–CO–COOH + 2 CO2','пировиноградная кислота + CO₂',['2 HCHO + CH3–CO–CHO'],'Жёсткое окисление рвёт обе связи: группы =CH₂ уходят в CO₂, середина - кетокислота.'],
+    F:['диозонид изопрена','диозонид'],
+    G:['2 HCHO + CH3–CO–CHO','формальдегид + метилглиоксаль',['2 HCOOH + CH3–CO–COOH'],'Восстановительное разложение озонида - альдегиды и кетоальдегид.'],
+    H:['(CH3)2C=CH–CH3','2-метилбут-2-ен',['(CH3)2CH–CH2–CH3'],'Натрий в спирте восстанавливает сопряжённый диен в положения 1,4.']},
+ e:[['S','A','Br2, −80 °C','br2'],['S','B','HBr, 50 °C','hbr'],['S','C','HBr, −80 °C','hbr'],['S','D','KMnO4 (разб.), H2O, 0 °C','wagner'],['S','E','KMnO4, H2SO4','hardox'],['S','F','2 O3','ozon1'],['F','G','Zn, CH3COOH','zn_ac'],['S','H','Na, EtOH','na_etoh']]},
+{id:'d3',t:'diene',name:'Тетраметилэтилен → диен',src:'ЗОХ, задача 3.18 а (без ветки Дильса-Альдера)',
+ n:{S:['(CH3)2C=C(CH3)2','2,3-диметилбут-2-ен'],
+    A:['(CH3)2CBr–CBr(CH3)2','2,3-дибром-2,3-диметилбутан',['(CH3)2CBr–CH(CH3)2'],'Бром присоединяется по двойной связи.'],
+    B:['CH2=C(CH3)–C(CH3)=CH2','2,3-диметилбута-1,3-диен',['(CH3)2C(OH)–C(OH)(CH3)2'],'Две молекулы HBr отщепляются - получается сопряжённый диен.'],
+    I:['BrCH2–C(CH3)=C(CH3)2','1-бром-2,3-диметилбут-2-ен',['(CH3)2CBr–CBr(CH3)2'],'NBS с перекисью бромирует аллильный CH₃.'],
+    H:['BrCH2–C(CH3)=C(CH3)–CH2Br','1,4-дибром-2,3-диметилбут-2-ен',['CH2Br–CBr(CH3)–C(CH3)=CH2'],'80 °C - термодинамический контроль: 1,4-присоединение.'],
+    G:['(CH3)2CBr–C(CH3)=CH2','3-бром-2,3-диметилбут-1-ен',['BrCH2–C(CH3)=C(CH3)2'],'−40 °C - кинетический контроль: 1,2-присоединение.']},
+ e:[['S','A','Br2, CCl4','br2'],['A','B','2 KOH, EtOH','elim'],['S','I','NBS, ROOR','nbs'],['B','H','Br2, 80 °C','br2'],['B','G','HBr, −40 °C','hbr']]},
+{id:'d4',t:'diene',name:'Путь к изопрену',src:'ЗОХ, задача 3.18 б',
+ n:{S:['CH2=C(CH3)–CH2–CH3','2-метилбут-1-ен'],
+    A:['(CH3)2CBr–CH2–CH3','2-бром-2-метилбутан',['BrCH2–CH(CH3)–CH2–CH3'],'По Марковникову: Br к третичному атому.'],
+    B:['(CH3)2C=CH–CH3','2-метилбут-2-ен',['(CH3)2C(OCH3)–CH2–CH3'],'Третичный бромид со щёлочью отщепляет HBr по Зайцеву.'],
+    C:['(CH3)2C(OH)–CH(OH)–CH3','2-метилбутан-2,3-диол',['CH3–CO–CH3 + CH3–COOH'],'Реакция Вагнера - диол.'],
+    D:['CH2=C(CH3)–CH=CH2','изопрен',['(CH3)2CH–CO–CH3'],'Al₂O₃ при нагревании отщепляет две молекулы воды - сопряжённый диен.'],
+    E:['(CH3)2C=CH–CH2Br','1-бром-3-метилбут-2-ен',['(CH3)2CBr–CH=CH2'],'При нагревании - 1,4-присоединение (термодинамический продукт).'],
+    F:['(CH3)2C=CH–CH3','2-метилбут-2-ен',['(CH3)2CH–CH2–CH3'],'Na в спирте - 1,4-восстановление сопряжённого диена.']},
+ e:[['S','A','HBr','hbr'],['A','B','NaOH, MeOH','elim'],['B','C','KMnO4, H2O, 0-5 °C','wagner'],['C','D','Al2O3, t','dehyd'],['D','E','HBr, t','hbr'],['D','F','Na + EtOH','na_etoh']]},
+{id:'d5',t:'diene',name:'Изопентан → изопрен',src:'СЕМ, задача 17 а',
+ n:{S:['(CH3)2CH–CH2–CH3','2-метилбутан'],
+    A:['(CH3)2CBr–CH2–CH3','2-бром-2-метилбутан',['BrCH2–CH(CH3)–CH2–CH3'],'Бром на свету замещает H у третичного атома.'],
+    B:['(CH3)2C=CH–CH3','2-метилбут-2-ен',['CH2=C(CH3)–CH2–CH3'],'Отщепление HBr по Зайцеву.'],
+    C:['(CH3)2C(OH)–CHCl–CH3','3-хлор-2-метилбутан-2-ол',['(CH3)2CCl–CH(OH)–CH3'],'Хлорная вода: Cl⁺ к менее замещённому атому, OH - к третичному.'],
+    D:['CH2=CH–C(OH)(CH3)2','2-метилбут-3-ен-2-ол',['(CH3)2C(OH)–CH(OH)–CH3'],'По задачнику спиртовая щёлочь отщепляет HCl - непредельный спирт. (На практике щёлочь из хлоргидрина часто даёт эпоксид.)',['(CH3)2C{r3:O}CH–CH3']],
+    E:['CH2=C(CH3)–CH=CH2','изопрен',['(CH3)2C=CH–CHO'],'Al₂O₃ при 300 °C отщепляет воду - сопряжённый диен.']},
+ e:[['S','A','Br2, hν','rad_br'],['A','B','KOH, спирт, t','elim'],['B','C','H2O + Cl2','hocl'],['C','D','KOH, спирт, t','elim'],['D','E','Al2O3, 300 °C','dehyd']]},
+{id:'d6',t:'diene',name:'Пропен → гексадиен',src:'СЕМ, задача 17 б',
+ n:{S:['CH2=CH–CH3','пропен'],
+    A:['CH2=CH–CH2Cl','3-хлорпроп-1-ен',['CH3–CHCl–CH2Cl'],'При 500 °C хлор замещает H в аллильном положении, а не присоединяется.'],
+    B:['CH2=CH–CH2–CH2–CH=CH2','гекса-1,5-диен',['CH2=CH–CH=CH2'],'Реакция Вюрца: два аллила соединяются.'],
+    C:['CH3–CH(OH)–CH2–CH2–CH(OH)–CH3','гексан-2,5-диол',['HO–CH2–CH2–CH2–CH2–CH2–CH2–OH'],'Кислотная гидратация обеих связей - по Марковникову.'],
+    D:['CH3–CH=CH–CH=CH–CH3','гекса-2,4-диен',['CH2=CH–CH2–CH2–CH=CH2'],'Дегидратация даёт сопряжённый диен - он устойчивее.'],
+    E:['2 CH3–CHO + OHC–CHO','ацетальдегид + глиоксаль',['2 CH3–COOH + HOOC–COOH'],'Озонолиз с цинком режет обе двойные связи на альдегиды.']},
+ e:[['S','A','Cl2, 500 °C','cl500'],['A','B','2 Na, t','wurtz'],['B','C','2 H2O, H⁺, t','hydr'],['C','D','Al2O3, 300 °C','dehyd'],['D','E','1. O3 2. Zn, AcOH','ozon']]},
+{id:'d7',t:'diene',name:'Через пинакон',src:'СЕМ, задача 17 в',
+ n:{S:['CH2=C(CH3)–CH(CH3)2','2,3-диметилбут-1-ен'],
+    A:['(CH3)2CBr–CH(CH3)2','2-бром-2,3-диметилбутан',['BrCH2–CH(CH3)–CH(CH3)2'],'По Марковникову.'],
+    B:['(CH3)2C=C(CH3)2','2,3-диметилбут-2-ен',['(CH3)2C(OH)–CH(CH3)2'],'Отщепление по Зайцеву - тетразамещённый алкен.'],
+    C:['(CH3)2C(OH)–C(OH)(CH3)2','2,3-диметилбутан-2,3-диол (пинакон)',['2 CH3–CO–CH3'],'Реакция Вагнера: KMnO₄ на холоду при pH 7,5 даёт диол.'],
+    D:['CH2=C(CH3)–C(CH3)=CH2','2,3-диметилбута-1,3-диен',['(CH3)3C–CO–CH3'],'Al₂O₃ при 300 °C отщепляет две молекулы воды. (С кислотой пинакон перегруппировался бы в пинаколин.)'],
+    E:['(CH3)2C=C(CH3)–CH2Br','1-бром-2,3-диметилбут-2-ен',['(CH3)2CBr–C(CH3)=CH2'],'50 °C - 1,4-присоединение.']},
+ e:[['S','A','HBr','hbr'],['A','B','KOH, спирт, t','elim'],['B','C','KMnO4, H2O, 0 °C, pH 7.5','wagner'],['C','D','Al2O3, 300 °C','dehyd'],['D','E','HBr, 50 °C','hbr']]},
+
+/* ---------- АЛКИНЫ ---------- */
+{id:'y1',t:'yne',name:'Карбид → бутины',src:'ДЗ № 5, задача 7',
+ n:{S:['CaC2 + 2 H2O','карбид кальция + вода'],
+    A:['HC≡CH','ацетилен',['CH4','CH2=CH2'],'Гидролиз карбида кальция - ацетилен.'],
+    B:['HC≡CNa','ацетиленид натрия',['NaC≡CNa','CH2=CH–NH2'],'NaNH₂ отрывает кислый протон у тройной связи.'],
+    C:['HC≡C–CH2–CH3','бут-1-ин',['CH3–C≡C–CH3','HC≡C–CH=CH2'],'Ацетиленид алкилируется этилбромидом.'],
+    F:['CH2Br–CHBr–CH2–CH3','1,2-дибромбутан',['CH3–CHBr–CHBr–CH3','CH2Br–CH2–CH2–CH2Br'],'Две молекулы HBr отщепляются от соседних атомов - тройная связь там, где были бромы.',['CHBr2–CH2–CH2–CH3']],
+    E:['CHBr2–CBr2–CH2–CH3','1,1,2,2-тетрабромбутан',['CH3–CBr2–CBr2–CH3'],'Цинк снимает четыре атома брома с соседних атомов - тройная связь.'],
+    D:['CH3–C≡C–CH3','бут-2-ин',['CH2=CH–CH=CH2'],'EtONa при нагревании переносит тройную связь внутрь цепи (изомеризация Фаворского).']},
+ e:[['S','A','','none'],['A','B','NaNH2, NH3','nanh2'],['B','C','CH3CH2Br','alkyl'],['F','C','2 KOH, EtOH','elim'],['E','C','2 Zn','zn'],['C','D','EtONa, 100 °C','isom_yne']]},
+{id:'y2',t:'yne',name:'Изомеризация и ацетилениды',src:'ДЗ № 5, задача 11',
+ n:{S:['CH3–CBr2–CH2–CH(CH3)2','2,2-дибром-4-метилпентан'],
+    A:['CH3–C≡C–CH(CH3)2','4-метилпент-2-ин',['CH2=CBr–CH2–CH(CH3)2'],'Спиртовая щёлочь отщепляет 2 HBr; тройная связь встаёт внутрь цепи (так устойчивее).',['HC≡C–CH2–CH(CH3)2']],
+    G:['CH3–COOH + (CH3)2CH–COOH','уксусная + 2-метилпропановая кислоты',['CH3–CO–CO–CH(CH3)2'],'Жёсткое окисление разрывает тройную связь - две кислоты.'],
+    B:['HC≡C–CH2–CH(CH3)2','4-метилпент-1-ин',['CH3–CH=CH–CH(CH3)2'],'Натрий (как NaNH₂) переносит тройную связь на конец цепи.'],
+    C:['CuC≡C–CH2–CH(CH3)2','ацетиленид меди(I)',['AgC≡C–CH2–CH(CH3)2'],'Аммиачный раствор меди(I) - качественная реакция на концевую тройную связь.'],
+    D:['NaC≡C–CH2–CH(CH3)2','ацетиленид натрия',['HC≡C–CH(NH2)–CH(CH3)2'],'NaNH₂ отрывает протон у концевой тройной связи.'],
+    E:['(CH3)2CH–C≡C–CH2–CH(CH3)2','2,6-диметилгепт-3-ин',['(CH3)2CH–CH2–C≡C–CH2–CH2–CH3'],'Алкилирование ацетиленида изопропилбромидом.'],
+    F:['(CH3)2CH–CH2–C≡C–C≡C–CH2–CH(CH3)2','2,9-диметилдека-4,6-диин',['(CH3)2CH–CH2–CO–COOH'],'Окислительное сочетание концевых алкинов (реакция Глазера).']},
+ e:[['S','A','2 KOH, EtOH','elim'],['A','G','KMnO4, H2SO4','hardox'],['A','B','Na, изомеризация','isom_yne'],['B','C','[Cu(NH3)2]OH','cu'],['B','D','NaNH2','nanh2'],['D','E','i-PrBr','alkyl'],['B','F','Cu²⁺, O2','glaser']]},
+{id:'y3',t:'yne',name:'Изоамиловый спирт → алкин',src:'ЗОХ, задача 4.23 а',
+ n:{S:['HO–CH2–CH2–CH(CH3)2','3-метилбутан-1-ол'],
+    A:['(CH3)2CH–CH=CH2','3-метилбут-1-ен',['(CH3)2CH–CH2–CHO'],'Al₂O₃ при нагревании отщепляет воду.',['(CH3)2C=CH–CH3']],
+    B:['(CH3)2CH–CHBr–CH2Br','1,2-дибром-3-метилбутан',['(CH3)2CH–CHBr–CH3'],'Бром присоединяется по двойной связи.'],
+    C:['(CH3)2CH–C≡CH','3-метилбут-1-ин',['(CH3)2CH–CBr=CH2'],'Двойное дегидробромирование - тройная связь.'],
+    D:['(CH3)2CH–CH=CH–B(O2C6H4)','алкенилборан',['(CH3)2CH–C(B(O2C6H4))=CH2'],'Катехолборан присоединяется к концевой тройной связи: бор - к крайнему атому.'],
+    E:['(CH3)2CH–CH2–CHO','3-метилбутаналь',['(CH3)2CH–CO–CH3'],'Окисление борана даёт енол, он переходит в альдегид (против Марковникова).'],
+    F:['(CH3)2CH–CH=CH2','3-метилбут-1-ен',['(CH3)2CH–CH2–CH3'],'Уксусная кислота заменяет бор на H - алкин восстановлен до алкена.'],
+    G:['(CH3)2CH–CO–CH3','3-метилбутан-2-он',['(CH3)2CH–CH2–CHO'],'Реакция Кучерова: вода по Марковникову, енол → кетон.'],
+    H:['(CH3)2CH–CH2–CH2Br','1-бром-3-метилбутан',['(CH3)2CH–CHBr–CH3'],'С перекисью - против Марковникова.'],
+    I:['(CH3)2CH–CH2–CH3','2-метилбутан',['(CH3)2CH–CH2–CH2–OH'],'Гидроборирование и протонолиз уксусной кислотой - восстановление до алкана.']},
+ e:[['S','A','Al2O3, t','dehyd'],['A','B','Br2, CCl4','br2'],['B','C','KOH, EtOH','elim'],['C','D','катехолборан','bor'],['D','E','H2O2, NaOH + H2O','h2o2'],['D','F','AcOH','protol'],['C','G','H2O, H⁺, Hg²⁺','kucher'],['A','H','HBr, ROOR','hbr_rad'],['A','I','1) B2H6 2) AcOH','protol']]},
+{id:'y4',t:'yne',name:'Алкилирование ацетиленида',src:'СЕМ, задача 9 а',
+ n:{S:['(CH3)2CH–CH2–CH2–OH','3-метилбутан-1-ол'],
+    A:['(CH3)2CH–CH=CH2','3-метилбут-1-ен',['[(CH3)2CH–CH2–CH2]2O'],'Концентрированная серная кислота при нагревании - внутримолекулярная дегидратация.',['(CH3)2C=CH–CH3']],
+    B:['(CH3)2CH–CHBr–CH2Br','1,2-дибром-3-метилбутан',['(CH3)2CBr–CH2–CH2Br'],'Бром по двойной связи.'],
+    C:['(CH3)2CH–C≡CH','3-метилбут-1-ин',['(CH3)2CH–CH=CHBr'],'Две молекулы HBr отщепляются - тройная связь.'],
+    D:['(CH3)2CH–C≡CNa','3-метилбутинид натрия',['(CH3)2CH–CH=CH2'],'Натрий замещает кислый H у тройной связи.'],
+    E:['(CH3)2CH–C≡C–CH2–CH3','2-метилгекс-3-ин',['(CH3)2CH–C≡C–CH3'],'Ацетиленид алкилируется этилиодидом.']},
+ e:[['S','A','H2SO4 (конц.), t','dehyd'],['A','B','Br2','br2'],['B','C','2 KOH, EtOH, t, p','elim'],['C','D','Na, t','na'],['D','E','C2H5I','alkyl']]},
+{id:'y5',t:'yne',name:'Бромбутан → бутин',src:'СЕМ, задача 9 б',
+ n:{S:['CH3–CH2–CH2–CH2Br','1-бромбутан'],
+    A:['CH2=CH–CH2–CH3','бут-1-ен',['CH3–CH2–CH2–CH2–OH'],'Спиртовая щёлочь отщепляет HBr.'],
+    B:['CH2Cl–CHCl–CH2–CH3','1,2-дихлорбутан',['CH3–CHCl–CH2–CH3'],'Хлор присоединяется по двойной связи.'],
+    C:['HC≡C–CH2–CH3','бут-1-ин',['CH2=CCl–CH2–CH3'],'Две молекулы HCl отщепляются - концевой алкин (дальше он реагирует с аммиачным серебром).',['CH3–C≡C–CH3']],
+    D:['AgC≡C–CH2–CH3','бутинид серебра',['HC≡C–CH(OH)–CH3'],'Аммиачный раствор серебра - качественная реакция на концевую тройную связь.'],
+    E:['HO–CH2–C≡C–CH2–CH3','пент-2-ин-1-ол',['HC≡C–CH2–CH2–CH2–OH'],'Этинилирование: ацетиленид присоединяется к формальдегиду.'],
+    F:['BrCH=CH–CH2–CH3','1-бромбут-1-ен',['CH2=CBr–CH2–CH3'],'С перекисью HBr присоединяется по радикальному механизму - против Марковникова.']},
+ e:[['S','A','KOH, EtOH, t','elim'],['A','B','Cl2','cl2'],['B','C','2 KOH, CH3OH, t, p','elim'],['C','D','[Ag(NH3)2]OH','ag'],['C','E','CH2O, NaOH','reppe'],['C','F','HBr, (PhCOO)2','hbr_rad']]},
+{id:'y6',t:'yne',name:'Реактив Иоцича',src:'СЕМ, задача 13 а',lab:{E:'E+F'},
+ n:{S:['(CH3)2CH–CH=CH2','3-метилбут-1-ен'],
+    A:['(CH3)2CH–CHCl–CH2Cl','1,2-дихлор-3-метилбутан',['(CH3)2CCl–CH2–CH2Cl'],'Хлор присоединяется по двойной связи.'],
+    B:['(CH3)2CH–C≡CH','3-метилбут-1-ин',['(CH3)2CH–CH=CHCl'],'Амид натрия отщепляет две молекулы HCl.'],
+    C:['(CH3)2CH–C≡C–MgBr','реактив Иоцича',['(CH3)2CH–C≡C–CH2–CH3'],'Концевой алкин - слабая кислота: этилмагнийбромид отдаёт ему MgBr и выделяет этан.'],
+    D:['(CH3)2CH–C≡C–CH2–CH3','2-метилгекс-3-ин',['(CH3)2CH–C≡C–CH3'],'Алкилирование этилиодидом.'],
+    E:['(CH3)2CH–CO–CH2–CH2–CH3 + (CH3)2CH–CH2–CO–CH2–CH3','2-метилгексан-3-он + 5-метилгексан-3-он',['(CH3)2CH–CH2–CH2–CH2–CHO'],'Реакция Кучерова у несимметричного алкина даёт смесь двух кетонов.']},
+ e:[['S','A','Cl2, CCl4','cl2'],['A','B','2 NaNH2, NH3 (ж.)','nanh2'],['B','C','C2H5MgBr','grignard'],['C','D','C2H5I','alkyl'],['D','E','H2O, H⁺, Hg²⁺','kucher']]},
+{id:'y7',t:'yne',name:'Ацетилен → диен по Фаворскому',src:'СЕМ, задача 13 б',
+ n:{S:['HC≡CH','ацетилен'],
+    A:['(CH3)2C(OH)–C≡C–C(OH)(CH3)2','2,5-диметилгекс-3-ин-2,5-диол',['HC≡C–C(OH)(CH3)2'],'Реакция Фаворского: ацетилен присоединяет две молекулы ацетона.'],
+    B:['(CH3)2C(OH)–CH2–CH2–C(OH)(CH3)2','2,5-диметилгексан-2,5-диол',['(CH3)2C(OH)–CH=CH–C(OH)(CH3)2'],'Водород на Pd полностью насыщает тройную связь.'],
+    C:['(CH3)2C=CH–CH=C(CH3)2','2,5-диметилгекса-2,4-диен',['CH2=C(CH3)–CH2–CH2–C(CH3)=CH2'],'Al₂O₃ отщепляет две молекулы воды - выгоднее сопряжённый диен.']},
+ e:[['S','A','1. 2 CH3COCH3, NaOH 2. NH4Cl, H2O','fav'],['A','B','H2, Pd','h2'],['B','C','Al2O3, t','dehyd']]},
+{id:'y8',t:'yne',name:'Купрат и натрий',src:'СЕМ, задача 32 г',
+ n:{S:['HC≡C–CH3','пропин'],
+    A:['CH2=CBr–CH3','2-бромпропен',['BrCH=CH–CH3'],'Одна молекула HBr - по Марковникову.'],
+    B:['CH2=C(CH3)–CH=CH–CH2–CH3','2-метилгекса-1,3-диен',['CH2=C(CH3)–CH2–CH3'],'Купрат лития (реакция Кори-Хауса) заменяет Br на алкенильную группу.'],
+    C:['CH3–C(CH3)=CH–CH2–CH2–CH3','2-метилгекс-2-ен',['(CH3)2CH–CH2–CH2–CH2–CH3'],'Na в спирте восстанавливает сопряжённый диен в положения 1,4 - одна двойная связь остаётся в середине.']},
+ e:[['S','A','HBr (1 экв.)','hbr'],['A','B','(C2H5–CH=CH)2CuLi','cuprate'],['B','C','Na, EtOH','na_etoh']]}
+];
+const CM=Object.fromEntries(CH.map(c=>[c.id,c]));
+/* какие ещё классы веществ встречаются в цепочке, кроме её темы - подпись в схеме из коллекции */
+const ALSO={
+  e1:['спирты','галогеналканы','галогенгидрины'],
+  e2:['спирты','простые эфиры','галогеналканы','циклоалканы','эпоксиды','диолы'],
+  e3:['алканы','галогеналканы','кетоны'],
+  e4:['галогеналканы','ртутьорганические соединения','спирты'],
+  e5:['спирты','галогеналканы','эпоксиды'],
+  e6:['спирты','ртутьорганические соединения','диолы'],
+  e7:['алкины','озониды','альдегиды','борорганические соединения','спирты','алканы'],
+  d1:['алкены','галогеналканы','кетоны'],
+  d2:['галогеналкены','многоатомные спирты','кетокислоты','озониды','альдегиды','алкены'],
+  d3:['алкены','галогеналканы','галогеналкены'],
+  d4:['алкены','галогеналканы','диолы','галогеналкены'],
+  d5:['алканы','галогеналканы','алкены','галогенгидрины','непредельные спирты'],
+  d6:['алкены','галогеналкены','диолы','альдегиды'],
+  d7:['алкены','галогеналканы','диолы','галогеналкены'],
+  y1:['карбиды','ацетилениды','галогеналканы'],
+  y2:['галогеналканы','карбоновые кислоты','ацетилениды'],
+  y3:['спирты','алкены','галогеналканы','борорганические соединения','альдегиды','кетоны','алканы'],
+  y4:['спирты','алкены','галогеналканы','ацетилениды'],
+  y5:['галогеналканы','алкены','ацетилениды','спирты','галогеналкены'],
+  y6:['алкены','галогеналканы','магнийорганические соединения','кетоны'],
+  y7:['кетоны','диолы','алкадиены'],
+  y8:['галогеналкены','медьорганические соединения','алкадиены','алкены']
+};
+const nd=(c,L)=>{ const a=c.n[L]; return {f:a[0],n:a[1],wp:a[2]||[],note:a[3]||'',x:a[4]||[]}; };
+const lab=(c,L)=>(c.lab&&c.lab[L])||L;
+const norm=s=>String(s).replace(/\s+/g,'');
+const topicOf=c=>TOPICS.find(t=>t.id===c.t);
+
+/* ================= завод: что можно купить за звёзды ================= */
+const rc=(x,y,w,h,c,rx=0,ex='')=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${rx}" style="fill:var(--${c})" ${ex}/>`;
+const ci=(x,y,r,c,ex='')=>`<circle cx="${x}" cy="${y}" r="${r}" style="fill:var(--${c})" ${ex}/>`;
+const el=(x,y,rx,ry,c,ex='')=>`<ellipse cx="${x}" cy="${y}" rx="${rx}" ry="${ry}" style="fill:var(--${c})" ${ex}/>`;
+const pa=(d,c,ex='')=>`<path d="${d}" style="fill:var(--${c})" ${ex}/>`;
+const st=(d,c,w=2,ex='')=>`<path d="${d}" style="fill:none;stroke:var(--${c});stroke-width:${w}" stroke-linecap="round" stroke-linejoin="round" ${ex}/>`;
+const tree=(x,y,s=1)=>rc(x-1.5*s,y-11*s,3*s,11*s,'sc-trunk')+ci(x,y-17*s,9*s,'sc-leaf')+ci(x-5*s,y-13*s,6*s,'sc-leaf2');
+const ITEMS=[
+  {id:'gate',name:'Проходная',d:'Будка охраны и шлагбаум - завод открыт.',p:1,
+   draw:()=>rc(8,140,22,28,'sc-white',2)+rc(6,135,26,6,'sc-pink',2)+rc(12,146,14,9,'sc-glass',1)+rc(31,150,3,18,'sc-steel2')+rc(33,150,26,4,'sc-white',1)+[37,45,53].map(x=>rc(x,150,4,4,'sc-pink')).join('')},
+  {id:'tanks',name:'Резервуары',d:'Две цистерны для сырья: спирты и галогеналканы.',p:2,
+   draw:()=>rc(64,128,26,40,'sc-peach',4)+el(77,128,13,4,'sc-peach')+el(77,128,13,4,'sc-white','opacity=".35"')+rc(94,140,22,28,'sc-lemon',4)+el(105,140,11,3.5,'sc-lemon')+el(105,140,11,3.5,'sc-white','opacity=".35"')+st('M70 136 H84 M70 146 H84','sc-white',1.5,'opacity=".6"')},
+  {id:'rack',name:'Трубная эстакада',d:'Трубы через весь завод - по ним бегут вещества.',p:2,
+   draw:()=>st('M40 150 H374','sc-steel2',5)+st('M40 157 H374','sc-steel',3)+[60,120,180,240,300,360].map(x=>rc(x-1.5,150,3,18,'sc-steel2')).join('')},
+  {id:'reactor',name:'Реактор',d:'Стальной котёл с куполом: здесь идёт дегидратация.',p:3,
+   draw:()=>rc(122,96,26,72,'sc-mint',6)+el(135,97,13,7,'sc-mint')+rc(132,84,6,10,'sc-steel2')+[112,128,144].map(y=>rc(122,y,26,3,'sc-white',0,'opacity=".55"')).join('')+st('M152 100 V168 M156 100 V168','sc-steel2',1.2)+[108,120,132,144,156].map(y=>st(`M152 ${y} H156`,'sc-steel2',1.2)).join('')},
+  {id:'column',name:'Ректификационная колонна',d:'Высокая башня: делит смесь продуктов по температурам кипения.',p:3,
+   draw:()=>rc(164,52,16,116,'sc-lav',4)+[70,92,114,136].map(y=>rc(160,y,24,3,'sc-steel2')).join('')+el(172,53,8,4,'sc-lav')+st('M176 56 V44 H192','sc-steel2',2)},
+  {id:'cool',name:'Градирня',d:'Охлаждает воду для реакторов. Пар - это просто вода.',p:3,
+   draw:()=>pa('M196 168 C202 142 202 122 198 102 H238 C234 122 234 142 240 168z','sc-blue')+el(218,102,20,4,'sc-steel')+st('M201 150 H235','sc-white',1.5,'opacity=".5"')+`<g class="steam">${ci(210,90,8,'sc-white','opacity=".85"')+ci(222,82,10,'sc-white','opacity=".75"')+ci(233,72,8,'sc-white','opacity=".6"')}</g>`},
+  {id:'sphere',name:'Газгольдер',d:'Шар для газов: этилен, пропилен, ацетилен.',p:3,
+   draw:()=>st('M248 168 L252 142 M268 168 L264 142 M258 168 V146','sc-steel2',2.5)+ci(258,130,19,'sc-pink')+ci(251,123,6,'sc-white','opacity=".45"')+st('M240 130 H276','sc-white',1.2,'opacity=".45"')},
+  {id:'lab',name:'Лаборатория',d:'Здесь проверяют каждый продукт цепочки.',p:3,
+   draw:()=>rc(286,118,70,50,'sc-white',3)+rc(282,112,78,8,'sc-lav',2)+[0,1,2,3].map(i=>rc(292+i*16,124,10,10,'sc-glass',1)).join('')+[0,2,3].map(i=>rc(292+i*16,142,10,10,'sc-glass',1)).join('')+rc(323,146,11,22,'sc-peach',1)+rc(326,92,6,10,'sc-mint')+ci(329,104,8,'sc-mint')+el(329,106,6,3,'sc-white','opacity=".5"')},
+  {id:'flare',name:'Факел',d:'Сжигает лишний газ - мягкий тёплый огонёк.',p:3,
+   draw:()=>rc(381,40,6,128,'sc-steel')+rc(379,40,10,4,'sc-steel2')+[70,100,130].map(y=>st(`M379 ${y} L389 ${y+10} M389 ${y} L379 ${y+10}`,'sc-steel2',1)).join('')+`<g class="flame">${pa('M384 40 C376 31 380 22 384 13 C388 22 392 31 384 40z','sc-flame')}${pa('M384 38 C381 32 382 27 384 22 C386 27 387 32 384 38z','sc-flame2')}</g>`},
+  {id:'garden',name:'Деревья и клумбы',d:'Зелень вдоль дороги - завод должен быть уютным.',p:2,
+   draw:()=>tree(20,184)+tree(46,188,.8)+tree(236,186,.9)+tree(362,188,.85)+[[70,184,'sc-pink'],[78,186,'sc-lemon'],[86,184,'sc-lav'],[282,184,'sc-pink'],[290,186,'sc-lemon']].map(([x,y,c])=>ci(x,y,2.6,c)).join('')},
+  {id:'solar',name:'Солнечные панели',d:'Чистое электричество для насосов.',p:3,
+   draw:()=>[0,1,2].map(i=>pa(`M${292+i*22} 186 l18 0 l-5 -11 l-18 0z`,'sc-blue')+st(`M${292+i*22} 186 l18 0 l-5 -11 l-18 0z M${283+i*22} 180 h18`,'sc-white',.8,'opacity=".7"')).join('')},
+  {id:'truck',name:'Автоцистерна',d:'Увозит готовые продукты заказчикам.',p:2,
+   draw:()=>rc(150,182,38,15,'sc-peach',7)+st('M156 189 H182','sc-white',1.5,'opacity=".6"')+rc(188,184,15,13,'sc-mint',2)+rc(192,186,8,5,'sc-glass',1)+ci(158,199,4,'sc-steel2')+ci(180,199,4,'sc-steel2')+ci(197,199,4,'sc-steel2')}
+];
+const ITEM=Object.fromEntries(ITEMS.map(i=>[i.id,i]));
+const DRAW_ORDER=['rack','column','flare','cool','reactor','sphere','lab','solar','tanks','gate','garden','truck'];
+function drawScene(fresh){
+  const has=id=>state.owned.includes(id);
+  let s=`<svg viewBox="0 0 400 220" role="img" aria-label="Химзавод"><defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--sc-sky)"/><stop offset="1" style="stop-color:var(--sc-sky2)"/></linearGradient></defs>
+    <rect width="400" height="220" fill="url(#sky)"/>${ci(338,40,15,'sc-sun')}${ci(70,34,10,'sc-white','opacity=".7"')+ci(82,30,13,'sc-white','opacity=".7"')+ci(96,35,9,'sc-white','opacity=".7"')}
+    ${pa('M0 150 Q60 120 130 140 T260 136 T400 128 V170 H0z','sc-hill')}${rc(0,168,400,52,'sc-ground')}${rc(0,192,400,14,'sc-road')}${st('M8 199 H392','sc-line',1.5,'stroke-dasharray="10 8"')}`;
+  DRAW_ORDER.forEach(id=>{ if(has(id)) s+=fresh===id?`<g class="popin">${ITEM[id].draw()}</g>`:ITEM[id].draw(); });
+  if(!state.owned.length) s+=`<text x="200" y="120" text-anchor="middle" style="fill:var(--sc-ink);opacity:.55;font:600 12px var(--f-body)">Пустая площадка - собирай цепочки и строй завод</text>`;
+  $('#sceneSvg').innerHTML=s+'</svg>';
+}
+
+/* ================= state ================= */
+const KEY='chains-v1', GAME='chains';
+/* topic - какие цепочки решать: any (любые) или id темы; coll - режим коллекции (novice: видны собранные, pro: все) */
+const fresh=()=>({nick:'',stars:0,bp:0,level:1,owned:[],done:{},stats:{},coll:'novice',topic:'any',bank:0});
+let state=fresh();
+try{const s=JSON.parse(localStorage.getItem(KEY)||'null'); if(s) state=Object.assign(fresh(),s);}catch(e){}
+delete state.mode;
+if(state.topic!=='any'&&!TOPICS.some(t=>t.id===state.topic)) state.topic='any';
+/* общий ник для всех игр, выбирается в хабе */
+const NICK='organika-nick';
+try{const g=localStorage.getItem(NICK); if(g&&nickOk(g)) state.nick=g; else if(g) localStorage.removeItem(NICK);}catch(e){}
+/* ?ref=1 - сад загружает игру в скрытой рамке, чтобы взять названия сорняков: ничего не сохраняем */
+const REF=new URLSearchParams(location.search).has('ref');
+/* без входа в аккаунт открыт только Аромадом */
+const SIGNED=(()=>{ try{ return !!JSON.parse(localStorage.getItem('organika-session')||'null'); }catch(e){ return false; } })();
+if(!SIGNED&&!REF){
+  const hubUrl=(location.protocol==='file:'?'hub.html':'hub')+'?login=1';
+  document.body.insertAdjacentHTML('beforeend',`<div class="gate" style="position:fixed;inset:0;z-index:100;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(5px);display:grid;place-items:center;padding:16px">
+    <div style="background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:24px;max-width:420px;width:100%;display:flex;flex-direction:column;gap:12px;text-align:center"><h2 style="font-size:20px">Нужен вход в аккаунт</h2><p style="margin:0;color:var(--muted)">Эта игра открывается после входа.<br>Войди, чтобы открыть все игры и не потерять прогресс.</p><a class="btn" href="${hubUrl}" style="text-decoration:none">Войти</a><a class="btn ghost" href="aromadom.html" style="text-decoration:none">Играть в Аромадом</a></div></div>`);
+}
+/* облако подключается только на этой странице, без него всё работает */
+if(!REF){ const cs=document.createElement('script'); cs.src='cloud.js?v=8'; document.head.appendChild(cs); }
+/* Экономика (с 2026-11-01): цепочки больше не дают звёзд. Вход - 10 ★ со звёзд других игр, за собранную цепочку -
+   📐 чертежи (bp), на них строится завод. Старые звёзды цепочек и потраченные на постройки уходят в bank:
+   звание и рейтинг их не теряют. */
+const ENTRY=10;
+if(state.eco!==2){ const OLDP={gate:4,tanks:6,rack:8,reactor:10,column:12,cool:14,sphere:16,lab:20,flare:20,garden:10,solar:24,truck:18};
+  state.bank=(state.bank|0)+(state.stars|0)+state.owned.reduce((a,id)=>a+(OLDP[id]||0),0); state.stars=0; state.bp=state.bp|0; state.eco=2; }
+const doneN=()=>CH.filter(c=>state.done[c.id]).length;
+/* звёзды других игр: из них платится вход в цепочку */
+const STAR_GAMES=[['aromadom','aromadom-v1'],['alkeny','dvoinaya-svyaz-v1'],['alkiny','alkiny-v1'],['alkadieny','alkadieny-v1']];
+const readSave=k=>{ try{ return JSON.parse(localStorage.getItem(k)||'null'); }catch(e){ return null; } };
+const wallet=()=>STAR_GAMES.reduce((a,[,k])=>a+(((readSave(k)||{}).stars)|0),0);
+/* Списать n звёзд: сначала с игры, где их больше всего. Списанное уходит в bank той игры, поэтому
+   её «заработано» (звание, рейтинг) не уменьшается; игра отправит новое сохранение в облако. */
+function payStars(n){
+  if(wallet()<n) return false;
+  const H=readSave('organika-hub')||{}; H.games=H.games||{};
+  let left=n;
+  STAR_GAMES.map(([g,k])=>[g,k,readSave(k)]).filter(x=>x[2]&&(x[2].stars|0)>0).sort((a,b)=>b[2].stars-a[2].stars).forEach(([g,k,s])=>{
+    if(!left) return; const take=Math.min(left,s.stars|0); left-=take;
+    s.stars-=take; s.bank=(s.bank|0)+take;
+    try{ localStorage.setItem(k,JSON.stringify(s)); }catch(e){}
+    if(H.games[g]){ H.games[g].stars=s.stars; H.games[g].t=Date.now(); }
+    if(window.Cloud) Cloud.queue(g);
+  });
+  try{ localStorage.setItem('organika-hub',JSON.stringify(H)); }catch(e){}
+  return true;
+}
+/* подписи сорняков для сада: id ошибки - «цепочка.буква» */
+const WNAMES=()=>Object.fromEntries(CH.flatMap(c=>Object.keys(c.n).map(L=>[c.id+'.'+L,`${c.name} · ${lab(c,L)}`])));
+/* сводка для хаба (звёзды, дни занятий) и для рейтинга (звёзды по часам) */
+function hubSync(){ try{
+  const H=JSON.parse(localStorage.getItem('organika-hub')||'{}'), d=new Date();
+  const day=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+  const prevE=((H.games||{})[GAME]||{}).earned, newE=(state.bank|0);   // звёзд цепочки больше не дают: только старые, из bank
+  if(prevE!=null&&newE>prevE){ H.sd=H.sd||{}; const b=H.sd[day]=H.sd[day]||{}; b[GAME]=(b[GAME]||0)+newE-prevE;
+    const hk=new Date(Math.floor(Date.now()/36e5)*36e5).toISOString(); H.sh=H.sh||{}; const hb=H.sh[hk]=H.sh[hk]||{}; hb[GAME]=(hb[GAME]||0)+newE-prevE; }
+  /* для достижений хаба: цепочки без ошибок, постройки, темы, собранные целиком */
+  const clean=CH.filter(c=>state.done[c.id]&&state.done[c.id].best===0).length, fullTopics=TOPICS.filter(t=>CH.filter(c=>c.t===t.id).every(c=>state.done[c.id])).length;
+  H.games=Object.assign(H.games||{},{[GAME]:{stars:0,bp:state.bp|0,earned:newE,level:state.level,open:doneN(),total:CH.length,clean,fullTopics,owned:state.owned.length,t:Date.now()}});
+  const wn=WNAMES(); H.wn=H.wn||{}; H.wn[GAME]=Object.fromEntries(Object.keys(state.stats).filter(id=>state.stats[id].w>0&&wn[id]).map(id=>[id,wn[id]]));
+  H.days=[...new Set([...(H.days||[]),day])].slice(-400);
+  localStorage.setItem('organika-hub',JSON.stringify(H)); if(window.Cloud) Cloud.queue(GAME); }catch(e){} }
+function save(){ if(REF) return; try{ localStorage.setItem(KEY,JSON.stringify(state)); if(state.nick) localStorage.setItem(NICK,state.nick); }catch(e){} hubSync(); }
+
+/* ================= home ================= */
+/* переключатели тем: сначала «Любые», потом темы в порядке TOPICS. Новая тема в TOPICS - новый переключатель */
+const LEVERS=()=>[{id:'any',name:'Любые',liq:'var(--accent)'},...TOPICS];
+const poolOf=t=>CH.filter(c=>t==='any'||c.t===t);
+const CHIC='<svg viewBox="0 0 26 26" aria-hidden="true"><rect x="2" y="3" width="8" height="10" rx="2.5" style="fill:var(--surface);stroke:var(--sc-steel2);stroke-width:1.2"/><rect x="16" y="13" width="8" height="10" rx="2.5" style="fill:var(--liq);stroke:var(--sc-steel2);stroke-width:1.2"/><path d="M6 13 V18 H16" style="fill:none;stroke:var(--sc-steel2);stroke-width:3.5;stroke-linejoin:round"/><path d="M6 13 V18 H16" style="fill:none;stroke:var(--liq);stroke-width:1.6;stroke-linejoin:round"/></svg>';
+function renderHome(fresh){
+  $('#stars').textContent=wallet(); $('#bp').textContent=state.bp|0;
+  meChip($('#nickBtn'),state.nick);
+  drawScene(fresh);
+  $('#sceneProg').textContent=`построено ${state.owned.length} из ${ITEMS.length} · собрано цепочек ${doneN()} из ${CH.length}`;
+  $('#ups').innerHTML=ITEMS.map(it=>{ const own=state.owned.includes(it.id);
+    return `<div class="up"><div><h3>${esc(it.name)}</h3><p>${esc(it.d)}</p></div>${own?'<span class="done">✓ Есть</span>':`<button class="buy" type="button" data-buy="${it.id}" ${(state.bp|0)<it.p?'disabled':''}>📐 ${it.p}</button>`}</div>`; }).join('');
+  $('#topics').innerHTML=LEVERS().map(t=>{ const all=poolOf(t.id), d=all.filter(c=>state.done[c.id]).length;
+    return `<button class="lever" role="radio" type="button" data-t="${t.id}" aria-checked="${state.topic===t.id}" style="--liq:${t.liq}"><i></i>${t.name}<small>${d}/${all.length}</small></button>`; }).join('');
+  const pool=poolOf(state.topic), left=pool.filter(c=>!state.done[c.id]).length, tn=(LEVERS().find(t=>t.id===state.topic)||{}).name;
+  $('#playLbl').textContent=`Играть · уровень ${state.level}`;
+  $('#playNote').textContent=`вход ${ENTRY} ★ · ${state.topic==='any'?'любые цепочки':tn}${left?` · новых ${left}`:''}`;
+  $('#collCnt').textContent=`${doneN()} / ${CH.length}`;
+  livesUI();
+}
+$('#ups').addEventListener('click',e=>{ const b=e.target.closest('[data-buy]'); if(!b) return; const it=ITEM[b.dataset.buy];
+  if(!it||state.owned.includes(it.id)||(state.bp|0)<it.p) return;
+  state.bp-=it.p; state.owned.push(it.id); save(); renderHome(it.id); toast(`Построено: ${it.name}`); });
+$('#topics').addEventListener('click',e=>{ const b=e.target.closest('[data-t]'); if(!b||b.dataset.t===state.topic) return; state.topic=b.dataset.t; save(); renderHome(); });
+/* уровень: цепочка из выбранной темы; сначала ещё не собранные, потом те, что решались реже */
+function pickChain(){
+  const pool=poolOf(state.topic), fresh=pool.filter(c=>!state.done[c.id]);
+  if(fresh.length) return shuffle(fresh)[0];
+  const m=Math.min(...pool.map(c=>state.done[c.id].n||0));
+  return shuffle(pool.filter(c=>(state.done[c.id].n||0)===m))[0];
+}
+/* вход в уровень - 10 ★ со звёзд других игр (жизни проверяем раньше, чтобы не списать звёзды зря) */
+function playLevel(){
+  if(Lives.left()<=0) return outOfLives();
+  const have=wallet();
+  if(have<ENTRY){ openModal(`<h2>Нужно ${ENTRY} ★</h2><p style="margin:0">Вход в цепочку стоит ${ENTRY} звёзд. Сейчас у тебя ${have} ★.</p><p class="muted" style="margin:0">Звёзды копятся в Аромадоме, Алкенах, Алкинах и Алкадиенах - за верные ответы. А собранные цепочки можно бесплатно повторять в коллекции.</p><div class="mfoot"><a class="btn ghost" href="hub" style="text-decoration:none">К играм</a><button class="btn" type="button" data-close>Понятно</button></div>`); return; }
+  const c=pickChain(); if(!c) return;
+  payStars(ENTRY); toast(`−${ENTRY} ★ · вход в цепочку`); startChain(c.id);
+}
+$('#playBtn').onclick=playLevel;
+$('#collBtn').onclick=()=>show('coll');
+
+/* ================= вопросы ================= */
+/* Порядок вопросов: от известных веществ по стрелкам (в любую сторону), в порядке стрелок в схеме.
+   Каждая третья стрелка - вопрос на реагент: вещество на её конце показывается сразу. */
+function plan(c){
+  const known=new Set(['S',...(c.g||[])]), qs=[];
+  for(;;){
+    let pick=null;
+    for(const e of c.e){
+      if(known.has(e[0])&&!known.has(e[1])){ pick={L:e[1],e,dir:1}; break; }
+      if(known.has(e[1])&&!known.has(e[0])){ pick={L:e[0],e,dir:-1}; break; }
+    }
+    if(!pick) break;
+    known.add(pick.L);
+    pick.type=pick.dir===1&&pick.e[3]!=='none'&&pick.e[2]&&qs.length%3===1?'rg':'pr';
+    pick.c=c; pick.id=c.id+'.'+pick.L;
+    qs.push(pick);
+  }
+  return qs;
+}
+/* виды реакций, которые легко принять друг за друга (натрий в разных видах, Al₂O₃, озон с обработкой и без...) -
+   одно семейство: в вопросе на реагент они не бывают неверными вариантами друг для друга */
+const FAM={nanh2:'na',na:'na',na_nh3:'na',isom_yne:'na',wurtz:'na',na_etoh:'na',isom:'dehyd',ozon1:'ozon',kucher:'hydr',zn_ac:'zn'};
+const fam=k=>FAM[k]||k;
+const ALL_EDGES=CH.flatMap(c=>c.e.filter(e=>e[2]&&e[3]!=='none').map(e=>({rg:e[2],k:fam(e[3])})));
+function nodeOpts(c,L){
+  const o=nd(c,L), bad=new Set([norm(o.f),...o.x.map(norm)]), out=[];
+  const add=f=>{ const k=norm(f); if(!bad.has(k)&&!out.some(x=>norm(x)===k)) out.push(f); };
+  shuffle(o.wp).forEach(add);
+  shuffle(Object.keys(c.n).filter(k=>k!==L&&!(c.g||[]).includes(k))).forEach(k=>add(c.n[k][0]));
+  shuffle(CH.filter(x=>x.t===c.t&&x!==c).flatMap(x=>Object.keys(x.n).filter(k=>!(x.g||[]).includes(k)).map(k=>x.n[k][0]))).forEach(add);
+  const opts=shuffle([o.f,...out.slice(0,3)]);
+  return {opts,right:opts.indexOf(o.f)};
+}
+function rgOpts(e){
+  const out=[], kinds=new Set([fam(e[3])]);
+  shuffle(ALL_EDGES).forEach(x=>{ if(out.length<3&&!kinds.has(x.k)&&norm(x.rg)!==norm(e[2])){ kinds.add(x.k); out.push(x.rg); } });
+  const opts=shuffle([e[2],...out]);
+  return {opts,right:opts.indexOf(e[2])};
+}
+
+/* ================= трубопровод ================= */
+/* Раскладка «как дерево папок»: строка - порядок обхода от S, столбец - расстояние от S по трубам.
+   Труба от родителя идёт вниз, потом вправо к баку. Стрелка-шеврон показывает направление реакции. */
+const TW=26, TH=26, DX=46, DY=34, PAD=8;
+function layout(c){
+  const adj={}; c.e.forEach(([a,b])=>{ (adj[a]=adj[a]||[]).push(b); (adj[b]=adj[b]||[]).push(a); });
+  const pos={}, par={}, order=[];
+  (function dfs(v,d){ pos[v]={d,r:order.length}; order.push(v); (adj[v]||[]).forEach(w=>{ if(!(w in pos)){ par[w]=v; dfs(w,d+1); } }); })('S',0);
+  const maxD=Math.max(...Object.values(pos).map(p=>p.d));
+  const xy=L=>({x:PAD+TW/2+pos[L].d*DX,y:PAD+TH/2+pos[L].r*DY});
+  return {pos,par,order,xy,w:PAD*2+TW+maxD*DX,h:PAD*2+TH+(order.length-1)*DY};
+}
+/* K - известные буквы; o.cur - бак, о котором вопрос; o.sel - выбранный в коллекции; o.click - баки нажимаются */
+function mapSVG(c,K,o={}){
+  const lay=layout(c), leak=o.leak||new Set();
+  let pipes='', tanks='';
+  c.e.forEach((e,i)=>{
+    const [a,b]=e, fwd=lay.par[b]===a, p=fwd?a:b, ch=fwd?b:a, P=lay.xy(p), C=lay.xy(ch);
+    const d=fwd?`M${P.x} ${P.y+TH/2} V${C.y} H${C.x-TW/2}`:`M${C.x-TW/2} ${C.y} H${P.x} V${P.y+TH/2}`;
+    const full=K.has(a)&&K.has(b), bad=full&&leak.has(i), anim=full&&o.flow===i;
+    pipes+=`<path class="pipe o" d="${d}"/><path class="pipe i${full?bad?' leak':' full':''}${anim?' flow':''}" d="${d}" pathLength="100"/>`;
+    const mx=(P.x+C.x-TW/2)/2, s=fwd?1:-1;
+    pipes+=`<path class="chev" d="M${mx-3*s} ${C.y-4} L${mx+2*s} ${C.y} L${mx-3*s} ${C.y+4}"/>`;
+  });
+  lay.order.forEach(L=>{
+    const P=lay.xy(L), kn=K.has(L), isCur=o.cur===L, n=nd(c,L);
+    const cls=`tank${kn?'':' unk'}${isCur?' cur':''}${o.sel===L?' sel':''}`;
+    tanks+=`<g transform="translate(${P.x-TW/2} ${P.y-TH/2})"><g class="${cls}"${o.click?` data-l="${L}" role="button" tabindex="0" aria-label="${esc(lab(c,L))}: ${esc(n.n)}"`:''}><title>${esc(lab(c,L))}${kn?': '+esc(n.n):''}</title>
+      <rect class="bd" x="0" y="3" width="${TW}" height="${TH-3}" rx="6" style="fill:${kn?'var(--liq)':'var(--surface)'}"/>
+      ${kn?`<ellipse cx="${TW/2}" cy="5" rx="${TW/2-3}" ry="2.2" style="fill:var(--sc-white);opacity:.55"/>`:''}
+      <text x="${TW/2}" y="${TH/2+2}">${kn||isCur?esc(lab(c,L)):'?'}</text></g></g>`;
+  });
+  return `<svg viewBox="0 0 ${lay.w} ${lay.h}" width="${Math.round(lay.w*1.2)}" height="${Math.round(lay.h*1.2)}" style="--liq:${topicOf(c).liq}" role="img" aria-label="Схема цепочки: трубы и баки">${pipes}${tanks}</svg>`;
+}
+/* какие вещества сейчас видны: в обычной цепочке - найденные; в работе над ошибками - все, кроме того, о котором вопрос */
+function knownNow(){
+  const q=run.qs[run.i]; if(!run.fix) return run.known;
+  const k=new Set(Object.keys(q.c.n)); if(!run.answered&&q.type!=='rg') k.delete(q.L); return k;
+}
+function renderMap(){
+  const q=run.qs[run.i], c=q.c, K=knownNow(), lay=layout(c);
+  $('#mapTitle').textContent=c.name; $('#mapTopic').textContent=topicOf(c).name;
+  $('#map').innerHTML=mapSVG(c,K,{cur:run.answered?null:q.L,leak:run.leak,flow:run.flow});
+  $('#legend').style.setProperty('--liq',topicOf(c).liq);
+  $('#legend').innerHTML=lay.order.filter(L=>K.has(L)).map(L=>{ const o=nd(c,L);
+    return `<div class="${run.flowL===L?'new':''}"><span class="lt">${esc(lab(c,L))}</span><span><span class="fx2">${F(o.f)}</span><small>${esc(o.n)}</small></span></div>`; }).join('');
+}
+
+/* ================= игра ================= */
+let cur='home', run=null;
+function show(v){ cur=v; ['home','play','summary','coll'].forEach(id=>$('#'+id).hidden=id!==v);
+  document.body.classList.toggle('train',(v==='play'||v==='summary')&&!!run&&!!run.train);
+  window.scrollTo(0,0); if(v==='home') renderHome(); if(v==='coll') renderColl(); }
+/* train - «Пройти цепочку» из коллекции: тренировка без жизней и звёзд, уровень и коллекция не меняются */
+function startChain(id,train){
+  closeModal();
+  if(!train&&Lives.left()<=0) return outOfLives();
+  const c=CM[id]; if(!c) return;
+  run={train:!!train,qs:plan(c),i:0,known:new Set(['S',...(c.g||[])]),err:0,right:0,earned:0,res:[],leak:new Set(),flow:-1,flowL:null,answered:false};
+  show('play'); renderQ();
+}
+const cmp=(c,L)=>{ const o=nd(c,L); return `<div class="cmp"><span class="lbl">${esc(lab(c,L))}</span><div class="fx">${F(o.f)}</div><small>${esc(o.n)}</small></div>`; };
+const arrowHTML=rg=>`<div class="arrow">${rg?`<span class="rgt">${F(rg)}</span>`:''}${ARROW}</div>`;
+function renderQ(){
+  const q=run.qs[run.i], c=q.c; run.answered=false;
+  if(run.fix){ run.leak=new Set(); }
+  $('#playInfo').textContent=`${run.i+1} из ${run.qs.length}`;
+  $('#dots').innerHTML=run.qs.map((_,k)=>`<i class="${k<run.i?(run.res[k]?'ok':'no'):k===run.i?'cur':''}"></i>`).join('');
+  const e=q.e, other=q.dir===1?e[0]:e[1], qm=`<div class="qmark">${esc(lab(c,q.L))}</div>`;
+  if(q.type==='rg'){
+    if(!run.fix) run.known.add(q.L);   // вещество показано - спрашиваем реагент
+    $('#qEyebrow').textContent='Какой реагент нужен?';
+    $('#qBody').innerHTML=`<div class="rx">${cmp(c,e[0])}<div class="arrow"><span class="qmark" style="font-size:20px;padding:4px 12px">?</span>${ARROW}</div>${cmp(c,e[1])}</div>`;
+    const o=rgOpts(e); q.opts=o.opts; q.right=o.right;
+  }else{
+    $('#qEyebrow').textContent=q.dir===1?`Что такое ${lab(c,q.L)}?`:`Из чего получили ${lab(c,other)}? Что такое ${lab(c,q.L)}?`;
+    $('#qBody').innerHTML=`<div class="rx">${q.dir===1?cmp(c,other)+arrowHTML(e[2])+qm:qm+arrowHTML(e[2])+cmp(c,other)}</div>`;
+    const o=nodeOpts(c,q.L); q.opts=o.opts; q.right=o.right;
+  }
+  $('#opts').innerHTML=q.opts.map((f,k)=>`<button class="opt" type="button" data-k="${k}"><span class="k">${k+1}</span><span>${F(f)}</span></button>`).join('');
+  $('#fb').innerHTML='';
+  run.flow=-1; run.flowL=null; renderMap();
+}
+/* в работе над ошибками вместо звезды - счёт «1 из 2»; на втором сорняк можно выкапывать */
+function fixMark(id,ok){ const b=Math.min(2,(state.stats[id]||{}).b||0);
+  return ok?(b>=2?'Верно · 2 из 2 - сорняк можно выкопать!':`Верно · ${b} из 2`):'Неверно · счёт начинается заново'; }
+function answer(k){
+  const q=run.qs[run.i], c=q.c; if(run.answered) return; run.answered=true;
+  const ok=k===q.right, s=state.stats[q.id]=state.stats[q.id]||{r:0,w:0,b:0};
+  if(window.rgTrack) rgTrack(q.type,ok);   // серия «Реагент-мастер»
+  document.querySelectorAll('#opts .opt').forEach((b,j)=>{ b.disabled=true; if(j===q.right) b.classList.add('ok'); else if(j===k) b.classList.add('no'); });
+  if(ok){ s.r++; s.b=Math.min(4,(s.b||0)+1); run.right++; }
+  else{ s.w++; s.b=0; s.wt=q.type; run.err++; if(!run.train) Lives.spend(GAME); }   // wt - в чём ошибка: rg реагент, pr вещество
+  run.res[run.i]=ok; if(!run.fix) run.known.add(q.L);
+  /* какие трубы только что заполнились */
+  const ei=c.e.indexOf(q.e); run.flow=ei; run.flowL=q.L; if(!ok) run.leak.add(ei);
+  save(); livesUI(); renderMap();
+  const o=nd(c,q.L), last=run.i+1>=run.qs.length;
+  $('#fb').innerHTML=`<div class="fb ${ok?'ok':'no'}"><span class="v">${run.fix?fixMark(q.id,ok):ok?'Верно!':'Не то - труба протекла'}</span>
+    ${q.type==='rg'?`<p>Нужен реагент: <b>${F(q.e[2])}</b></p>`:`<p><b>${esc(lab(c,q.L))}</b> - ${F(o.f)} <span class="muted">(${esc(o.n)})</span></p>`}
+    ${o.note?`<p class="muted">${esc(o.note)}</p>`:''}</div>
+    <button class="btn next" type="button" id="nextBtn">${!last?'Дальше':run.fix?'Итоги':'Собрать установку'}</button>`;
+  $('#nextBtn').onclick=next; $('#nextBtn').focus({preventScroll:true});
+}
+$('#opts').addEventListener('click',e=>{ const b=e.target.closest('[data-k]'); if(b) answer(+b.dataset.k); });
+function next(){
+  if(!run||!run.answered) return;
+  run.i++;
+  if(run.i>=run.qs.length) return run.fix?fixFinish():run.train?trainFinish():finish();
+  if(!run.train&&Lives.left()<=0) return outOfLives();
+  renderQ(); window.scrollTo({top:0,behavior:'smooth'});
+}
+function finish(){
+  /* чертёж за цепочку, второй - если без ошибок; уровень растёт сам */
+  const c=run.qs[0].c, got=run.err===0?2:1, d=state.done[c.id]||{n:0,best:Infinity}, isNew=!state.done[c.id];
+  state.bp=(state.bp|0)+got; state.level++;
+  state.done[c.id]={n:d.n+1,best:Math.min(d.best==null?Infinity:d.best,run.err)};
+  save(); $('#bp').textContent=state.bp;
+  $('#sumBox').innerHTML=`<span class="eyebrow">Установка собрана${isNew?` · новая в коллекции (${doneN()}/${CH.length})`:''}</span><h2>${esc(c.name)}</h2>
+    <span class="big">+${got} 📐</span>
+    <p style="margin:0">${run.err===0?'Ни одной протечки - два чертежа за чистую работу.':`Протечек: ${run.err}. Без ошибок цепочка даёт два чертежа.`} Теперь уровень ${state.level}.</p>
+    <div class="chips"><button class="btn" type="button" id="againBtn">Уровень ${state.level}</button><button class="btn ghost" type="button" data-view="${c.id}">В коллекции</button><button class="btn ghost" type="button" id="homeBtn">К заводу</button></div>`;
+  run=null; show('summary');
+  $('#homeBtn').onclick=()=>show('home');
+  $('#againBtn').innerHTML=`Уровень ${state.level} <small style="opacity:.85">· ${ENTRY} ★</small>`;
+  $('#againBtn').onclick=playLevel;
+  $('#sumBox [data-view]').onclick=e=>{ show('coll'); openView(e.currentTarget.dataset.view); };
+}
+function trainFinish(){
+  const c=run.qs[0].c, err=run.err;
+  $('#sumBox').innerHTML=`<span class="eyebrow">Тренировка окончена</span><h2>${esc(c.name)}</h2>
+    <span class="big">${run.right} / ${run.qs.length}</span>
+    <p style="margin:0">${err?`Ошибок: ${err}. Попробуй ещё раз - жизни и звёзды здесь не тратятся.`:'Ни одной ошибки - цепочка у тебя в голове.'}</p>
+    <div class="chips"><button class="btn" type="button" id="againBtn">Ещё раз</button><button class="btn ghost" type="button" id="homeBtn">В коллекцию</button></div>`;
+  show('summary');
+  $('#againBtn').onclick=()=>startChain(c.id,true);
+  $('#homeBtn').onclick=()=>{ run=null; show('coll'); };
+}
+$('#quitBtn').onclick=()=>{ if(run&&run.fix) return runQuit(); const back=run&&run.train?'coll':'home'; run=null; show(back); };
+
+/* ================= «Работа над ошибками» (с подпиской) =================
+   Запускается из сада ссылкой chains.html?fix=1. Ошибка - вещество (или реагент) в конкретной цепочке: «цепочка.буква».
+   Вопрос задаётся в той же цепочке, остальные вещества видны. Звёзд и уровня нет - счёт «1 из 2». */
+const FIX=new URLSearchParams(location.search).has('fix')&&!REF;
+const gardenUrl='mistakes.html';
+/* общий раунд из сада: oshibki-run в sessionStorage - очередь {game, ids}; эта игра решает свою часть и передаёт ход */
+const RUN=(()=>{ if(!FIX) return null; try{ const r=JSON.parse(sessionStorage.getItem('oshibki-run')||'null'); return r&&r.queue&&r.queue[0]&&r.queue[0].game===GAME?r:null; }catch(e){ return null; } })();
+const runNext=()=>{ try{ sessionStorage.setItem('oshibki-run',JSON.stringify(RUN)); }catch(e){} location.href=RUN.queue.length?RUN.queue[0].game+'.html?fix=1':gardenUrl+'?run=done'; };
+const runQuit=()=>{ try{ sessionStorage.removeItem('oshibki-run'); }catch(e){} location.href=gardenUrl; };
+if(FIX) document.head.insertAdjacentHTML('beforeend','<style>header.top,a.toHub{display:none!important}</style>');
+function fixQ(id){
+  const [cid,L]=id.split('.'), c=CM[cid]; if(!c) return null;
+  const q=plan(c).find(x=>x.L===L); if(!q) return null;
+  const wt=(state.stats[id]||{}).wt;
+  return Object.assign({},q,{type:wt==='rg'&&q.dir===1&&q.e[2]&&q.e[3]!=='none'?'rg':'pr'});   // спрашиваем то, в чём была ошибка
+}
+function startFix(){
+  if(!Lives.premium()){
+    openModal(`<h2>Работа над ошибками</h2><p style="margin:0">Отдельный раунд только из веществ, в которых ты ошибался. Ошибка уходит, когда ответишь на неё верно 2 раза подряд.</p><p style="margin:0"><b>Доступно с премиумом.</b> С премиумом ещё бесконечные жизни во всех играх.</p><div class="mfoot"><a class="btn" href="${gardenUrl}" style="text-decoration:none">В сад</a></div>`);
+    return;
+  }
+  let ids;
+  if(RUN) ids=RUN.queue[0].ids;
+  else ids=Object.keys(state.stats).filter(id=>{ const s=state.stats[id]; return s.w>0&&(s.b||0)<2; }).slice(0,8);
+  const qs=ids.map(fixQ).filter(Boolean);
+  if(!qs.length){ if(RUN){ RUN.queue.shift(); return runNext(); } location.href=gardenUrl; return; }
+  run={fix:true,qs,i:0,err:0,right:0,earned:0,res:[],leak:new Set(),flow:-1,flowL:null,answered:false};
+  show('play'); renderQ();
+}
+function fixFinish(){
+  save();
+  if(RUN){ RUN.done+=run.qs.length; RUN.right+=run.right; RUN.queue.shift(); return runNext(); }
+  location.href=gardenUrl;
+}
+
+/* ================= коллекция ================= */
+/* Новичок - видны только собранные цепочки, Про - все. Карточка открывает схему целиком, буква - реакцию. */
+function renderColl(){
+  const pro=REF||state.coll==='pro';   // в справочнике открыто всё
+  document.querySelectorAll('#modeSw [data-mode]').forEach(b=>b.setAttribute('aria-checked',String(b.dataset.mode===state.coll)));
+  $('#collCnt2').textContent=`собрано ${doneN()} из ${CH.length}`;
+  $('#collJump').innerHTML=TOPICS.map(t=>{ const all=CH.filter(c=>c.t===t.id), d=all.filter(c=>state.done[c.id]).length;
+    return `<button type="button" data-j="ct-${t.id}">${t.name}${REF?'':`<small>${d}/${all.length}</small>`}</button>`; }).join('');
+  $('#collGrid').innerHTML=TOPICS.map(t=>{ const all=CH.filter(c=>c.t===t.id), d=all.filter(c=>state.done[c.id]).length;
+    return `<section id="ct-${t.id}"><div class="thead"><h3>${t.name}</h3><span>${REF?`${all.length} ${plural(all.length,'цепочка','цепочки','цепочек')}`:`собрано ${d} из ${all.length}`}</span></div><div class="cgrid">${all.map(c=>{
+      const dn=state.done[c.id], open=pro||dn, n=Object.keys(c.n).length;
+      if(!open) return `<div class="cc locked"><span class="q">?</span><span>Ещё не собрана</span></div>`;
+      return `<button class="cc" type="button" data-view="${c.id}" style="--liq:${t.liq}"><span class="top2"><span class="ic">${CHIC}</span><b>${esc(c.name)}</b></span>
+        <span class="mini">${n} ${plural(n,'вещество','вещества','веществ')}</span>
+        ${REF?'':`<span class="stt${dn?' ok':''}">${!dn?'ещё не собрана':dn.best===0?'✓ без ошибок':`✓ собрана · ошибок: ${dn.best}`}</span>`}</button>`; }).join('')}</div></section>`; }).join('');
+}
+$('#collJump').addEventListener('click',e=>{ const b=e.target.closest('[data-j]'), s=b&&document.getElementById(b.dataset.j); if(s) s.scrollIntoView({behavior:'smooth',block:'start'}); });
+$('#collGrid').addEventListener('click',e=>{ const b=e.target.closest('[data-view]'); if(b) openView(b.dataset.view); });
+$('#modeSw').addEventListener('click',e=>{ const b=e.target.closest('[data-mode]'); if(!b||b.dataset.mode===state.coll) return;
+  state.coll=b.dataset.mode; save(); renderColl(); toast(state.coll==='pro'?'Режим «Про»: все цепочки открыты':'Режим «Новичок»: видны собранные цепочки'); });
+$('#collBack').onclick=()=>show('home');
+/* Схема целиком: по веществам, из которых что-то получают. Под каждым - его реакции: от вещества стрелка
+   уходит вниз и вбок, на ней реагент, дальше - продукт. Нажатие на реагент показывает пояснение к реакции. */
+let view=null;
+const subst=(c,L,cls)=>{ const o=nd(c,L); return `<div class="${cls}"><span class="lt">${esc(lab(c,L))}</span><span><span class="fx2">${F(o.f)}</span><small>${esc(o.n)}</small></span></div>`; };
+function schemeHTML(c){
+  const lay=layout(c);
+  return lay.order.filter(L=>c.e.some(e=>e[0]===L)).map(L=>`<div class="sg">${subst(c,L,'shead')}<div class="sbr">${
+    c.e.filter(e=>e[0]===L).map(e=>{ const note=nd(c,e[1]).note, rg=`<span>${e[2]?F(e[2]):'без реагента'}</span>`;
+      return `<div class="sstep"><div class="sline">${note?`<button class="srgb" type="button" aria-expanded="false" title="Пояснение к реакции">${rg}<i aria-hidden="true">i</i></button>`:`<span class="srgb">${rg}</span>`}
+        <span class="sarw" aria-hidden="true">→</span>${subst(c,e[1],'sprod')}</div>${note?`<p class="snote" hidden>${esc(note)}</p>`:''}</div>`; }).join('')
+  }</div></div>`).join('');
+}
+function openView(id){
+  const c=CM[id]; if(!c) return;
+  view={c};
+  const also=ALSO[c.id]||[];
+  openModal(`<span class="eyebrow">${esc(topicOf(c).name)}</span><h2>${esc(c.name)}</h2>
+    <div class="scheme" style="--liq:${topicOf(c).liq}">${schemeHTML(c)}</div>
+    <div class="mfoot vfoot"><span class="also">${also.length?`Также в цепочке: ${esc(also.join(', '))}`:''}</span><span class="chips"><button class="btn ghost" type="button" data-close>Закрыть</button>${REF?'':'<button class="btn" type="button" id="vPlay">Пройти цепочку</button>'}</span></div>`,true);
+  $('#mbox').classList.add('wide');
+  if($('#vPlay')) $('#vPlay').onclick=()=>startChain(c.id,true);
+}
+$('#mbox').addEventListener('click',e=>{ const t=e.target.closest('button.srgb'); if(!t||!view) return;
+  const n=t.closest('.sstep').querySelector('.snote'); if(!n) return; n.hidden=!n.hidden; t.setAttribute('aria-expanded',String(!n.hidden)); });
+
+document.addEventListener('keydown',e=>{
+  if(!$('#modal').hidden||e.defaultPrevented) return;   // Escape уже закрыл окошко
+  if(cur==='play'&&run){
+    if(!run.answered&&/^[1-4]$/.test(e.key)){ answer(+e.key-1); return; }
+    if(run.answered&&e.key==='Enter'&&document.activeElement!==$('#nextBtn')){ e.preventDefault(); next(); return; }
+  }
+  if(e.key==='Escape'&&REF){ try{ parent.document.querySelector('.back').click(); }catch(x){} return; }
+  if(e.key==='Escape'){ const b=['quitBtn','collBack','homeBtn'].map(id=>document.getElementById(id)).find(b=>b&&b.offsetParent!==null);
+    if(b){ e.preventDefault(); b.click(); } else location.href=document.querySelector('a.toHub').getAttribute('href'); }
+});
+
+/* ================= жизни ================= */
+function livesUI(){ const n=Lives.left(); $('#livesN').textContent=n===Infinity?'∞':n; $('#livesT').textContent=n<Lives.MAX?'+1 через '+Lives.wait():''; }
+function outOfLives(){
+  run=null;
+  $('#sumBox').innerHTML=`<span class="eyebrow">Жизни закончились</span>
+    <span class="big" style="color:#E0475B">♥ 0</span>
+    <p style="margin:0">Новая жизнь появится через <b id="oolT">${Lives.wait()}</b>. С премиумом жизни бесконечные во всех играх.</p>
+    <div class="chips"><button class="btn ghost" type="button" id="homeBtn">К заводу</button></div>`;
+  show('summary'); $('#homeBtn').onclick=()=>FIX?runQuit():show('home');
+}
+setInterval(()=>{ livesUI(); const o=document.getElementById('oolT'); if(o) o.textContent=Lives.wait(); },1000);
+
+/* ================= modal, nick ================= */
+function openModal(html){ $('#mbox').classList.remove('wide'); $('#mbox').innerHTML=html; $('#modal').hidden=false; const f=$('#mbox').querySelector('input,button'); if(f) f.focus({preventScroll:true}); }
+function closeModal(){ $('#modal').hidden=true; view=null; }
+$('#modal').addEventListener('click',e=>{ if(e.target.id==='modal'||e.target.closest('[data-close]')) closeModal(); });
+document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&!$('#modal').hidden){ e.preventDefault(); closeModal(); } },true);
+function openNick(){
+  openModal(`<h2>Как тебя называть?</h2><p class="muted" style="margin:0">Ник общий для всех игр.</p>
+    <input id="nickIn" maxlength="18" autocomplete="off" style="font:inherit;font-size:17px;padding:10px 12px;border-radius:10px;border:2px solid var(--line);background:var(--surface2);color:var(--ink)" placeholder="например, Цис-Изомер">
+    <p id="nickErr" style="margin:0;color:var(--bad);min-height:1.2em"></p>
+    <div class="mfoot"><button class="btn ghost" type="button" data-close>Отмена</button><button class="btn" type="button" id="nickSave">Сохранить</button></div>`);
+  const go=()=>{ const v=$('#nickIn').value.trim().replace(/\s+/g,' ');
+    if(v.length<2||!nickOk(v)){ $('#nickErr').textContent='Такой ник не подойдёт. Выбери другой (от 2 до 18 символов).'; return; }
+    state.nick=v; save(); closeModal(); renderHome(); toast(`Привет, ${v}!`); };
+  $('#nickSave').onclick=go; $('#nickIn').addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); go(); } });
+}
+$('#nickBtn').onclick=()=>state.nick?goProfile(GAME):openNick();
+
+/* ================= reset ================= */
+$('#resetBox').addEventListener('click',e=>{
+  if(e.target.id==='resetBtn'){ $('#resetBox').innerHTML='<span>Точно? Постройки, уровень, коллекция и чертежи обнулятся. Рейтинг и звание останутся.</span><button class="danger" type="button" id="resYes">Да, сбросить</button><button class="link" type="button" id="resNo">Отмена</button>'; return; }
+  if(e.target.id==='resYes'){ const bank=state.bank|0, nick=state.nick, coll=state.coll, topic=state.topic;
+    state=Object.assign(fresh(),{nick,coll,topic,bank,eco:2}); save(); toast('Прогресс сброшен'); }
+  if(e.target.id==='resYes'||e.target.id==='resNo'){ $('#resetBox').innerHTML='<button class="link" id="resetBtn" type="button">Сбросить прогресс</button>'; renderHome(); }
+});
+
+/* ================= toast ================= */
+let tt=null;
+function toast(m){ let t=$('.toast'); if(!t){ t=document.createElement('div'); t.className='toast'; t.setAttribute('role','status'); document.body.appendChild(t); } t.textContent=m; t.hidden=false; clearTimeout(tt); tt=setTimeout(()=>t.hidden=true,2400); }
+
+/* ================= boot ================= */
+/* в справочнике (?ref=1) - только коллекция: все цепочки открыты, без шапки, кнопок и прогресса */
+if(REF){ document.head.insertAdjacentHTML('beforeend','<style>header.top,a.toHub,#collBack,#modeSw,#collCnt2,#coll>.kbhead{display:none!important}body{padding-top:16px}</style>');
+  document.querySelector('#coll h2').textContent='Цепочки'; show('coll'); }
+else if(FIX) startFix(); else renderHome();
+window.addEventListener('pageshow',e=>{ if(e.persisted&&cur==='home') renderHome(); });
+</script>
+</body></html>

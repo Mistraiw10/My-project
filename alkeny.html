@@ -1,37 +1,41 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body><script>(function(){var K='dvoinaya-svyaz-v1',S='orgchem-nick',O=['aromadom-v1', 'alkiny-v1', 'alkadieny-v1'];try{var ls=localStorage,sh=ls.getItem(S);if(!sh){for(var i=0;i<O.length&&!sh;i++){try{var o=JSON.parse(ls.getItem(O[i])||'null');if(o&&o.nick)sh=o.nick;}catch(e){}}}var st=JSON.parse(ls.getItem(K)||'null')||{};if(sh&&!st.nick){st.nick=String(sh).slice(0,18);ls.setItem(K,JSON.stringify(st));}else if(sh&&st.nick&&st.nick!==sh){st.nick=String(sh).slice(0,18);ls.setItem(K,JSON.stringify(st));}var set=Storage.prototype.setItem;Storage.prototype.setItem=function(k,v){set.call(this,k,v);if(k===K){try{var n=JSON.parse(v).nick;if(n)set.call(this,S,n);}catch(e){}}};}catch(e){}})();</script><a href="hub" style="display:block;max-width:1060px;margin:0 auto;padding:12px 0 0;color:var(--muted);font:600 14px var(--f-body);text-decoration:none">← Все игры</a>
+<!doctype html><html><head><meta charset=utf8><link rel="manifest" href="manifest.webmanifest?v=2"><meta name="theme-color" content="#6650C9"><link rel="icon" href="icons/favicon.png?v=2"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=2"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Органика"><script>if('serviceWorker' in navigator&&location.protocol.indexOf('http')===0)navigator.serviceWorker.register('sw.js').catch(function(){})</script><script>try{var t=localStorage.getItem('organika-theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}if(location.protocol==='file:')document.addEventListener('DOMContentLoaded',function(){document.querySelectorAll('a[href="hub"]').forEach(function(a){a.setAttribute('href','hub.html')})});</script><script src="nickfilter.js?v=2"></script><script src="me.js?v=4"></script><script src="lives.js?v=2"></script><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body><script>(function(){var K='dvoinaya-svyaz-v1',S='orgchem-nick',O=['aromadom-v1', 'alkiny-v1', 'alkadieny-v1'];try{var ls=localStorage,sh=ls.getItem(S);if(!sh){for(var i=0;i<O.length&&!sh;i++){try{var o=JSON.parse(ls.getItem(O[i])||'null');if(o&&o.nick)sh=o.nick;}catch(e){}}}var st=JSON.parse(ls.getItem(K)||'null')||{};if(sh&&!st.nick){st.nick=String(sh).slice(0,18);ls.setItem(K,JSON.stringify(st));}else if(sh&&st.nick&&st.nick!==sh){st.nick=String(sh).slice(0,18);ls.setItem(K,JSON.stringify(st));}var set=Storage.prototype.setItem;Storage.prototype.setItem=function(k,v){set.call(this,k,v);if(k===K){try{var n=JSON.parse(v).nick;if(n)set.call(this,S,n);}catch(e){}}};}catch(e){}})();</script><a href="hub" style="display:block;max-width:1060px;margin:0 auto;padding:2px 0 14px;color:var(--muted);font:600 14px var(--f-body);text-decoration:none">← Все игры</a>
 <title>Алкены</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Russo+One&family=Golos+Text:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700&family=Nunito:wght@400;600;700;800&display=swap">
 <style>
-/* Layout: industrial-plant game. Header strip, scene card, then two columns (build list | play panel), quiz is its own screen */
+/* Layout: orangery game. Header strip, scene card, then two columns (build list | play panel), quiz is its own screen.
+   Palette «Апельсин»: warm cream background, orange accent, leaf-green secondary. */
 :root{
-  --bg:#E9EEF0; --surface:#FFFFFF; --surface2:#F2F5F6; --ink:#15232B; --muted:#5A6B74; --line:#D3DCE0;
-  --accent:#E2621B; --accent-ink:#FFFFFF; --accent-soft:#FCE6D8; --steel:#2F5566;
-  --good:#11865E; --good-bg:#DDF2E8; --bad:#C22F4A; --bad-bg:#FBE2E7; --star:#D99500;
-  --f-display:"Russo One","Arial Black",sans-serif; --f-body:"Golos Text","Segoe UI",system-ui,sans-serif;
-  --sc-wall:#D6DEE1; --sc-tile:#C5CFD3; --sc-floor:#9AA7AD; --sc-wood:#8B6040; --sc-wood2:#A97A52; --sc-dark:#2B3A42;
-  --sc-steel:#9FB3BD; --sc-steel2:#6E8793; --sc-glass:#DDF0F6; --sc-sky:#BFDCEB; --sc-ground:#A8B39A; --sc-road:#8E9785;
-  --sc-brick:#B5553A; --sc-brick2:#93412B; --sc-fire:#FFB52E; --sc-fire2:#F2672A; --sc-white:#F4F7F8; --sc-paper:#FBF9F3; --sc-ink:#1C2A31;
-  --sc-liq1:#3CB58C; --sc-liq2:#D9536F; --sc-liq3:#5B7FE0; --sc-orange:#E2621B; --sc-rail:#5B5F62; --sc-smoke:#E6ECEF;
+  --bg:#FFF3E8; --surface:#FFFFFF; --surface2:#FFF8F1; --ink:#3A2210; --muted:#8A6A55; --line:#F1DCC9;
+  --accent:#D46A2C; --accent-ink:#FFFFFF; --accent-soft:#FBE3D1; --steel:#678A58;
+  --good:#11865E; --good-bg:#DDF2E8; --bad:#C22F4A; --bad-bg:#FBE2E7; --star:#E89A0C;
+  --f-display:"Unbounded","Trebuchet MS",sans-serif; --f-body:"Nunito","Segoe UI",system-ui,sans-serif;
+  /* scene palette */
+  --sc-glass:#E4F4EE; --sc-frame:#FFFFFF; --sc-soil:#8A5A3C; --sc-soil2:#6E4630; --sc-pot:#CC7A50; --sc-pot2:#B0623D;
+  --sc-wood:#A86B3C; --sc-wood2:#C98B57; --sc-leaf:#6E9E5C; --sc-leaf2:#4F7F45; --sc-orange:#EE9A4E; --sc-orange2:#DA7436;
+  --sc-yellow:#F0CB5A; --sc-sky:#FFE6CF; --sc-sun:#FFCB6B; --sc-grass:#B5CF8E; --sc-grass2:#9ABB74; --sc-path:#EBD2AC;
+  --sc-water:#78AFD8; --sc-lamp:#EBA3CF; --sc-red:#D9634F; --sc-wall:#FFEBD6; --sc-white:#FFFFFF; --sc-ink:#3A2210; --sc-cream:#FFF8EE;
 }
 @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
-  --bg:#10181D; --surface:#1A252C; --surface2:#213039; --ink:#E5EDF0; --muted:#9AAEB7; --line:#2E3F48;
-  --accent:#FF8A47; --accent-ink:#1A1206; --accent-soft:#3D2717; --steel:#8FB6C7;
+  --bg:#1C130D; --surface:#271A12; --surface2:#31221A; --ink:#F7E9DC; --muted:#C2A48E; --line:#45301F;
+  --accent:#E8935C; --accent-ink:#1C130D; --accent-soft:#4A2A14; --steel:#93B585;
   --good:#4CD39F; --good-bg:#143A2C; --bad:#FF7C93; --bad-bg:#40202A; --star:#FFC23D;
-  --sc-wall:#5D6E76; --sc-tile:#53636B; --sc-floor:#45535A; --sc-wood:#6A4630; --sc-wood2:#7F5A3D; --sc-dark:#1A2429;
-  --sc-steel:#7F95A0; --sc-steel2:#566E7A; --sc-glass:#9CC0CC; --sc-sky:#3C5E70; --sc-ground:#56634D; --sc-road:#4A5444;
-  --sc-brick:#8E4430; --sc-brick2:#6F3322; --sc-white:#C9D3D7; --sc-paper:#D6D3CA; --sc-ink:#141C20; --sc-rail:#2E3134; --sc-smoke:#7E8D94;
+  --sc-glass:#24443F; --sc-frame:#D9C9B8; --sc-soil:#4A3020; --sc-soil2:#3A2418; --sc-pot:#A9532D; --sc-pot2:#8A4222;
+  --sc-wood:#7A4D2A; --sc-wood2:#94643C; --sc-leaf:#4F7F45; --sc-leaf2:#3B6334; --sc-orange:#E39A5E; --sc-orange2:#D9803F;
+  --sc-yellow:#DDBB5C; --sc-sky:#3A2A2E; --sc-sun:#F2B04A; --sc-grass:#46603A; --sc-grass2:#3A5230; --sc-path:#6B5440;
+  --sc-water:#4A90C8; --sc-lamp:#C98AB4; --sc-red:#D9483A; --sc-wall:#3A2A20; --sc-white:#E9DCCF; --sc-ink:#1C120C; --sc-cream:#4A382B;
   color-scheme:dark;
 }}
 :root[data-theme="dark"]{
-  --bg:#10181D; --surface:#1A252C; --surface2:#213039; --ink:#E5EDF0; --muted:#9AAEB7; --line:#2E3F48;
-  --accent:#FF8A47; --accent-ink:#1A1206; --accent-soft:#3D2717; --steel:#8FB6C7;
+  --bg:#1C130D; --surface:#271A12; --surface2:#31221A; --ink:#F7E9DC; --muted:#C2A48E; --line:#45301F;
+  --accent:#E8935C; --accent-ink:#1C130D; --accent-soft:#4A2A14; --steel:#93B585;
   --good:#4CD39F; --good-bg:#143A2C; --bad:#FF7C93; --bad-bg:#40202A; --star:#FFC23D;
-  --sc-wall:#5D6E76; --sc-tile:#53636B; --sc-floor:#45535A; --sc-wood:#6A4630; --sc-wood2:#7F5A3D; --sc-dark:#1A2429;
-  --sc-steel:#7F95A0; --sc-steel2:#566E7A; --sc-glass:#9CC0CC; --sc-sky:#3C5E70; --sc-ground:#56634D; --sc-road:#4A5444;
-  --sc-brick:#8E4430; --sc-brick2:#6F3322; --sc-white:#C9D3D7; --sc-paper:#D6D3CA; --sc-ink:#141C20; --sc-rail:#2E3134; --sc-smoke:#7E8D94;
+  --sc-glass:#24443F; --sc-frame:#D9C9B8; --sc-soil:#4A3020; --sc-soil2:#3A2418; --sc-pot:#A9532D; --sc-pot2:#8A4222;
+  --sc-wood:#7A4D2A; --sc-wood2:#94643C; --sc-leaf:#4F7F45; --sc-leaf2:#3B6334; --sc-orange:#E39A5E; --sc-orange2:#D9803F;
+  --sc-yellow:#DDBB5C; --sc-sky:#3A2A2E; --sc-sun:#F2B04A; --sc-grass:#46603A; --sc-grass2:#3A5230; --sc-path:#6B5440;
+  --sc-water:#4A90C8; --sc-lamp:#C98AB4; --sc-red:#D9483A; --sc-wall:#3A2A20; --sc-white:#E9DCCF; --sc-ink:#1C120C; --sc-cream:#4A382B;
   color-scheme:dark;
 }
 *{box-sizing:border-box}
@@ -40,7 +44,7 @@ body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:1
 .wrap{max-width:1060px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
 button{font:inherit;color:inherit;cursor:pointer}
 button:focus-visible,input:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
-h1,h2,h3{font-family:var(--f-display);font-weight:400;margin:0;text-wrap:balance;letter-spacing:.01em}
+h1,h2,h3{font-family:var(--f-display);font-weight:700;margin:0;text-wrap:balance;letter-spacing:-.01em}
 sub{font-size:.72em;line-height:0}
 .muted{color:var(--muted)}
 /* header */
@@ -58,17 +62,22 @@ sub{font-size:.72em;line-height:0}
 .mode button[aria-checked="true"]{background:var(--steel);color:var(--surface)}
 .nick{background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-weight:600;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 /* home */
-.scene{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden}
-.scene svg{display:block;width:100%;height:auto;max-height:340px}
+.scene{background:var(--surface);border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:0 8px 24px -14px color-mix(in srgb,var(--accent) 45%,transparent)}
+.scene svg{display:block;width:100%;height:auto}
 .scene .cap{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 14px;border-top:1px solid var(--line);flex-wrap:wrap}
 .scene .cap b{font-family:var(--f-display);font-weight:400}
 .tabs{display:flex;gap:8px;flex-wrap:wrap}
 .tab{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:8px 12px;font-weight:600;font-size:14px}
 .tab[aria-selected="true"]{background:var(--steel);color:var(--surface);border-color:var(--steel)}
 .tab:disabled{opacity:.5;cursor:not-allowed}
+.tab .cnt{font-weight:600;opacity:.75}
+.pill.lives .heart{width:16px;height:16px;fill:#E0475B;flex:none;display:block}
+.pill.lives b,.pill.lives>span:not(.heart){line-height:1}
+.pill.lives small:empty{display:none}
+.pill.lives small{font-weight:600;color:var(--muted);font-size:12.5px}
 .grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:16px;align-items:start}
 @media (max-width:760px){.grid{grid-template-columns:minmax(0,1fr)}.panel{order:-1}}
-.box{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.box{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:18px;display:flex;flex-direction:column;gap:12px;min-width:0}
 .box h2{font-size:17px}
 .ups{display:flex;flex-direction:column;gap:8px}
 .up{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--surface2)}
@@ -79,12 +88,14 @@ sub{font-size:.72em;line-height:0}
 .done{color:var(--good);font-weight:700;white-space:nowrap}
 .lvl{display:flex;align-items:baseline;gap:10px}
 .lvl b{font-family:var(--f-display);font-size:34px;font-weight:400;line-height:1;font-variant-numeric:tabular-nums}
-.btn{border:0;border-radius:10px;padding:12px 16px;font-weight:700;font-size:16px;background:var(--accent);color:var(--accent-ink);text-align:left;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.btn{border:0;border-radius:14px;padding:12px 16px;font-weight:700;font-size:16px;background:var(--accent);color:var(--accent-ink);text-align:left;display:flex;justify-content:space-between;align-items:center;gap:8px}
 .btn small{font-weight:500;font-size:13px;opacity:.85}
 .btn.alt{background:var(--steel);color:var(--surface)}
 .btn.ghost{background:var(--surface2);color:var(--ink);border:1px solid var(--line)}
 .btn:disabled{opacity:.55;cursor:not-allowed}
 .rules{font-size:13.5px;color:var(--muted);margin:0}
+ul.rules{padding-left:18px;display:flex;flex-direction:column;gap:4px}
+ul.rules li::marker{color:var(--accent)}
 .reset{margin-top:6px;padding-top:12px;border-top:1px dashed var(--line);display:flex;gap:8px;flex-wrap:wrap;align-items:center;font-size:13px}
 .link{background:none;border:0;padding:0;color:var(--muted);text-decoration:underline;text-underline-offset:3px}
 .danger{background:var(--bad);color:#fff;border:0;border-radius:8px;padding:6px 10px;font-weight:700}
@@ -93,7 +104,7 @@ sub{font-size:.72em;line-height:0}
 .dots{display:flex;gap:5px;flex-wrap:wrap}
 .dots i{width:12px;height:12px;border-radius:3px;background:var(--line)}
 .dots i.ok{background:var(--good)} .dots i.no{background:var(--bad)} .dots i.cur{outline:2px solid var(--accent);outline-offset:1px}
-.qcard{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:14px}
+.qcard{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:18px;display:flex;flex-direction:column;gap:14px}
 .eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700}
 .rx{display:flex;align-items:center;gap:14px;flex-wrap:wrap;justify-content:center;padding:14px 4px 6px}
 .cmp{display:flex;flex-direction:column;align-items:center;gap:2px;min-width:0;text-align:center}
@@ -147,12 +158,13 @@ i.st{font-style:italic;font-weight:500}
 /* kb */
 .kbhead{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 .back{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:8px 12px;font-weight:700}
+#kb{width:100%;align-self:stretch}   /* справочник на всю ширину страницы, а не по содержимому */
 .kgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}
 .kc{border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:12px 14px;text-align:left;display:flex;flex-direction:column;gap:6px;min-width:0}
 .kc h3{font-family:var(--f-body);font-weight:700;font-size:14.5px}
 .kc .mini{font-size:14px;line-height:2;color:var(--muted);overflow-x:auto;white-space:nowrap}
 .kc .stat{font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums}
-.kc.locked{background:var(--surface2);border-style:dashed;cursor:default;align-items:center;justify-content:center;min-height:96px;color:var(--muted)}
+.kc.locked{background:var(--surface2);border-style:dashed;cursor:default;align-items:center;justify-content:center;min-height:96px;color:var(--muted);text-align:center;gap:2px}
 .kc.locked .q{font-family:var(--f-display);font-size:26px}
 .gtag{font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;font-weight:700;color:var(--steel)}
 .kc:not(.locked):hover{border-color:var(--accent)}
@@ -203,34 +215,50 @@ i.st{font-style:italic;font-weight:500}
 .lt{color:var(--accent);font-family:var(--f-display);font-weight:400}
 .note2{font-size:14px;color:var(--muted)}
 @media (prefers-reduced-motion:reduce){.tierb i::after{transition:none}}
+/* особые вопросы: подсвеченные атомы А и Б */
+.mkc{position:relative;display:inline-block;border-radius:8px;padding:0 4px;margin:0 1px}
+.mkc.a{background:color-mix(in srgb,var(--accent) 20%,transparent)} .mkc.b{background:color-mix(in srgb,var(--steel) 22%,transparent)}
+.mkc b{position:absolute;left:50%;top:-.95em;transform:translateX(-50%);font-family:var(--f-display);font-size:.5em;line-height:1.4;padding:0 .45em;border-radius:6px;color:#fff}
+.mkc.a b,.mkt.a{background:var(--accent)} .mkc.b b,.mkt.b{background:var(--steel)}
+.mkt{display:inline-grid;place-items:center;min-width:24px;height:24px;border-radius:6px;color:#fff;font-family:var(--f-display);font-size:12px;margin-right:4px;vertical-align:middle}
+.fx.mkfx{padding-top:.75em};font-size:24px;color:var(--muted)}
+.mkq{margin:0;text-align:center;font-weight:700;font-size:16px}
+.opt small.on{font-family:var(--f-body);font-size:13px;font-weight:600;color:var(--muted)}
 </style>
 
 <div class="wrap">
   <header class="top">
     <div class="logo"><span class="badge" aria-hidden="true">C<sub>n</sub>H<sub>2n</sub></span><h1>Алкены</h1></div>
     <span class="pill" title="Звёзды"><span class="st">★</span><span id="stars">0</span></span>
+    <span class="pill" title="Уровень"><small class="muted" style="font-weight:600">уровень</small><b id="lvlTop">1</b></span>
+    <span class="pill lives" id="livesPill" title="Жизни - общие для Алкенов, Алкинов и Алкадиенов"><svg class="heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.6-4.6-9.5-9.3C1.2 8 3.1 4.5 6.6 4.5c2.2 0 3.7 1.3 5.4 3.2 1.7-1.9 3.2-3.2 5.4-3.2 3.5 0 5.4 3.5 4.1 6.7-1.9 4.7-9.5 9.3-9.5 9.3z"/></svg><b id="livesN">5</b><small id="livesT"></small></span>
     <div class="mode" role="radiogroup" aria-label="Режим игры" id="modeSw"><button type="button" role="radio" data-mode="novice" title="Реакции открываются постепенно">Новичок</button><button type="button" role="radio" data-mode="pro" title="Все реакции открыты, сам выбираешь, какие тренировать">Про</button></div>
     <button class="nick" id="nickBtn" type="button">Ввести ник</button>
   </header>
 
   <!-- HOME -->
   <main id="home" class="wrap" style="gap:16px">
-    <section class="scene" aria-label="Твоя площадка">
+    <section class="scene" aria-label="Твоя оранжерея">
       <div id="sceneSvg"></div>
-      <div class="cap"><b id="locTitle">Лаборатория</b><span class="muted" id="locProg"></span></div>
+      <div class="cap"><b id="locTitle">Теплица</b><span class="muted" id="locProg"></span></div>
     </section>
     <div class="tabs" role="tablist" id="locTabs"></div>
     <div class="grid">
       <section class="box">
-        <h2 id="upTitle">Обустрой лабораторию</h2>
+        <h2 id="upTitle">Обустрой теплицу</h2>
         <div class="ups" id="ups"></div>
       </section>
       <section class="box panel">
-        <div class="lvl"><b id="lvl">1</b><span class="muted" id="lvlNote">уровень</span></div>
-        <button class="btn" id="playBtn" type="button">Играть уровень <small>8 заданий</small></button>
+        
+        <button class="btn" id="playBtn" type="button"><span id="playLbl">Играть · уровень 1</span> <small>8 заданий</small></button>
         <button class="btn alt" id="chainBtn" type="button">Цепочка <small id="chainNote"></small></button>
         <button class="btn ghost" id="kbBtn" type="button">Справочник реакций <small id="kbCount"></small></button>
-        <p class="rules">Задания двух типов: подобрать реагенты к превращению или предсказать органический продукт по реагентам. За верный ответ - звезда, за уровень без ошибок - ещё три. Звёзды тратятся на стройку. Клавиши 1-4 выбирают вариант, Enter - дальше.</p>
+        <ul class="rules">
+          <li id="rule1">Каждый уровень - 8 заданий: реагенты, продукты и два коротких вопроса на правила Марковникова и Зайцева.</li>
+          <li>За каждый верный ответ получаешь звезду, а за уровень без единой ошибки - ещё три сверху.</li>
+          <li>На звёзды обустраивай оранжерею: от теплицы до фруктовой лавки.</li>
+          <li>Отвечать можно клавишами 1-4, Enter - следующий вопрос.</li>
+        </ul>
         <div class="reset" id="resetBox"><button class="link" id="resetBtn" type="button">Сбросить прогресс</button></div>
       </section>
     </div>
@@ -259,7 +287,7 @@ i.st{font-style:italic;font-weight:500}
   <!-- KB -->
   <main id="kb" hidden class="wrap" style="gap:14px">
     <div class="kbhead">
-      <button class="back" id="kbBack" type="button">← На площадку</button>
+      <button class="back" id="kbBack" type="button">← В оранжерею</button>
       <h2 style="font-size:20px">Справочник реакций</h2>
       <span class="muted" id="kbCount2"></span>
     </div>
@@ -742,89 +770,124 @@ const CH=[
 
 /* ================= locations ================= */
 const LOCS=[
- {id:'lab',name:'Лаборатория',verb:'Обустрой лабораторию',items:[
-   {id:'hood',n:'Вытяжной шкаф',d:'Без него с Br₂ и NOCl лучше не работать.',p:2},
-   {id:'poster',n:'Плакат «C=C»',d:'σ- и π-связь на стене - чтобы не забывать.',p:3},
-   {id:'still',n:'Установка для перегонки',d:'Отгонять этилен из этанола с H₂SO₄.',p:3},
-   {id:'shelf',n:'Полка с реактивами',d:'KMnO₄, NBS, mCPBA и прочие друзья.',p:4},
-   {id:'gc',n:'Газовый хроматограф',d:'Отличит цис- от транс-бутена по времени удерживания.',p:5}]},
- {id:'cracker',name:'Установка пиролиза',verb:'Построй установку пиролиза',items:[
-   {id:'furnace',n:'Печь пиролиза',d:'Этан при 850 °C превращается в этилен.',p:5},
-   {id:'column',n:'Ректификационная колонна',d:'Делит этилен, пропен и бутены.',p:6},
-   {id:'sphere',n:'Шаровой газгольдер',d:'Хранит сжиженный пропен.',p:6},
-   {id:'compressor',n:'Компрессор',d:'Гонит пирогаз через всю установку.',p:7},
-   {id:'flare',n:'Факел',d:'Сжигает сбросы при аварийной остановке.',p:8}]},
- {id:'poly',name:'Полимерный завод',verb:'Запусти полимерный завод',items:[
-   {id:'reactor',n:'Реактор Циглера-Натта',d:'TiCl₄ + AlEt₃ - и этилен становится полиэтиленом.',p:8},
-   {id:'extruder',n:'Экструдер плёнки',d:'Выдувает рукав из расплава полиэтилена.',p:9},
-   {id:'silo',n:'Силосы для гранул',d:'Тонны белых гранул ПЭ и ПП.',p:10},
-   {id:'tank',n:'Вагон-цистерна',d:'Возит сжиженный пропен по железной дороге.',p:11},
-   {id:'sign',n:'Вывеска завода',d:'С твоим ником на фасаде.',p:13}]}
+ {id:'greenhouse',name:'Теплица',verb:'Обустрой теплицу',items:[
+   {id:'pots',n:'Рассада апельсинов',d:'Пока деревца по колено, но уже пахнут цитрусом.',p:2},
+   {id:'lamp',n:'Фитолампы',d:'Розовый свет: растениям нужны красные и синие лучи.',p:3},
+   {id:'water',n:'Бочка и лейка',d:'Чтобы поливать рассаду каждое утро.',p:3},
+   {id:'thermo',n:'Термометр',d:'В теплице держим +25 °C.',p:4},
+   {id:'bee',n:'Улей со шмелями',d:'Опыление цветов - секрет хорошего урожая.',p:5}]},
+ {id:'orchard',name:'Апельсиновый сад',verb:'Вырасти сад',items:[
+   {id:'tree1',n:'Апельсиновое дерево',d:'Первые спелые апельсины!',p:5},
+   {id:'tree2',n:'Лимонное дерево',d:'Лимоны тоже цитрусовые и тоже любят тепло.',p:6},
+   {id:'ladder',n:'Стремянка и корзина',d:'Собирать урожай с верхних веток.',p:6},
+   {id:'path',n:'Дорожка с фонарями',d:'Чтобы гулять по саду вечером.',p:7},
+   {id:'gazebo',n:'Беседка',d:'Отдохнуть в тени после уровня.',p:8}]},
+ {id:'shop',name:'Фруктовая лавка',verb:'Открой фруктовую лавку',items:[
+   {id:'ripen',n:'Камера дозревания',d:'Немного этилена (C₂H₄) - и зелёные бананы желтеют за сутки. Этилен - гормон созревания плодов.',p:8},
+   {id:'crates',n:'Ящики с фруктами',d:'Апельсины, яблоки и лимоны.',p:9},
+   {id:'juicer',n:'Соковыжималка',d:'Свежевыжатый апельсиновый сок.',p:10},
+   {id:'awning',n:'Полосатый навес',d:'Оранжево-белый, конечно.',p:11},
+   {id:'sign',n:'Вывеска лавки',d:'С твоим ником.',p:13}]}
 ];
 const ITEM=Object.fromEntries(LOCS.flatMap(l=>l.items.map(i=>[i.id,i])));
+/* старые постройки (лаборатория, пиролиз, полимерный завод) переходят в оранжерею по порядку - цены те же */
+const OLD_ITEMS={hood:'pots',poster:'lamp',still:'water',shelf:'thermo',gc:'bee',furnace:'tree1',column:'tree2',sphere:'ladder',compressor:'path',flare:'gazebo',reactor:'ripen',extruder:'crates',silo:'juicer',tank:'awning'};
 
 /* ================= state ================= */
 const KEY='dvoinaya-svyaz-v1';
 const fresh=()=>({nick:'',stars:0,level:1,owned:[],stats:{},seen:[],loc:0,chains:{},off:[],mode:'novice'});
 let state=fresh();
 try{const s=JSON.parse(localStorage.getItem(KEY)||'null'); if(s) state=Object.assign(fresh(),s);}catch(e){}
+state.owned=state.owned.map(id=>OLD_ITEMS[id]||id);
 /* общий ник для всех игр, выбирается в хабе (hub.html) */
 const NICK='organika-nick';
-try{const g=localStorage.getItem(NICK); if(g) state.nick=g; else if(state.nick) localStorage.setItem(NICK,state.nick);}catch(e){}
+try{const g=localStorage.getItem(NICK); if(g&&nickOk(g)) state.nick=g; else { if(g) localStorage.removeItem(NICK); if(state.nick&&!nickOk(state.nick)) state.nick=''; if(state.nick) localStorage.setItem(NICK,state.nick); }}catch(e){}
 /* ?ref=1 - режим справочника для хаба: открыто всё, без шапки, ничего не меняется */
 const REF=new URLSearchParams(location.search).has('ref');
-if(REF){document.documentElement.classList.add('ref'); document.head.insertAdjacentHTML('beforeend','<style>header.top,a[href="hub"],#kb .kbhead,#kbTiers,#kbTools,.inq,.thead>span,.jump small,.incl,.offtag,.toff{display:none!important}</style>');}
+if(REF){document.documentElement.classList.add('ref'); document.head.insertAdjacentHTML('beforeend','<style>header.top,a[href="hub"],a[href="hub.html"],#kb .kbhead,#kbTiers,#kbTools,.inq,.thead>span,.jump small,.incl,.offtag,.toff{display:none!important}</style>');}
+/* Без входа в аккаунт открыт только Аромадом. Справочник (?ref=1) открыт всем. */
+const SIGNED=(()=>{ try{ return !!JSON.parse(localStorage.getItem('organika-session')||'null'); }catch(e){ return false; } })();
+if(!REF&&!SIGNED){
+  const hubUrl=(location.protocol==='file:'?'hub.html':'hub')+'?login=1';
+  document.body.insertAdjacentHTML('beforeend',`<div class="gate" style="position:fixed;inset:0;z-index:100;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(5px);display:grid;place-items:center;padding:16px">
+    <div style="background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:24px;max-width:420px;width:100%;display:flex;flex-direction:column;gap:12px;text-align:center"><style>.aro-btn{display:block;text-align:center;padding:11px 16px;border-radius:12px;font-weight:700;text-decoration:none;background:color-mix(in srgb,#6A4FD6 13%,var(--surface));color:#5B3FD1;border:2px solid color-mix(in srgb,#6A4FD6 40%,transparent)}@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .aro-btn{color:#B9ABFF}}:root[data-theme="dark"] .aro-btn{color:#B9ABFF}</style><h2 style="font-size:20px">Нужен вход в аккаунт</h2><p style="margin:0;color:var(--muted)">Эта игра открывается после входа.<br>Войди, чтобы открыть все игры и не потерять прогресс.</p><p style="margin:0;color:var(--muted)">Без аккаунта можно играть в Аромадом.</p><a class="aro-btn" href="aromadom.html">Играть в Аромадом</a><a class="btn" href="${hubUrl}" style="justify-content:center;text-decoration:none;margin-top:2px">Войти</a></div></div>`);
+}
 /* сводка для хаба: прогресс, последняя игра, дни занятий */
 /* облако (вход, резервная копия, рейтинг) - необязательно, без него всё работает */
-if(!REF){ const cs=document.createElement('script'); cs.src='cloud.js?v=3'; document.head.appendChild(cs); }
+if(!REF){ const cs=document.createElement('script'); cs.src='cloud.js?v=8'; document.head.appendChild(cs); }
 const GAME='alkeny';
 function hubSync(){ if(REF) return; try{
   const H=JSON.parse(localStorage.getItem('organika-hub')||'{}'), d=new Date();
   const day=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
   const spent=state.owned.reduce((a,id)=>a+((ITEM[id]||{}).p||0),0);
-  const prevE=((H.games||{})[GAME]||{}).earned, newE=state.stars+spent;
-  if(prevE!=null&&newE>prevE){ H.sd=H.sd||{}; const b=H.sd[day]=H.sd[day]||{}; b[GAME]=(b[GAME]||0)+newE-prevE; }   // звёзды по дням - для рейтинга недели
-  H.games=Object.assign(H.games||{},{[GAME]:{stars:state.stars,earned:state.stars+spent,level:state.level,open:state.seen.length,total:R.length,t:Date.now()}});
-  H.last=GAME; H.days=[...new Set([...(H.days||[]),day])].slice(-400);
+  const prevE=((H.games||{})[GAME]||{}).earned, newE=state.stars+spent+(state.bank|0);   // bank - звёзды, заработанные до сброса прогресса: звание и рейтинг их не теряют
+  if(prevE!=null&&newE>prevE){ H.sd=H.sd||{}; const b=H.sd[day]=H.sd[day]||{}; b[GAME]=(b[GAME]||0)+newE-prevE;
+    const hk=new Date(Math.floor(Date.now()/36e5)*36e5).toISOString(); H.sh=H.sh||{}; const hb=H.sh[hk]=H.sh[hk]||{}; hb[GAME]=(hb[GAME]||0)+newE-prevE; }   // и по часам - для лимита рейтинга 150 звёзд в час   // звёзды по дням - для рейтинга недели
+  H.games=Object.assign(H.games||{},{[GAME]:{stars:state.stars,earned:newE,level:state.level,open:state.seen.length,total:R.length,t:Date.now()}});
+  H.wn=H.wn||{}; H.wn[GAME]=Object.fromEntries(Object.keys(state.stats).filter(id=>state.stats[id].w>0&&RM[id]).map(id=>[id,RM[id].name]));   // подписи сорняков для сада
+  if(!new URLSearchParams(location.search).has('fix')) H.last=GAME; H.days=[...new Set([...(H.days||[]),day])].slice(-400);
   localStorage.setItem('organika-hub',JSON.stringify(H)); if(window.Cloud) Cloud.queue(GAME); }catch(e){} }
 function save(){if(REF) return; try{localStorage.setItem(KEY,JSON.stringify(state)); if(state.nick) localStorage.setItem(NICK,state.nick);}catch(e){} hubSync();}
 
 /* ================= scene drawing ================= */
 const rc=(x,y,w,h,c,rx=0,ex='')=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${rx}" style="fill:var(--${c})" ${ex}/>`;
 const ci=(x,y,r,c,ex='')=>`<circle cx="${x}" cy="${y}" r="${r}" style="fill:var(--${c})" ${ex}/>`;
+const el=(x,y,rx,ry,c,ex='')=>`<ellipse cx="${x}" cy="${y}" rx="${rx}" ry="${ry}" style="fill:var(--${c})" ${ex}/>`;
 const pa=(d,c,ex='')=>`<path d="${d}" style="fill:var(--${c})" ${ex}/>`;
 const st=(d,c,w=2,ex='')=>`<path d="${d}" style="fill:none;stroke:var(--${c});stroke-width:${w}" stroke-linecap="round" stroke-linejoin="round" ${ex}/>`;
-const tx=(x,y,t,c,size,ex='')=>`<text x="${x}" y="${y}" style="fill:var(--${c});font-family:var(--f-display);font-size:${size}px" text-anchor="middle" ${ex}>${t}</text>`;
-const flame=(x,y,s)=>`<g class="flame">${pa(`M${x} ${y} C${x-8*s} ${y-8*s} ${x-3*s} ${y-16*s} ${x} ${y-24*s} C${x+3*s} ${y-16*s} ${x+8*s} ${y-8*s} ${x} ${y} Z`,'sc-fire2')}${pa(`M${x} ${y} C${x-4*s} ${y-5*s} ${x-1.5*s} ${y-10*s} ${x} ${y-15*s} C${x+1.5*s} ${y-10*s} ${x+4*s} ${y-5*s} ${x} ${y} Z`,'sc-fire')}</g>`;
+const tx=(x,y,t,c,size,ex='')=>`<text x="${x}" y="${y}" style="fill:var(--${c});font-family:var(--f-display);font-weight:700;font-size:${size}px" text-anchor="middle" ${ex}>${t}</text>`;
+/* плод с бликом */
+const fr=(x,y,r=5,c='sc-orange')=>ci(x,y,r,c)+ci(x-r*.35,y-r*.35,r*.32,'sc-white','opacity=".5"');
+const lemon=(x,y)=>el(x,y,6,4.5,'sc-yellow')+ci(x-2,y-1.5,1.4,'sc-white','opacity=".5"');
+const leaf=(x,y,a,c='sc-leaf')=>el(x,y,7,3.6,c,`transform="rotate(${a} ${x} ${y})"`);
+const crown=(x,y,fruit)=>ci(x-24,y+14,22,'sc-leaf2')+ci(x+24,y+12,22,'sc-leaf2')+ci(x,y,40,'sc-leaf')+ci(x-6,y-18,24,'sc-leaf')+
+  [[-17,-4],[11,-12],[21,18],[-9,22],[3,8],[-27,18],[27,-2]].map(([dx,dy])=>fruit(x+dx,y+dy)).join('');
 
 const BASE={
- lab:()=>{let s=rc(0,0,400,160,'sc-wall'); for(let y=20;y<160;y+=20) s+=st(`M0 ${y} H400`,'sc-tile',1); s+=rc(0,160,400,60,'sc-floor');
-   s+=rc(105,112,285,8,'sc-dark',2)+rc(112,120,271,40,'sc-wood')+st('M202 124 V156 M292 124 V156','sc-wood2',2)+rc(150,136,20,3,'sc-wood2',1)+rc(240,136,20,3,'sc-wood2',1)+rc(330,136,20,3,'sc-wood2',1); return s;},
- cracker:()=>rc(0,0,400,172,'sc-sky')+ci(352,36,14,'sc-white','opacity=".7"')+rc(0,170,400,50,'sc-ground')+rc(0,196,400,8,'sc-road'),
- poly:()=>rc(0,0,400,172,'sc-sky')+rc(0,170,400,50,'sc-ground')+st('M0 200 H400 M0 210 H400','sc-rail',2)+Array.from({length:20},(_,i)=>rc(i*20+4,198,6,14,'sc-rail',1,'opacity=".6"')).join('')
+ greenhouse:()=>rc(0,0,400,172,'sc-glass')+st('M0 26 Q200 -8 400 26','sc-frame',3)+st('M0 64 H400','sc-frame',2)+
+   [80,160,240,320].map(x=>st(`M${x} 0 V172`,'sc-frame',3)).join('')+
+   rc(0,170,400,50,'sc-soil')+[30,90,150,250,310,370].map((x,i)=>ci(x,186+(i%2)*14,2,'sc-soil2')).join('')+
+   rc(16,140,368,8,'sc-wood',2)+rc(26,148,6,22,'sc-wood2')+rc(197,148,6,22,'sc-wood2')+rc(368,148,6,22,'sc-wood2'),
+ orchard:()=>rc(0,0,400,172,'sc-sky')+ci(150,32,18,'sc-sun')+pa('M0 150 Q100 112 200 140 T400 128 V172 H0 Z','sc-grass2')+rc(0,164,400,56,'sc-grass')+
+   [20,60,280,375].map((x,i)=>leaf(x,190+(i%2)*12,-20,'sc-grass2')).join(''),
+ shop:()=>rc(0,0,400,172,'sc-wall')+[40,80,120,160].map(y=>st(`M0 ${y} H400`,'sc-cream',1.5)).join('')+
+   rc(0,170,400,50,'sc-wood2')+[184,200].map(y=>st(`M0 ${y} H400`,'sc-wood',1)).join('')+
+   rc(96,118,258,8,'sc-wood2',2)+rc(100,126,250,44,'sc-wood',3)+st('M183 130 V166 M267 130 V166','sc-wood2',2)
 };
 const DRAW={
- hood:()=>rc(30,6,46,14,'sc-steel2',2)+rc(10,20,86,140,'sc-steel',4)+rc(18,32,70,76,'sc-glass',2)+rc(18,60,70,4,'sc-steel2')+ci(40,96,7,'sc-liq1')+rc(38,82,4,10,'sc-glass','0','style="fill:var(--sc-glass);stroke:var(--sc-steel2)"')+rc(58,88,14,18,'sc-liq2',2)+rc(18,108,70,8,'sc-dark')+rc(18,120,70,36,'sc-steel2',2)+st('M53 124 V152','sc-steel',2),
- poster:()=>rc(112,14,62,50,'sc-paper',3)+`<ellipse cx="143" cy="27" rx="12" ry="7" style="fill:var(--sc-orange);opacity:.8"/><ellipse cx="143" cy="51" rx="12" ry="7" style="fill:var(--sc-liq3);opacity:.8"/>`+tx(143,45,'C=C','sc-ink',15),
- still:()=>rc(154,66,3,46,'sc-steel2')+rc(150,76,14,3,'sc-steel2')+rc(160,98,32,14,'sc-dark',3)+ci(176,90,11,'sc-glass','style="fill:var(--sc-glass);stroke:var(--sc-steel2);stroke-width:1.5"')+pa('M166 93 A11 11 0 0 0 186 93 Z','sc-liq1')+rc(173,70,6,12,'sc-glass','0','style="fill:var(--sc-glass);stroke:var(--sc-steel2);stroke-width:1.5"')+st('M178 73 L232 96','sc-steel2',8)+st('M178 73 L232 96','sc-glass',4)+ci(236,104,7,'sc-glass','style="fill:var(--sc-glass);stroke:var(--sc-steel2);stroke-width:1.5"')+pa('M230 106 A7 7 0 0 0 242 106 Z','sc-liq1'),
- shelf:()=>rc(208,62,96,4,'sc-wood')+rc(214,66,3,8,'sc-wood')+rc(295,66,3,8,'sc-wood')+rc(214,42,10,20,'sc-liq2',2)+rc(216,38,6,4,'sc-dark')+rc(230,36,13,26,'sc-glass',2,'style="fill:var(--sc-glass);stroke:var(--sc-steel2)"')+rc(231,48,11,13,'sc-liq3',1)+rc(250,46,10,16,'sc-dark',2)+rc(266,40,12,22,'sc-liq1',2)+rc(268,36,8,4,'sc-dark')+rc(284,48,10,14,'sc-orange',2),
- gc:()=>rc(292,76,82,36,'sc-steel',4)+rc(300,82,36,22,'sc-dark',2)+st('M303 100 L310 100 L312 86 L314 100 L321 100 L323 92 L325 100 L333 100','sc-liq1',1.5)+ci(348,88,3.5,'sc-orange')+ci(360,88,3.5,'sc-steel2')+rc(342,96,26,10,'sc-steel2',2),
- furnace:()=>rc(80,36,14,58,'sc-steel2')+ci(87,26,8,'sc-smoke','opacity=".8"')+ci(96,14,10,'sc-smoke','opacity=".6"')+rc(20,92,92,78,'sc-brick',3)+st('M20 112 H112 M20 132 H112 M20 152 H112 M50 92 V112 M80 112 V132 M50 132 V152 M80 152 V170','sc-brick2',1.5)+rc(36,118,58,26,'sc-dark',3)+flame(52,142,1)+flame(66,142,1.2)+flame(80,142,0.9),
- column:()=>rc(112,138,22,6,'sc-steel2')+rc(134,24,26,146,'sc-steel',3)+`<ellipse cx="147" cy="24" rx="13" ry="6" style="fill:var(--sc-steel)"/>`+rc(126,62,42,3,'sc-steel2')+rc(126,108,42,3,'sc-steel2')+st('M164 30 V170 M170 30 V170','sc-steel2',1.5)+st('M164 40 H170 M164 52 H170 M164 76 H170 M164 88 H170 M164 120 H170 M164 132 H170 M164 146 H170 M164 158 H170','sc-steel2',1),
- sphere:()=>rc(196,128,4,42,'sc-steel2')+rc(240,128,4,42,'sc-steel2')+rc(218,134,4,36,'sc-steel2')+ci(220,110,36,'sc-white')+`<ellipse cx="220" cy="110" rx="36" ry="6" style="fill:none;stroke:var(--sc-steel);stroke-width:1.5"/>`+ci(208,96,8,'sc-glass','opacity=".7"'),
- compressor:()=>rc(266,140,60,30,'sc-steel2',3)+rc(298,126,30,18,'sc-orange',3)+ci(282,155,9,'sc-dark')+st('M282 148 V162 M275 155 H289','sc-steel',1.5),
- flare:()=>rc(355,30,8,140,'sc-steel')+[40,64,88,112,136].map(y=>rc(355,y,8,10,'sc-orange')).join('')+st('M359 60 L336 170 M359 60 L385 170','sc-steel2',1)+flame(359,30,1.1),
- reactor:()=>rc(44,48,16,18,'sc-dark',2)+rc(24,72,56,88,'sc-steel',6)+`<ellipse cx="52" cy="72" rx="28" ry="10" style="fill:var(--sc-steel)"/>`+rc(30,160,6,10,'sc-steel2')+rc(68,160,6,10,'sc-steel2')+ci(52,112,9,'sc-glass','style="fill:var(--sc-glass);stroke:var(--sc-steel2);stroke-width:2"')+tx(52,145,'ПЭ','sc-dark',11),
- extruder:()=>rc(98,148,90,12,'sc-steel2',3)+pa('M108 128 H128 L122 148 H114 Z','sc-steel')+rc(100,160,8,10,'sc-steel2')+rc(178,160,8,10,'sc-steel2')+`<ellipse cx="200" cy="92" rx="13" ry="52" style="fill:var(--sc-glass);opacity:.85;stroke:var(--sc-steel);stroke-width:1.5"/>`+st('M186 34 V170 M214 34 V170 M186 34 H214','sc-steel2',2)+ci(196,34,4,'sc-dark')+ci(204,34,4,'sc-dark'),
- silo:()=>[222,254].map(x=>pa(`M${x} 48 L${x+13} 30 L${x+26} 48 Z`,'sc-steel')+rc(x,48,26,104,'sc-white')+pa(`M${x} 152 L${x+13} 166 L${x+26} 152 Z`,'sc-steel')+st(`M${x} 80 H${x+26} M${x} 116 H${x+26}`,'sc-steel',1)).join('')+tx(235,72,'ПЭ','sc-dark',10)+tx(267,72,'ПП','sc-dark',10),
- tank:()=>rc(288,192,100,6,'sc-dark')+rc(290,168,96,26,'sc-white',13)+rc(290,178,96,5,'sc-orange')+tx(338,176,'ПРОПЕН','sc-dark',8)+[304,318,358,372].map(x=>ci(x,203,6,'sc-dark')).join(''),
- sign:()=>rc(306,48,4,58,'sc-steel2')+rc(374,48,4,58,'sc-steel2')+rc(292,16,100,36,'sc-orange',4)+`<text x="342" y="40" text-anchor="middle" style="fill:#fff;font-family:var(--f-display);font-size:${Math.max(8,Math.min(15,150/Math.max(5,(state.nick||'').length+4)))}px">${esc(state.nick||'Завод')}</text>`
+ pots:()=>[44,84,124,164].map(x=>pa(`M${x-12} 120 H${x+12} L${x+9} 140 H${x-9} Z`,'sc-pot')+rc(x-14,115,28,6,'sc-pot2',2)+
+   st(`M${x} 115 V95`,'sc-leaf2',2.5)+leaf(x-7,101,-30)+leaf(x+7,97,30)+leaf(x,90,90,'sc-leaf2')).join(''),
+ lamp:()=>[70,200,330].map(x=>pa(`M${x-14} 40 L${x-44} 112 H${x+44} L${x+14} 40 Z`,'sc-lamp','opacity=".16"')+st(`M${x} 0 V24`,'sc-ink',1.5)+
+   pa(`M${x-14} 40 Q${x} 18 ${x+14} 40 Z`,'sc-ink')+el(x,40,14,3,'sc-lamp')).join(''),
+ water:()=>rc(300,166,40,44,'sc-water',8)+st('M300 178 H340 M300 198 H340','sc-frame',2,'opacity=".7"')+el(320,166,20,5,'sc-water')+
+   pa('M352 196 H380 L376 214 H356 Z','sc-leaf2')+st('M352 200 L336 186','sc-leaf2',3)+st('M362 196 Q366 184 372 196','sc-leaf2',2.5),
+ thermo:()=>rc(352,70,14,52,'sc-white',7)+rc(356.5,78,5,36,'sc-red',2.5)+ci(359,118,6,'sc-red')+st('M366 82 H370 M366 92 H370 M366 102 H370','sc-ink',1.2),
+ bee:()=>pa('M244 104 L274 90 L304 104 Z','sc-wood')+rc(250,104,48,12,'sc-yellow',2)+rc(252,116,44,12,'sc-orange',2)+rc(250,128,48,12,'sc-yellow',2)+rc(268,133,12,4,'sc-ink',2)+
+   st('M300 96 C320 80 300 70 322 60','sc-ink',1,'stroke-dasharray="2 4" opacity=".5"')+
+   [[236,86],[324,58],[226,112]].map(([x,y])=>el(x,y,5,3.6,'sc-yellow')+st(`M${x-1} ${y-3.5} V${y+3.5}`,'sc-ink',1.4)+el(x+1,y-4,3,2,'sc-white','opacity=".8"')).join(''),
+ tree1:()=>rc(62,100,14,70,'sc-wood',3)+crown(69,72,(x,y)=>fr(x,y,5.2)),
+ tree2:()=>rc(323,100,14,70,'sc-wood',3)+crown(330,72,lemon),
+ ladder:()=>st('M120 168 L104 78 M136 168 L120 78','sc-wood2',4)+[90,104,118,132,146,160].map(y=>{const t=(168-y)/90; return st(`M${120-16*t} ${y} H${136-16*t}`,'sc-wood2',3);}).join('')+
+   pa('M94 158 H124 L120 172 H98 Z','sc-wood')+st('M96 162 H122','sc-wood2',1.5)+fr(102,154,4.5)+fr(111,152,4.5)+fr(119,155,4.5),
+ path:()=>pa('M172 220 C190 200 216 194 204 168 L222 168 C238 192 214 206 234 220 Z','sc-path')+
+   [150,262].map(x=>rc(x,140,3,32,'sc-ink')+rc(x-5,130,13,11,'sc-yellow',3)+pa(`M${x-6} 130 L${x+1.5} 124 L${x+9} 130 Z`,'sc-ink')).join(''),
+ gazebo:()=>rc(160,152,90,8,'sc-wood',2)+rc(166,98,6,56,'sc-wood2')+rc(238,98,6,56,'sc-wood2')+rc(182,134,46,6,'sc-wood',2)+
+   pa('M150 102 L205 62 L260 102 Z','sc-orange2')+st('M168 92 L205 66 L242 92','sc-white',2,'opacity=".55"')+ci(205,60,4,'sc-orange'),
+ ripen:()=>rc(14,46,72,124,'sc-white',8)+st('M14 46 h72 v124 h-72 Z','sc-wood',2)+rc(24,58,52,58,'sc-glass',4)+
+   [0,1,2].map(i=>st(`M${32+i*7} ${70+i*12} q14 12 28 0`,'sc-yellow',5)).join('')+tx(50,140,'C₂H₄','sc-orange2',12)+rc(74,120,4,18,'sc-wood',2),
+ crates:()=>[[108,'o'],[160,'a'],[212,'l']].map(([x,k])=>rc(x,92,44,26,'sc-wood2',3)+st(`M${x} 105 H${x+44}`,'sc-wood',1.5)+
+   (k==='o'?[8,18,28,38,13,23,33].map((dx,i)=>fr(x+dx,i<4?90:83,5)).join(''):k==='a'?[8,18,28,38,13,23,33].map((dx,i)=>ci(x+dx,i<4?90:83,5,'sc-leaf')+ci(x+dx-1.5,(i<4?90:83)-2,1.5,'sc-white','opacity=".5"')).join(''):[9,20,31,14,26].map((dx,i)=>lemon(x+dx,i<3?90:84)).join(''))).join(''),
+ juicer:()=>rc(280,100,32,18,'sc-orange2',5)+pa('M284 100 Q296 80 308 100 Z','sc-white')+ci(296,90,4,'sc-orange')+
+   rc(320,92,16,26,'sc-glass',3,'style="fill:var(--sc-glass);stroke:var(--sc-white);stroke-width:1.5"')+rc(322,100,12,16,'sc-orange',2)+st('M332 86 L328 104','sc-red',2),
+ awning:()=>Array.from({length:10},(_,i)=>{const x=i*40, c=i%2?'sc-white':'sc-orange2'; return rc(x,0,40,24,c)+pa(`M${x} 24 A20 12 0 0 0 ${x+40} 24 Z`,c);}).join(''),
+ sign:()=>st('M160 30 V44 M240 30 V44','sc-ink',1.5)+rc(140,44,120,30,'sc-orange2',8)+
+   `<text x="200" y="64" text-anchor="middle" style="fill:#fff;font-family:var(--f-display);font-weight:700;font-size:${Math.max(8,Math.min(14,140/Math.max(5,(state.nick||'').length+4)))}px">${esc(state.nick||'Фрукты')}</text>`
 };
 let lastBought=null;
 function drawScene(li){
   const L=LOCS[li]; let s=BASE[L.id]();
   L.items.forEach(it=>{ if(state.owned.includes(it.id)) s+= it.id===lastBought?`<g class="popin">${DRAW[it.id]()}</g>`:DRAW[it.id](); });
-  if(!L.items.some(it=>state.owned.includes(it.id))) s+=tx(200,98,'Здесь пока пусто','sc-steel2',14,'opacity=".9"');
+  if(!L.items.some(it=>state.owned.includes(it.id))) s+=tx(200,98,'Здесь пока пусто','sc-ink',14,'opacity=".55"');
   return `<svg viewBox="0 0 400 220" role="img" aria-label="${esc(L.name)}">${s}</svg>`;
 }
 
@@ -844,16 +907,20 @@ function renderHome(){
   $('#locTitle').textContent=L.name;
   const n=L.items.filter(it=>state.owned.includes(it.id)).length;
   $('#locProg').textContent=`построено ${n} из ${L.items.length}`;
-  $('#locTabs').innerHTML=LOCS.map((l,i)=>`<button class="tab" role="tab" type="button" data-i="${i}" aria-selected="${i===viewLoc}" ${locOpen(i)?'':'disabled'}>${locOpen(i)?'':'Закрыто · '}${esc(l.name)}</button>`).join('');
+  $('#locTabs').innerHTML=LOCS.map((l,i)=>`<button class="tab" role="tab" type="button" data-i="${i}" aria-selected="${i===viewLoc}" ${locOpen(i)?'':'disabled'}>${esc(l.name)}${locOpen(i)?'':' <span class="cnt">· закрыто</span>'}</button>`).join('');
   $('#upTitle').textContent=L.verb;
   $('#ups').innerHTML=L.items.map(it=>{const own=state.owned.includes(it.id);
     return `<div class="up"><div style="min-width:0"><h3>${esc(it.n)}</h3><p>${esc(it.d)}</p></div>${own?'<span class="done">✓ готово</span>':`<button class="buy" type="button" data-b="${it.id}" ${state.stars>=it.p?'':'disabled'}>★ ${it.p}</button>`}</div>`;}).join('');
-  $('#lvl').textContent=state.level;
-  $('#lvlNote').textContent='уровень';
+  $('#lvlTop').textContent=state.level; livesUI();
+
+  $('#playLbl').textContent=`Играть · уровень ${state.level}`;
+  $('#rule1').textContent=hasEasyQs()
+    ?'Каждый уровень - 8 заданий: реагенты, продукты и два коротких вопроса на правила Марковникова и Зайцева.'
+    :'Каждый уровень - 8 заданий: подобрать реагенты или предсказать продукт.';
   $('#chainBtn').disabled=!chainUnlocked();
   $('#chainNote').textContent=chainUnlocked()?'превращения по шагам':'откроется на 3 уровне';
   $('#kbCount').textContent=`${R.filter(r=>isOpen(r.id)).length} / ${R.length}`;
-  $('#nickBtn').textContent=state.nick||'Ввести ник';
+  meChip($('#nickBtn'),state.nick);
   document.querySelectorAll('#modeSw [data-mode]').forEach(b=>b.setAttribute('aria-checked',String(b.dataset.mode===state.mode)));
   lastBought=null;
 }
@@ -863,7 +930,7 @@ $('#ups').addEventListener('click',e=>{const b=e.target.closest('[data-b]'); if(
   state.stars-=it.p; state.owned.push(it.id); lastBought=it.id;
   const L=LOCS[viewLoc]; const done=L.items.every(x=>state.owned.includes(x.id)); save(); renderHome();
   if(done && viewLoc<LOCS.length-1) toast(`Открыта новая локация: ${LOCS[viewLoc+1].name}`);
-  else if(done) toast('Комбинат построен полностью!'); else toast(`Построено: ${it.n}`);
+  else if(done) toast('Оранжерея построена полностью!'); else toast(`Построено: ${it.n}`);
 });
 
 /* ================= question generation ================= */
@@ -900,11 +967,22 @@ function weight(r){
   const s=state.stats[r.id]; let w=s?BOX_W[s.b||0]:2.5;
   if(r.t<mt) w*=.6; return w;
 }
-function pickN(n){
-  let pool=R.map(r=>({r,w:weight(r)})).filter(x=>x.w>0), out=[];
+/* взвешенный выбор n реакций из пула {r,w} */
+function wpick(pool,n){
+  pool=pool.slice(); const out=[];
   while(out.length<n&&pool.length){const tot=pool.reduce((a,x)=>a+x.w,0); let v=Math.random()*tot, i=0;
     for(;i<pool.length;i++){v-=pool[i].w; if(v<=0) break;} i=Math.min(i,pool.length-1); out.push(pool[i].r); pool.splice(i,1);}
   return out;
+}
+/* Уровень: 4 реакции на повторение (уже встречались) + остальные новые; после уровня без ошибок - 2 на повторение.
+   Если новых или старых не хватает, добираем из другой группы. */
+function pickN(n){
+  const pool=R.map(r=>({r,w:weight(r)})).filter(x=>x.w>0);
+  const fresh=pool.filter(x=>!state.seen.includes(x.r.id)), old=pool.filter(x=>state.seen.includes(x.r.id));
+  let nOld=Math.min(state.lastPerfect?2:4,n), nNew=n-nOld;
+  if(fresh.length<nNew){ nOld+=nNew-fresh.length; nNew=fresh.length; }
+  if(old.length<nOld){ nNew=Math.min(fresh.length,nNew+nOld-old.length); nOld=old.length; }
+  return wpick(fresh,nNew).concat(wpick(old,nOld));
 }
 function chainTier(c){return Math.max(...c.steps.map(s=>RM[s.r].t));}
 function resolveChain(c){
@@ -915,17 +993,108 @@ function resolveChain(c){
   return out;
 }
 
+/* ================= особые вопросы: «Куда пойдёт водород?» и «Зайцев или Гофман?» ================= */
+/* MK: формула разбита на куски, a и b - номера кусков с атомами C двойной связи; ans - к какому из них идёт H (правило Марковникова) */
+const MK=[
+ {p:['CH2','=','CH','–CH3'],n:'пропен',a:0,b:2,x:'HBr',ans:'a',to:'CH3–CHBr–CH3',toN:'2-бромпропан'},
+ {p:['CH2','=','CH','–CH2–CH3'],n:'бут-1-ен',a:0,b:2,x:'HCl',ans:'a',to:'CH3–CHCl–CH2–CH3',toN:'2-хлорбутан'},
+ {p:['(CH3)2C','=','CH2'],n:'2-метилпропен',a:0,b:2,la:'C',x:'HBr',ans:'b',to:'(CH3)2CBr–CH3',toN:'2-бром-2-метилпропан'},
+ {p:['(CH3)2C','=','CH','–CH3'],n:'2-метилбут-2-ен',a:0,b:2,la:'C',x:'HCl',ans:'b',to:'(CH3)2CCl–CH2–CH3',toN:'2-хлор-2-метилбутан'},
+ {p:['C6H5–CH','=','CH2'],n:'стирол',a:0,b:2,x:'HBr',ans:'b',to:'C6H5–CHBr–CH3',toN:'1-бром-1-фенилэтан'},
+ {p:['CH2','=','CH','–CH3'],n:'пропен',a:0,b:2,x:'H2O, H+',ans:'a',to:'CH3–CH(OH)–CH3',toN:'пропан-2-ол'},
+ {p:['CH3–CH2–CH2–CH','=','CH2'],n:'пент-1-ен',a:0,b:2,x:'HBr',ans:'b',to:'CH3–CH2–CH2–CHBr–CH3',toN:'2-бромпентан'},
+ {p:['CH2','=','C(CH3)','–CH2–CH3'],n:'2-метилбут-1-ен',a:0,b:2,lb:'C',x:'HCl',ans:'a',to:'CH3–CCl(CH3)–CH2–CH3',toN:'2-хлор-2-метилбутан'}
+];
+/* ZH: z - продукт по Зайцеву (более замещённый алкен), h - по Гофману (менее замещённый) */
+const ZH=[
+ {from:'CH3–CHBr–CH2–CH3',fromN:'2-бромбутан',x:'KOH, спирт, t',z:['CH3–CH=CH–CH3','бут-2-ен'],h:['CH2=CH–CH2–CH3','бут-1-ен'],ans:'z'},
+ {from:'CH3–CHBr–CH2–CH3',fromN:'2-бромбутан',x:'t-BuOK, t',z:['CH3–CH=CH–CH3','бут-2-ен'],h:['CH2=CH–CH2–CH3','бут-1-ен'],ans:'h'},
+ {from:'(CH3)2CBr–CH2–CH3',fromN:'2-бром-2-метилбутан',x:'KOH, спирт, t',z:['(CH3)2C=CH–CH3','2-метилбут-2-ен'],h:['CH2=C(CH3)–CH2–CH3','2-метилбут-1-ен'],ans:'z'},
+ {from:'(CH3)2CBr–CH2–CH3',fromN:'2-бром-2-метилбутан',x:'t-BuOK, t',z:['(CH3)2C=CH–CH3','2-метилбут-2-ен'],h:['CH2=C(CH3)–CH2–CH3','2-метилбут-1-ен'],ans:'h'},
+ {from:'CH3–CH(OH)–CH2–CH3',fromN:'бутан-2-ол',x:'H2SO4 (конц.), t',z:['CH3–CH=CH–CH3','бут-2-ен'],h:['CH2=CH–CH2–CH3','бут-1-ен'],ans:'z'},
+ {from:'CH3–CHBr–CH2–CH2–CH3',fromN:'2-бромпентан',x:'KOH, спирт, t',z:['CH3–CH=CH–CH2–CH3','пент-2-ен'],h:['CH2=CH–CH2–CH2–CH3','пент-1-ен'],ans:'z'},
+ {from:'(CH3)2CH–CHBr–CH3',fromN:'2-бром-3-метилбутан',x:'KOH, спирт, t',z:['(CH3)2C=CH–CH3','2-метилбут-2-ен'],h:['(CH3)2CH–CH=CH2','3-метилбут-1-ен'],ans:'z'}
+];
+/* лёгкие вопросы на правила - только на первых двух уровнях и не в режиме «Про» */
+const hasEasyQs=()=>state.level<3&&!isPro();
+function specialQ(kind){
+  if(kind==='mk'){ const d=shuffle(MK)[0];
+    return {type:'mk',sp:d,opts:['А','Б'],ans:d.ans==='a'?0:1,done:false,pick:-1,
+      lab:[d.a,d.b].map((i,k)=>`<b class="mkt ${k?'b':'a'}">${k?'Б':'А'}</b> к атому ${F((k?d.lb:d.la)||d.p[i].split('–').pop())}`)}; }
+  const d=shuffle(ZH)[0], o=shuffle(['z','h']);
+  return {type:'zh',sp:d,opts:o,ans:o.indexOf(d.ans),done:false,pick:-1,lab:o.map(k=>`${F(d[k][0])} <small class="on">${esc(d[k][1])}</small>`)};
+}
+function specialBody(q){
+  const d=q.sp;
+  if(q.type==='mk'){
+    const fx=d.p.map((s,i)=>i===d.a?`<span class="mkc a">${F(s)}<b>А</b></span>`:i===d.b?`<span class="mkc b">${F(s)}<b>Б</b></span>`:F(s)).join('');
+    return `<div class="rx"><div class="cmp"><div class="fx mkfx">${fx}</div><small>${esc(d.n)}</small></div><span class="plus">+</span><div class="cmp"><div class="fx">${F(d.x)}</div></div></div>
+      <p class="mkq">К какому атому углерода двойной связи присоединится водород?</p>`;
+  }
+  return `<div class="rx">${cmpHTML(d.from,d.fromN)}<div class="arrow rgw"><span class="rgt">${F(d.x)}</span>${ARROW}</div><span class="qmark">?</span></div>
+    <p class="mkq">Какой алкен получится в основном?</p>`;
+}
+function specialFb(q){
+  const d=q.sp, ok=q.pick===q.ans;
+  const rule=q.type==='mk'
+    ?`<p><b>Правило Марковникова:</b> водород присоединяется к тому атому углерода двойной связи, у которого больше водородов. Остаток реагента - к соседнему.</p><p>Получится ${F(d.to)} (${esc(d.toN)}).</p>`
+    :d.ans==='z'
+      ?`<p><b>Правило Зайцева:</b> водород уходит от того соседнего атома углерода, где водородов меньше, - получается более замещённый алкен ${F(d.z[0])} (${esc(d.z[1])}).</p>`
+      :`<p><b>Правило Гофмана:</b> громоздкое основание t-BuOK не может подобраться к «внутреннему» водороду и отрывает H от крайней группы CH<sub>3</sub> - получается менее замещённый алкен ${F(d.h[0])} (${esc(d.h[1])}).</p>`;
+  return `<div class="fb ${ok?'ok':'no'}"><span class="v">${ok?'Верно, +1 ★':'Неверно'}</span>${rule}</div>
+  <button class="btn next" id="nextBtn" type="button">${round.i<round.qs.length-1?'Дальше':'Итоги'} <small>Enter</small></button>`;
+}
+
 /* ================= play ================= */
 let round=null, cur='home';
 function show(v){cur=v; ['home','play','summary','kb'].forEach(id=>$('#'+id).hidden=id!==v); window.scrollTo(0,0); if(v==='home') renderHome();}
 function startQuiz(){
-  const rs=pickN(8);
+  if(Lives.left()<=0){ toast(`Жизни закончились. Новая через ${Lives.wait()}`); return; }
+  /* уровни 1-2: 6 превращений + «Куда пойдёт водород?» + «Зайцев или Гофман?»; с 3 уровня - 8 превращений */
+  const easy=hasEasyQs();
+  const rs=pickN(easy?6:8);
   if(!rs.length){toast('Все доступные реакции выключены в справочнике');return;}
   const types=shuffle(rs.map((_,i)=>i<rs.length/2?'rg':'pr'));
-  round={mode:'quiz',qs:rs.map((r,i)=>makeQ(r,{},types[i])),i:0,right:0,miss:[],earned:0};
+  const qs=shuffle(rs.map((r,i)=>makeQ(r,{},types[i])).concat(easy?[specialQ('mk'),specialQ('zh')]:[]));
+  round={mode:'quiz',qs,i:0,right:0,miss:[],earned:0};
   show('play'); renderQ();
 }
+/* ================= «Работа над ошибками» (с подпиской) =================
+   Запускается из сада (mistakes.html) ссылкой <игра>.html?fix=1. Реакции, где были ошибки и которые ещё
+   не закреплены (меньше 2 верных подряд), - сначала самые проблемные. Звёзд и уровня здесь нет:
+   вместо звезды - счёт «1 из 2, 2 из 2», после второго сорняк в саду можно выкопать. */
+const FIX=new URLSearchParams(location.search).has('fix')&&!REF;
+const gardenUrl='mistakes.html';
+/* Общий раунд из сада: oshibki-run в sessionStorage - очередь {game, ids} по играм. Эта игра решает свою часть
+   и передаёт ход следующей игре, последняя возвращает в сад (?run=done). */
+const RUN=(()=>{ if(!FIX) return null; try{ const r=JSON.parse(sessionStorage.getItem('oshibki-run')||'null'); return r&&r.queue&&r.queue[0]&&r.queue[0].game===GAME?r:null; }catch(e){ return null; } })();
+const runNext=()=>{ try{ sessionStorage.setItem('oshibki-run',JSON.stringify(RUN)); }catch(e){} location.href=RUN.queue.length?RUN.queue[0].game+'.html?fix=1':gardenUrl+'?run=done'; };
+const runQuit=()=>{ try{ sessionStorage.removeItem('oshibki-run'); }catch(e){} location.href=gardenUrl; };
+if(FIX){ document.documentElement.classList.add('fixmode'); document.head.insertAdjacentHTML('beforeend','<style>header.top,a[href="hub"],a[href="hub.html"]{display:none!important}</style>'); }
+function fixPool(){
+  const bad=r=>{const s=state.stats[r.id]; return (s.w-(s.r||0)*.5);};
+  return R.filter(r=>{const s=state.stats[r.id]; return s&&s.w>0&&(s.b||0)<2&&!state.off.includes(r.id);})
+    .sort((a,b)=>(state.stats[a.id].b||0)-(state.stats[b.id].b||0)||bad(b)-bad(a));
+}
+function fixLocked(){
+  openModal(`<h2>Работа над ошибками</h2><p style="margin:0">Отдельный раунд только из реакций, в которых ты ошибался. Реакция уходит из списка, когда ответишь на неё верно 2 раза подряд.</p><p style="margin:0"><b>Доступно с премиумом.</b> С премиумом ещё бесконечные жизни во всех играх.</p><div class="mfoot"><span></span><div class="chips">${FIX?`<a class="btn" href="${gardenUrl}">В сад</a>`:'<button class="btn" type="button" data-close>Понятно</button>'}</div></div>`,!FIX);
+}
+function startFix(){
+  if(!Lives.premium()) return fixLocked();
+  /* из сада - готовый список (одна реакция может идти до 3 раз: реагенты и продукт по очереди) */
+  let rs, types;
+  if(RUN){ rs=RUN.queue[0].ids.map(id=>RM[id]).filter(Boolean); const seen={}, st=Math.random()<.5?0:1;
+    types=rs.map(r=>{ const k=seen[r.id]=(seen[r.id]||0)+1; const wt=(state.stats[r.id]||{}).wt; return wt==='rg'||wt==='pr'?wt:(k+st)%2?'rg':'pr'; }); }   // спрашиваем то, в чём была ошибка
+  else{ const pool=fixPool();
+    if(!pool.length){ if(FIX){ location.href=gardenUrl; return; } toast('Ошибок на повторение нет - так держать!'); return; }
+    rs=shuffle(pool.slice(0,8)); types=shuffle(rs.map((_,i)=>i<rs.length/2?'rg':'pr')).map((t,i)=>{ const wt=(state.stats[rs[i].id]||{}).wt; return wt==='rg'||wt==='pr'?wt:t; }); }
+  if(!rs.length){ RUN.queue.shift(); return runNext(); }
+  round={mode:'quiz',fix:true,qs:rs.map((r,i)=>makeQ(r,{},types[i])),i:0,right:0,miss:[],earned:0};
+  show('play'); renderQ();
+}
+
 function startChain(){
+  if(Lives.left()<=0){ toast(`Жизни закончились. Новая через ${Lives.wait()}`); return; }
   const mt=maxTier(); const okc=c=>c.steps.every(x=>!state.off.includes(x.r)); const cs=CHa().filter(c=>chainTier(c)<=mt&&okc(c)); if(!cs.length){toast('Нет цепочек: в каждой есть выключенная реакция');return;}
   const minPlays=Math.min(...cs.map(c=>state.chains[c.id]||0)); const pick=shuffle(cs.filter(c=>(state.chains[c.id]||0)===minPlays))[0];
   const res=resolveChain(pick);
@@ -938,9 +1107,12 @@ function startChain(){
 function cmpHTML(f,n){return `<div class="cmp"><div class="fx">${F(f)}</div>${n?`<small>${stereo(esc(n))}</small>`:''}</div>`;}
 function renderQ(){
   const q=round.qs[round.i], n=round.qs.length;
-  $('#playInfo').textContent= round.mode==='quiz'?`Уровень ${state.level} · превращение ${round.i+1} из ${n}`:`Цепочка «${round.chain.name}» · шаг ${round.i+1} из ${n}`;
+  $('#playInfo').textContent= round.fix?`Работа над ошибками · ${(RUN?RUN.done:0)+round.i+1} из ${RUN?RUN.total:n}`:round.mode==='quiz'?`Уровень ${state.level} · превращение ${round.i+1} из ${n}`:`Цепочка «${round.chain.name}» · шаг ${round.i+1} из ${n}`;
   $('#dots').innerHTML=round.qs.map((x,i)=>`<i class="${x.done?(x.pick===x.ans?'ok':'no'):''} ${i===round.i?'cur':''}"></i>`).join('');
-  if(round.mode==='quiz'&&q.type==='pr'){
+  if(q.sp){
+    $('#qEyebrow').textContent=q.type==='mk'?'Куда пойдёт водород?':'Зайцев или Гофман?';
+    $('#qBody').innerHTML=specialBody(q);
+  } else if(round.mode==='quiz'&&q.type==='pr'){
     $('#qEyebrow').textContent='Что получится? Выбери органический продукт';
     $('#qBody').innerHTML=`<div class="rx">${cmpHTML(q.from,q.fromN)}<div class="arrow rgw"><span class="rgt">${F(RM[q.rid].rg)}</span>${ARROW}</div>${q.done?cmpHTML(q.to,q.toN):'<span class="qmark">?</span>'}</div>`;
   } else if(round.mode==='quiz'){
@@ -967,14 +1139,17 @@ function renderQ(){
     $('#qBody').innerHTML=h+'</div>';
   }
   $('#opts').innerHTML=q.opts.map((o,k)=>{let c=''; if(q.done){ if(k===q.ans) c='ok'; else if(k===q.pick) c='no'; }
-    return `<button class="opt ${c} ${q.type==='pr'?'pr':''}" type="button" data-k="${k}" ${q.done?'disabled':''}><span class="k">${k+1}</span><span>${F(o)}</span></button>`;}).join('');
-  $('#fb').innerHTML=q.done?fbHTML(q):'';
+    return `<button class="opt ${c} ${q.type==='pr'||q.type==='zh'?'pr':''}" type="button" data-k="${k}" ${q.done?'disabled':''}><span class="k">${k+1}</span><span>${q.lab?q.lab[k]:F(o)}</span></button>`;}).join('');
+  $('#fb').innerHTML=q.done?(q.sp?specialFb(q):fbHTML(q)):'';
   if(q.done) $('#nextBtn').focus();
 }
+/* счёт вместо звезды: «2 из 3»; на третьем - сорняк можно выкапывать */
+function fixMark(id,ok){ const b=Math.min(2,(state.stats[id]||{}).b||0);
+  return ok?(b>=2?'Верно · 2 из 2 - сорняк можно выкопать!':`Верно · ${b} из 2`):'Неверно · счёт начинается заново'; }
 function fbHTML(q){
   const r=RM[q.rid], ok=q.pick===q.ans;
   return `<div class="fb ${ok?'ok':'no'}">
-    <span class="v">${ok?'Верно, +1 ★':'Неверно'}</span>
+    <span class="v">${round.fix?fixMark(r.id,ok):ok?'Верно, +1 ★':'Неверно'}</span>
     <button class="rname" type="button" data-ref="${r.id}">${esc(r.name)}</button>
     ${ok?'':(q.type==='pr'?`<p><b>Правильно:</b> ${F(q.to)} - ${stereo(esc(q.toN))}</p>`:`<p><b>Нужно:</b> ${F(q.rg||r.rg)}</p>`)}
     <p>${esc(r.note)}</p>${q.note2?`<p class="note2">${esc(q.note2)}</p>`:''}
@@ -984,41 +1159,60 @@ function fbHTML(q){
 }
 function answer(k){
   const q=round.qs[round.i]; if(q.done) return;
-  q.done=true; q.pick=k; const ok=k===q.ans, id=q.rid;
+  q.done=true; q.pick=k; const ok=k===q.ans, id=q.rid; if(window.rgTrack&&!q.sp) rgTrack(q.type,ok);   // серия «Реагент-мастер»
+  if(!ok){ Lives.spend(GAME); livesUI(); }
+  if(q.sp){ if(ok){round.right++; state.stars++; round.earned++;} $stars.textContent=state.stars; save(); renderQ(); return; }
   const s=state.stats[id]||(state.stats[id]={r:0,w:0,b:0});
-  if(ok){s.r++; s.b=Math.min(4,(s.b||0)+1); round.right++; state.stars++; round.earned++;}
-  else {s.w++; s.b=0; if(!round.miss.includes(id)) round.miss.push(id);}
+  if(ok){s.r++; s.b=Math.min(4,(s.b||0)+1); round.right++; if(!round.fix){state.stars++; round.earned++;}}
+  else {s.w++; s.b=0; s.wt=q.type; if(!round.miss.includes(id)) round.miss.push(id);}   // wt - в чём ошибка: rg реагенты, pr продукт
   q.isNew=!isPro()&&!state.seen.includes(id); if(!state.seen.includes(id)) state.seen.push(id);
   $stars.textContent=state.stars; save(); renderQ();
 }
 function next(){
   const q=round.qs[round.i]; if(!q.done) return;
+  if(round.i<round.qs.length-1&&Lives.left()<=0){ outOfLives(); return; }
   if(round.i<round.qs.length-1){round.i++; renderQ(); return;}
   finish();
 }
+function fixFinish(){
+  if(RUN){ save(); RUN.done+=round.qs.length; RUN.right+=round.right; RUN.queue.shift(); return runNext(); }
+  const ready=round.qs.filter((q,i)=>round.qs.findIndex(x=>x.rid===q.rid)===i&&((state.stats[q.rid]||{}).b||0)>=2).length, left=fixPool().length;
+  save();
+  $('#sumBox').innerHTML=`
+    <span class="eyebrow">Работа над ошибками</span>
+    <div class="lvl"><span class="big">${round.right} / ${round.qs.length}</span><span class="muted">верных ответов</span></div>
+    <p style="margin:0">${ready?`Можно выкопать сорняков: <b>${ready}</b>. Лопаты ждут в саду.`:'Сорняки пока на месте: для лопаты нужно 2 верных ответа подряд.'}</p>
+    <p style="margin:0">${left?`Ещё на повторение: ${left}.`:'Все ошибки в этой игре исправлены!'}</p>
+    <div class="chips"><a class="btn" href="${gardenUrl}">В сад</a>${left?'<button class="btn ghost" type="button" id="againBtn">Ещё раунд</button>':''}</div>`;
+  round=null; show('summary');
+  if($('#againBtn')) $('#againBtn').onclick=startFix;
+}
 function finish(){
+  if(round.fix) return fixFinish();
   const n=round.qs.length, perfect=round.right===n; let bonus=0;
-  if(round.mode==='quiz'&&perfect) bonus=3;
+  if(round.mode==='quiz'&&perfect) bonus=round.fix?2:3;
   if(round.mode==='chain'&&perfect) bonus=2;
-  state.stars+=bonus; round.earned+=bonus; state.level++;
+  state.stars+=bonus; round.earned+=bonus; if(!round.fix) state.level++;
+  if(round.mode==='quiz'&&!round.fix) state.lastPerfect=perfect;
   if(round.mode==='chain') state.chains[round.chain.id]=(state.chains[round.chain.id]||0)+1;
   save();
   const newTier=maxTier();
   $('#sumBox').innerHTML=`
-    <span class="eyebrow">${round.mode==='quiz'?'Уровень пройден':'Цепочка решена'}</span>
+    <span class="eyebrow">${round.fix?'Работа над ошибками':round.mode==='quiz'?'Уровень пройден':'Цепочка решена'}</span>
     <div class="lvl"><span class="big">${round.right} / ${n}</span><span class="muted">верных ответов</span></div>
-    <p style="margin:0">Заработано: <b>★ ${round.earned}</b>${bonus?` (из них бонус ${bonus} за ${round.mode==='quiz'?'уровень':'цепочку'} без ошибок)`:''}. Теперь уровень ${state.level}.</p>
+    <p style="margin:0">Заработано: <b>★ ${round.earned}</b>${bonus?` (из них бонус ${bonus} за ${round.fix?'раунд':round.mode==='quiz'?'уровень':'цепочку'} без ошибок)`:''}. ${round.fix?(fixPool().length?`Осталось на повторение: ${fixPool().length}.`:'Все ошибки исправлены!'):`Теперь уровень ${state.level}.`}</p>
     ${!isPro()&&state.level===3?'<p style="margin:0"><b>Открыты цепочки превращений.</b></p>':''}
+    ${round.mode==='quiz'&&!isPro()&&state.level===3?'<p style="margin:0">Правила Марковникова и Зайцева освоены - дальше в уровнях только превращения.</p>':''}
     ${!isPro()&&state.level===5?'<p style="margin:0"><b>Открыты все реакции</b>, включая Коупа, Мак-Мурри и карбены.</p>':''}
     ${round.miss.length?`<div style="display:flex;flex-direction:column;gap:8px"><b>Повтори:</b><div class="chips">${round.miss.map(id=>`<button class="chip" type="button" data-ref="${id}">${esc(RM[id].name)}</button>`).join('')}</div></div>`:'<p style="margin:0">Без ошибок - отличная работа.</p>'}
-    <div class="chips"><button class="btn" type="button" id="againBtn">${round.mode==='quiz'?'Следующий уровень':'Ещё цепочку'}</button><button class="btn ghost" type="button" id="homeBtn">На площадку</button></div>`;
-  const mode=round.mode; round=null; show('summary');
-  $('#againBtn').onclick=()=>mode==='quiz'?startQuiz():startChain();
+    <div class="chips"><button class="btn" type="button" id="againBtn">${round.fix?'Ещё раунд':round.mode==='quiz'?'Следующий уровень':'Ещё цепочку'}</button><button class="btn ghost" type="button" id="homeBtn">В оранжерею</button></div>`;
+  const mode=round.fix?'fix':round.mode; round=null; show('summary');
+  $('#againBtn').onclick=()=>mode==='fix'?startFix():mode==='quiz'?startQuiz():startChain();
   $('#homeBtn').onclick=()=>show('home');
 }
 $('#opts').addEventListener('click',e=>{const b=e.target.closest('[data-k]'); if(b) answer(+b.dataset.k);});
 $('#fb').addEventListener('click',e=>{ if(e.target.closest('#nextBtn')) next(); });
-$('#quitBtn').onclick=()=>{round=null; show('home');};
+$('#quitBtn').onclick=()=>{ if(FIX) return runQuit(); round=null; show('home');};
 $('#playBtn').onclick=startQuiz;
 $('#chainBtn').onclick=()=>{ if(chainUnlocked()) startChain(); };
 document.addEventListener('click',e=>{const b=e.target.closest('[data-ref]'); if(b) openRef(b.dataset.ref);});
@@ -1044,7 +1238,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-tier]'); i
 
 /* ================= knowledge base ================= */
 let kbFilter='all';
-const GNAME={prep:'Получение',prop:'Свойства'};
+const GNAME={prep:'Получение алкенов',prop:'Свойства алкенов'};
 function renderKB(){
   const offN=state.off.length; $('#kbCount2').textContent=(isPro()?`режим «Про»: открыты все ${R.length}`:`открыто ${state.seen.length} из ${R.length}`)+(offN?` · выключено из заданий ${offN}`:''); $('#kbAllOn').hidden=!offN;
   renderTiers();
@@ -1056,7 +1250,7 @@ function renderKB(){
   return `<section><div class="thead"><h3>${TBLK[T]}</h3><span>открыто ${o.length} из ${o.length+c.length}</span></div><div class="kgrid">`+o.map(r=>{const s=state.stats[r.id]||{r:0,w:0};
     const off=state.off.includes(r.id);
     return `<button class="kc ${off?'off':''}" type="button" data-ref="${r.id}"><span class="gtag">${GNAME[r.g]} · ${TIERN[r.t].toLowerCase()}</span>${tierOn(r)?'':'<span class="toff">уровень выключен</span>'}${off?'<span class="offtag">не в заданиях</span>':''}<h3>${esc(r.name)}</h3><div class="mini">${F(r.from)} → ${F(r.to)}</div><span class="stat">верно ${s.r} · ошибок ${s.w}</span></button>`;}).join('')
-   + c.map(r=>`<div class="kc locked" aria-label="Ещё не открыто"><span class="q">?</span><span style="font-size:13px">${GNAME[r.g]} · встреть в игре</span></div>`).join('')+'</div></section>';}).join('');
+   + c.map(r=>`<div class="kc locked" aria-label="Ещё не открыто"><span class="q">?</span><span style="font-size:13px">${GNAME[r.g]}</span><span style="font-size:12.5px">Встреть в игре, чтобы открыть</span></div>`).join('')+'</div></section>';}).join('');
 }
 $('#kbSeg').addEventListener('click',e=>{const b=e.target.closest('[data-f]'); if(!b) return; kbFilter=b.dataset.f; renderKB();});
 $('#kbBtn').onclick=()=>{renderKB(); show('kb');};
@@ -1071,7 +1265,7 @@ $('#modal').addEventListener('click',e=>{ if(e.target.id==='modal'&&modalClosabl
 function openRef(id){
   const r=RM[id]; if(!r) return; const s=state.stats[id]||{r:0,w:0};
   const tier=['','базовая','средняя','продвинутая'][r.t];
-  openModal(`<span class="gtag">${GNAME[r.g]} алкенов · ${tier}</span>
+  openModal(`<span class="gtag">${GNAME[r.g]} · ${tier}</span>
    <h2>${esc(r.name)}</h2>
    <label class="incl" for="inclChk"><input type="checkbox" id="inclChk" ${state.off.includes(id)?'':'checked'}><span>Включать в задания <small>- уровни и цепочки</small></span></label>
    <div class="rx">${cmpHTML(r.from,r.fromN)}<div class="arrow"><span class="rgt">${F(r.rg)}</span>${ARROW}</div>${cmpHTML(r.to,r.toN)}</div>
@@ -1091,20 +1285,13 @@ function openRef(id){
 }
 
 /* ================= nick ================= */
-const LAT={a:'а',e:'е',o:'о',p:'р',c:'с',x:'х',y:'у',k:'к',m:'м',t:'т',h:'н',b:'в',u:'и',n:'п',i:'и','0':'о','3':'з','4':'ч','6':'б','@':'а','1':'и','$':'с'};
-const BAD=['хуй','хуе','хуя','хуё','пизд','бля','сука','суки','мудак','мудил','пидор','пидар','пидр','гандон','шлюх','залуп','дроч','ниггер','нигер','хохол','жид','чурк','гитлер','нацист','зигхайл','еблан','ебат','ебан','ёбан','уеб','уёб','долбоеб','fuck','shit','bitch','nigg','cunt','dick','nazi','hitler','whore','fag'];
-function badNick(n){
-  const low=n.toLowerCase().replace(/\s+/g,'');
-  if(/1488|88$|卐|卍/.test(low)) return true;
-  const cyr=low.replace(/[a-z0-9@$]/g,ch=>LAT[ch]||ch).replace(/ё/g,'е');
-  const plain=low.replace(/[^a-z]/g,'');
-  return BAD.some(w=>{const wc=w.replace(/ё/g,'е'); return cyr.includes(wc)||plain.includes(w)||low.includes(w);}) || /(^|[^а-я])еб/.test(cyr);
-}
+/* фильтр ников - общий, в nickfilter.js (window.nickOk) */
+function badNick(n){ return !nickOk(n); }
 const JOKES=['Цис-Изомер','Транс-Форматор','Бромониевый Ион','Мистер Линдлар','Карбокатион','Зайцев-младший','Антимарковников','Сэр Виттиг','Пи-Связь','Озонид'];
 function openNick(){
   const first=!state.nick;
-  openModal(`<h2>${first?'Добро пожаловать на комбинат':'Сменить ник'}</h2>
-   <p style="margin:0" class="muted">Как тебя называть? Ник виден только тебе и появится на вывеске завода.</p>
+  openModal(`<h2>${first?'Добро пожаловать в оранжерею':'Сменить ник'}</h2>
+   <p style="margin:0" class="muted">Как тебя называть? Ник виден только тебе и появится на вывеске фруктовой лавки.</p>
    <label for="nickIn" class="eyebrow">Ник</label>
    <input id="nickIn" class="nickin" maxlength="18" autocomplete="off" value="${esc(state.nick)}" placeholder="например, Цис-Изомер">
    <p class="err" id="nickErr"></p>
@@ -1118,15 +1305,15 @@ function openNick(){
     state.nick=v; save(); closeModal(); renderHome(); toast(`Привет, ${v}!`);};
   $('#nickSave').onclick=go; inp.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault(); go();}});
 }
-$('#nickBtn').onclick=openNick;
+$('#nickBtn').onclick=()=>state.nick?goProfile(GAME):openNick();
 $('#modeSw').addEventListener('click',e=>{const b=e.target.closest('[data-mode]'); if(!b||b.dataset.mode===state.mode) return;
   state.mode=b.dataset.mode; save(); renderHome(); if(cur==='kb') renderKB();
   toast(isPro()?'Режим «Про»: все реакции и цепочки открыты. В справочнике выбирай, какие тренировать':'Режим «Новичок»: реакции открываются по мере игры');});
 
 /* ================= reset ================= */
 $('#resetBox').addEventListener('click',e=>{
-  if(e.target.id==='resetBtn'){ $('#resetBox').innerHTML='<span>Точно? Звёзды, стройка, уровень и справочник обнулятся.</span><button class="danger" type="button" id="resYes">Да, сбросить</button><button class="link" type="button" id="resNo">Отмена</button>'; return; }
-  if(e.target.id==='resYes'){ const nick=state.nick; state=Object.assign(fresh(),{nick}); viewLoc=0; save(); toast('Прогресс сброшен'); }
+  if(e.target.id==='resetBtn'){ $('#resetBox').innerHTML='<span>Точно? Стройка, уровень, справочник и звёзды на покупки обнулятся. Рейтинг и звание останутся.</span><button class="danger" type="button" id="resYes">Да, сбросить</button><button class="link" type="button" id="resNo">Отмена</button>'; return; }
+  if(e.target.id==='resYes'){ const bank=(state.bank|0)+state.stars+state.owned.reduce((a,id)=>a+((ITEM[id]||{}).p||0),0), nick=state.nick; state=Object.assign(fresh(),{nick,bank}); viewLoc=0; save(); toast('Прогресс сброшен'); }
   if(e.target.id==='resYes'||e.target.id==='resNo'){ $('#resetBox').innerHTML='<button class="link" id="resetBtn" type="button">Сбросить прогресс</button>'; renderHome(); }
 });
 
@@ -1158,7 +1345,30 @@ function jumpBar(){
 { const base=renderKB; renderKB=function(){ base.apply(this,arguments); jumpBar(); }; }
 /* переключатель «Новичок / Про» живёт только в справочнике, шапка игры остаётся чистой */
 { const kh=document.querySelector('#kb .kbhead'), ms=document.getElementById('modeSw'); if(kh&&ms){ ms.style.marginLeft='auto'; kh.appendChild(ms); } }
+/* жизни: сердечки и таймер в шапке, экран «жизни закончились» */
+function livesUI(){ const n=Lives.left(); $('#livesN').textContent=n===Infinity?'∞':n; $('#livesT').textContent=n<Lives.MAX?'+1 через '+Lives.wait():''; }
+function outOfLives(){
+  round=null;
+  $('#sumBox').innerHTML=`<span class="eyebrow">Жизни закончились</span>
+    <div class="lvl"><span class="big" style="color:#E0475B">♥ 0</span></div>
+    <p style="margin:0">Звёзды за верные ответы сохранены. Новая жизнь появится через <b id="oolT">${Lives.wait()}</b>, а пока можно заглянуть в справочник реакций.</p>
+    <div class="chips"><button class="btn ghost" type="button" id="homeBtn">В оранжерею</button></div>`;
+  show('summary'); $('#homeBtn').onclick=()=>show('home');
+}
+setInterval(()=>{ livesUI(); const o=document.getElementById('oolT'); if(o) o.textContent=Lives.wait(); },1000);
+/* Escape - шаг назад: из справочника, коллекции, итогов или уровня - на главную игры, с главной - в хаб.
+   Открытое окошко закрывается своим обработчиком, поэтому здесь его не трогаем. */
+document.addEventListener('keydown',e=>{
+  if(e.key!=='Escape'||e.defaultPrevented) return;
+  if([...document.querySelectorAll('.modal')].some(m=>!m.hidden)) return;
+  if(REF){ try{ parent.document.querySelector('.back').click(); }catch(x){} return; }
+  const back=['kbBack','quitBtn','homeBtn','backBtn'].map(id=>document.getElementById(id)).find(b=>b&&b.offsetParent!==null);
+  if(back){ e.preventDefault(); back.click(); return; }
+  const hub=document.querySelector('a[href="hub"],a[href="hub.html"]');
+  if(hub){ e.preventDefault(); location.href=hub.getAttribute('href'); }
+},true);
 if(REF){renderKB(); show('kb');} else if(!state.nick) openNick();
+else if(FIX) startFix();   // пришли из сада
 </script>
 
 </body></html>

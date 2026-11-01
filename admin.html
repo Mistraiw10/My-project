@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8"><meta name="theme-color" content="#2F5566"><link rel="icon" href="icons/favicon.png?v=2"><meta name="robots" content="noindex"><script>try{var t=localStorage.getItem('organika-theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}if(location.protocol==='file:')document.addEventListener('DOMContentLoaded',function(){document.querySelectorAll('a[href="hub"]').forEach(function(a){a.setAttribute('href','hub.html')})});</script>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Админ-панель</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Russo+One&family=Golos+Text:wght@400;500;600;700&display=swap">
+<style>
+/* Админ-панель: шапка → вкладки «Игроки» / «Ошибки» → список карточек. Действия открываются в окне. Права проверяет сервер. */
+:root{
+  --bg:#E9EEF0; --surface:#FFFFFF; --surface2:#F2F5F6; --ink:#15232B; --muted:#5A6B74; --line:#D3DCE0;
+  --accent:#2F5566; --accent-ink:#FFFFFF; --star:#E0A100; --err:#C62828; --ok:#2E8B57; --gold:#B7791F;
+  --c-aro:#5B3FD1; --c-ene:#D46A2C; --c-yne:#2B8795; --c-diene:#A8487A;
+  --f-display:"Russo One","Arial Black",sans-serif; --f-body:"Golos Text","Segoe UI",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#10181D; --surface:#1A252C; --surface2:#213039; --ink:#E5EDF0; --muted:#9AAEB7; --line:#2E3F48;
+  --accent:#8FB6C7; --accent-ink:#0E1A20; --star:#FFC93C; --err:#FF7A7A; --ok:#5CC98A; --gold:#F0B44C;
+  --c-aro:#A08CFF; --c-ene:#E8935C; --c-yne:#62B6C2; --c-diene:#D98AB2; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#10181D; --surface:#1A252C; --surface2:#213039; --ink:#E5EDF0; --muted:#9AAEB7; --line:#2E3F48;
+  --accent:#8FB6C7; --accent-ink:#0E1A20; --star:#FFC93C; --err:#FF7A7A; --ok:#5CC98A; --gold:#F0B44C;
+  --c-aro:#A08CFF; --c-ene:#E8935C; --c-yne:#62B6C2; --c-diene:#D98AB2; color-scheme:dark }
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.5;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:16px 48px}
+.wrap{max-width:980px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+h1,h2,h3{font-family:var(--f-display);font-weight:400;margin:0}
+h1{font-size:clamp(24px,5vw,32px)}
+.back{color:var(--muted);text-decoration:none;font-weight:600}
+.btn{font:inherit;font-weight:700;border:0;border-radius:10px;padding:9px 16px;cursor:pointer;background:var(--accent);color:var(--accent-ink)}
+.btn.ghost{background:var(--surface2);color:var(--ink);border:1px solid var(--line)}
+.btn.bad{background:var(--err);color:#fff}
+.btn.sm{padding:6px 12px;font-size:13.5px}
+.btn[disabled]{opacity:.6;cursor:wait}
+.seg{display:inline-flex;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:3px;gap:2px;flex-wrap:wrap}
+.seg button{font:inherit;font-size:14px;font-weight:700;border:0;background:none;color:var(--muted);border-radius:999px;padding:6px 14px;cursor:pointer}
+.seg button[aria-selected="true"]{background:var(--accent);color:var(--accent-ink)}
+.bar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+.search{font:inherit;padding:9px 12px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink);min-width:0;flex:1 1 220px}
+.sum{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.sum div{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px 12px}
+.sum b{display:block;font-family:var(--f-display);font-weight:400;font-size:22px}
+.sum span{color:var(--muted);font-size:12.5px;font-weight:600}
+@media (max-width:600px){.sum{grid-template-columns:1fr 1fr}}
+.list{display:flex;flex-direction:column;gap:10px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.card.isblk{border-color:var(--err)}
+.ph{display:flex;align-items:center;gap:12px;min-width:0}
+.ava{width:40px;height:40px;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-family:var(--f-display);font-size:18px;flex:none;line-height:1}
+.ava.emo{background:var(--surface2);font-family:inherit;font-size:22px}
+.who{display:flex;flex-direction:column;min-width:0;flex:1}
+.who b{font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.who span{color:var(--muted);font-size:13.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tag{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;font-weight:700;border-radius:999px;padding:2px 10px;background:var(--surface2);color:var(--ink)}
+.tag.prem{background:color-mix(in srgb,var(--gold) 18%,var(--surface));color:var(--gold)}
+.tag.blk{background:color-mix(in srgb,var(--err) 14%,var(--surface));color:var(--err)}
+.tag.adm{background:var(--accent);color:var(--accent-ink)}
+.tag .st{color:var(--star)}
+.up{display:inline-flex;align-items:center;gap:4px}
+.up i{width:8px;height:8px;border-radius:50%;background:var(--c)}
+.aro{--c:var(--c-aro)} .ene{--c:var(--c-ene)} .yne{--c:var(--c-yne)} .diene{--c:var(--c-diene)}
+.meta{color:var(--muted);font-size:12.5px}
+.acts{display:flex;gap:6px;flex-wrap:wrap}
+.note{color:var(--muted);text-align:center;padding:24px 12px;background:var(--surface);border:1px dashed var(--line);border-radius:16px}
+/* сообщения об ошибках */
+.rh{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;align-items:baseline}
+.rh b{font-weight:700}
+.place{font-size:12.5px;font-weight:700;border-radius:999px;padding:2px 10px;background:var(--surface2)}
+.msg{white-space:pre-wrap;word-break:break-word;margin:0}
+.shot img{max-width:min(320px,100%);max-height:220px;border-radius:10px;border:1px solid var(--line);display:block;cursor:zoom-in}
+.dev{color:var(--muted);font-size:12px;word-break:break-word}
+/* окно */
+.ov{position:fixed;inset:0;background:color-mix(in srgb,#000 45%,transparent);display:grid;place-items:center;padding:16px;z-index:10;overflow-y:auto}
+.box{background:var(--surface);border-radius:18px;padding:22px;width:100%;max-width:460px;display:flex;flex-direction:column;gap:12px;box-shadow:0 20px 50px -10px rgba(0,0,0,.35);margin:auto}
+.box h2{font-size:21px}
+.box p{margin:0;color:var(--muted)}
+.box input{font:inherit;font-size:16px;padding:9px 12px;border-radius:10px;border:2px solid var(--line);background:var(--surface2);color:var(--ink);width:100%}
+.box input:focus{outline:none;border-color:var(--accent)}
+.lbl{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font:inherit;font-size:14px;font-weight:600;background:var(--surface2);border:1px solid var(--line);color:var(--ink);border-radius:999px;padding:6px 12px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.foot{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-top:4px}
+.err{color:var(--err)!important;font-weight:600;font-size:14px}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:12px;font-weight:600;z-index:20;max-width:calc(100% - 32px)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="hub">← На главную</a>
+  <div class="bar"><h1>Админ-панель</h1>
+    <div class="seg" role="tablist" id="tabs"><button type="button" role="tab" data-t="players" aria-selected="true">Игроки</button><button type="button" role="tab" data-t="reports" aria-selected="false" id="tabRep">Ошибки</button></div>
+  </div>
+  <div id="gate" class="note">Загрузка…</div>
+
+  <section id="players" hidden>
+    <div class="list">
+      <div class="sum" id="sum"></div>
+      <div class="bar"><input class="search" id="q" type="search" placeholder="Поиск по нику, почте или вузу" autocomplete="off">
+        <div class="seg" id="pf"><button type="button" data-f="all" aria-selected="true">Все</button><button type="button" data-f="prem" aria-selected="false">С премиумом</button><button type="button" data-f="blk" aria-selected="false">Заблокированные</button></div></div>
+      <div class="list" id="plist"></div>
+    </div>
+  </section>
+
+  <section id="reports" hidden>
+    <div class="list">
+      <div class="bar"><div class="seg" id="rf"><button type="button" data-d="0" aria-selected="true">Новые</button><button type="button" data-d="1" aria-selected="false">Исправленные</button></div></div>
+      <div class="list" id="rlist"></div>
+    </div>
+  </section>
+</div>
+
+<div class="ov" id="ov" hidden><div class="box" role="dialog" aria-modal="true" id="dlg"></div></div>
+
+<script src="cloud.js?v=8"></script>
+<script>
+const $=s=>document.querySelector(s);
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const plural=(n,a,b,c)=>{const m=n%10,h=n%100; return m===1&&h!==11?a:m>=2&&m<=4&&(h<12||h>14)?b:c;};
+const GAMES=[['aromadom','aro','Аромадом'],['alkeny','ene','Алкены · Оранжерея'],['alkiny','yne','Алкины · Маяк'],['alkadieny','diene','Алкадиены · Каучуковая долина']];
+const PLACES={hub:'Главная',spravochnik:'Справочник',aromadom:'Аромадом',alkeny:'Алкены',alkiny:'Алкины',alkadieny:'Алкадиены',other:'Другое'};
+const DAY=864e5, FOREVER=()=>new Date(Date.now()+100*365*DAY).toISOString();
+const isForever=t=>t&&Date.parse(t)-Date.now()>50*365*DAY;
+const d=(t,time)=>t?new Date(t).toLocaleString('ru-RU',time?{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}:{day:'numeric',month:'short',year:'numeric'}):'-';
+const until=t=>isForever(t)?'навсегда':'до '+d(t,true);
+let tt=null;
+function toast(m){let t=$('.toast'); if(!t){t=document.createElement('div'); t.className='toast'; t.setAttribute('role','status'); document.body.appendChild(t);} t.textContent=m; t.hidden=false; clearTimeout(tt); tt=setTimeout(()=>t.hidden=true,2600);}
+const fail=e=>toast(e&&e.offline?'Нет связи с сервером':'Не получилось: '+(e&&e.message||e));
+
+/* ---------- вход и права ---------- */
+let P=[], R=[], tab='players', pfilt='all', rdone=false;
+async function boot(){
+  if(!window.Cloud||!Cloud.user()){ $('#gate').innerHTML='Войди в аккаунт на <a href="hub">главной</a>, чтобы открыть админ-панель.'; return; }
+  try{ await Cloud.status(); }catch(e){}
+  try{ P=(await Cloud.admin.players())||[]; }
+  catch(e){ $('#gate').textContent=e.offline?'Нет связи с сервером. Попробуй позже.':/not admin|42501/i.test(e.message+e.code)?'Эта страница только для администратора.':'Не получилось загрузить: '+e.message; return; }
+  $('#gate').hidden=true; show(tab); renderPlayers(); loadReports();
+}
+function show(t){ tab=t; ['players','reports'].forEach(id=>$('#'+id).hidden=id!==t);
+  document.querySelectorAll('#tabs [data-t]').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.t===t))); }
+$('#tabs').addEventListener('click',e=>{const b=e.target.closest('[data-t]'); if(b&&$('#gate').hidden) show(b.dataset.t);});
+
+/* ---------- игроки ---------- */
+const active=t=>t&&Date.parse(t)>Date.now();
+function renderPlayers(){
+  const prem=P.filter(p=>active(p.premium_until)).length, blk=P.filter(p=>p.blocked_until).length;
+  const week=P.filter(p=>p.last_play&&Date.now()-Date.parse(p.last_play)<7*DAY).length;
+  $('#sum').innerHTML=[[P.length,'игроков'],[week,'играли за неделю'],[prem,'с премиумом'],[blk,'заблокировано']].map(([n,t])=>`<div><b>${n}</b><span>${t}</span></div>`).join('');
+  const q=$('#q').value.trim().toLowerCase();
+  const rows=P.filter(p=>(!q||(p.nick||'').toLowerCase().includes(q)||(p.email||'').toLowerCase().includes(q)||(p.school||'').toLowerCase().includes(q))
+    &&(pfilt==='all'||(pfilt==='prem'&&active(p.premium_until))||(pfilt==='blk'&&p.blocked_until)));
+  $('#plist').innerHTML=rows.length?rows.map(p=>{
+    const n=p.nick||'без ника', src=Cloud.avaSrc(p.avatar), emo=p.avatar&&!/^img:/.test(p.avatar);
+    return `<article class="card${p.blocked_until?' isblk':''}" data-id="${p.id}">
+      <div class="ph"><span class="ava${src||emo?' emo':''}" aria-hidden="true" style="overflow:hidden">${src?`<img src="${esc(src)}" alt="" style="width:100%;height:100%;object-fit:cover;display:block">`:esc(emo?p.avatar:[...n][0].toUpperCase())}</span>
+        <span class="who"><b>${esc(n)}</b><span>${esc(p.email)}</span></span></div>
+      <div class="tags">
+        <span class="tag"><span class="st">★</span>${p.stars}</span><span class="tag">ур. ${p.max_level||1}</span>
+        ${GAMES.map(([g,c,name])=>`<span class="tag up ${c}" title="${name}: улучшений"><i></i>${p['up_'+g]}</span>`).join('')}
+        ${active(p.premium_until)?`<span class="tag prem">Премиум ${until(p.premium_until)}</span>`:''}
+        ${p.blocked_until?`<span class="tag blk">Блок ${until(p.blocked_until)}${p.block_reason?' · '+esc(p.block_reason):''}</span>`:''}
+        <span class="tag">🎓 ${p.school?esc(p.school):'учебное заведение не указано'}</span>
+        <span class="tag">🎯 ${p.grade?`хочет сдать на ${p.grade|0}`:'цель-оценка не выбрана'}</span>
+        ${p.is_admin?'<span class="tag adm">админ</span>':''}
+        ${p.reports?`<span class="tag">сообщений об ошибках: ${p.reports}</span>`:''}
+      </div>
+      <div class="meta">Регистрация ${d(p.created_at)} · вход ${d(p.last_sign_in_at,true)} · последняя игра ${d(p.last_play,true)}</div>
+      <div class="acts">
+        <button class="btn sm" type="button" data-a="prem">Премиум</button>
+        ${p.is_admin?'':`<button class="btn sm ghost" type="button" data-a="blk">${p.blocked_until?'Снять блок':'Заблокировать'}</button>`}
+        <button class="btn sm ghost" type="button" data-a="wipe">Стереть прогресс</button>
+      </div></article>`;}).join(''):'<div class="note">Никого не нашлось.</div>';
+}
+$('#q').addEventListener('input',renderPlayers);
+$('#pf').addEventListener('click',e=>{const b=e.target.closest('[data-f]'); if(!b) return; pfilt=b.dataset.f;
+  document.querySelectorAll('#pf [data-f]').forEach(x=>x.setAttribute('aria-selected',String(x===b))); renderPlayers();});
+async function reloadPlayers(){ try{ P=(await Cloud.admin.players())||[]; renderPlayers(); }catch(e){ fail(e); } }
+
+/* ---------- окна действий ---------- */
+const close=()=>{ $('#ov').hidden=true; };
+$('#ov').addEventListener('click',e=>{ if(e.target.id==='ov'||e.target.closest('[data-close]')) close(); });
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') close(); });
+function open(html){ $('#dlg').innerHTML=html; $('#ov').hidden=false; const f=$('#dlg input,#dlg .chip'); if(f) f.focus(); }
+async function run(btn,fn,ok){ btn.disabled=true; try{ await fn(); close(); toast(ok); await reloadPlayers(); }catch(e){ fail(e); } finally{ btn.disabled=false; } }
+
+$('#plist').addEventListener('click',e=>{
+  const b=e.target.closest('[data-a]'); if(!b) return;
+  const p=P.find(x=>x.id===b.closest('[data-id]').dataset.id); if(!p) return;
+  const who=`<b>${esc(p.nick||'без ника')}</b> (${esc(p.email)})`;
+  if(b.dataset.a==='prem'){
+    const has=active(p.premium_until);
+    open(`<h2>Премиум</h2><p>${who}<br>${has?'Сейчас: премиум '+until(p.premium_until):'Сейчас премиума нет.'}</p>
+      <span class="lbl">${has?'Продлить на':'Выдать на'}</span>
+      <div class="chips">${[[1,'1 день'],[3,'3 дня'],[7,'7 дней'],[30,'30 дней'],[90,'3 месяца'],[365,'1 год'],[0,'навсегда']].map(([n,t])=>`<button class="chip" type="button" data-days="${n}">${t}</button>`).join('')}</div>
+      <span class="lbl">Или до даты</span><input type="date" id="pDate">
+      <div class="foot">${has?'<button class="btn sm bad" type="button" id="pOff">Забрать премиум</button>':'<span></span>'}
+        <span class="acts"><button class="btn ghost" type="button" data-close>Отмена</button><button class="btn" type="button" id="pGo" disabled>Сохранить</button></span></div>`);
+    let target=null;
+    const from=has&&!isForever(p.premium_until)?Date.parse(p.premium_until):Date.now();   // продление - от конца текущей
+    $('#dlg').querySelector('.chips').addEventListener('click',ev=>{const c=ev.target.closest('[data-days]'); if(!c) return;
+      $('#dlg').querySelectorAll('.chip').forEach(x=>x.setAttribute('aria-pressed',String(x===c)));
+      const n=+c.dataset.days; target=n?new Date(from+n*DAY).toISOString():FOREVER(); $('#pDate').value=''; $('#pGo').disabled=false;});
+    $('#pDate').addEventListener('input',()=>{ const v=$('#pDate').value; $('#dlg').querySelectorAll('.chip').forEach(x=>x.setAttribute('aria-pressed','false'));
+      target=v?new Date(v+'T23:59:59').toISOString():null; $('#pGo').disabled=!target||Date.parse(target)<=Date.now(); });
+    $('#pGo').onclick=ev=>run(ev.target,()=>Cloud.admin.setPremium(p.id,target),'Премиум '+until(target));
+    if(has) $('#pOff').onclick=ev=>run(ev.target,()=>Cloud.admin.setPremium(p.id,null),'Премиум забран');
+  }
+  if(b.dataset.a==='blk'){
+    if(p.blocked_until){
+      open(`<h2>Снять блокировку?</h2><p>${who}<br>Сейчас заблокирован ${until(p.blocked_until)}.</p>
+        <div class="foot"><span></span><span class="acts"><button class="btn ghost" type="button" data-close>Отмена</button><button class="btn" type="button" id="bGo">Снять блок</button></span></div>`);
+      $('#bGo').onclick=ev=>run(ev.target,()=>Cloud.admin.block(p.id,null,''),'Блокировка снята');
+      return;
+    }
+    open(`<h2>Заблокировать</h2><p>${who}<br>Пока блок действует, игры закрыты, прогресс и ник не сохраняются на сервере, игрока нет в рейтинге.</p>
+      <span class="lbl">Срок</span>
+      <div class="chips">${[[10/1440,'10 минут'],[30/1440,'30 минут'],[1/24,'1 час'],[1,'1 день'],[3,'3 дня'],[7,'7 дней'],[30,'30 дней'],[0,'навсегда']].map(([n,t])=>`<button class="chip" type="button" data-days="${n}">${t}</button>`).join('')}</div>
+      <span class="lbl">Причина (игрок её увидит)</span><input id="bWhy" maxlength="300" placeholder="например, накрутка звёзд">
+      <div class="foot"><span></span><span class="acts"><button class="btn ghost" type="button" data-close>Отмена</button><button class="btn bad" type="button" id="bGo" disabled>Заблокировать</button></span></div>`);
+    let target=null;
+    $('#dlg').querySelector('.chips').addEventListener('click',ev=>{const c=ev.target.closest('[data-days]'); if(!c) return;
+      $('#dlg').querySelectorAll('.chip').forEach(x=>x.setAttribute('aria-pressed',String(x===c)));
+      const n=+c.dataset.days; target=n?new Date(Date.now()+n*DAY).toISOString():FOREVER(); $('#bGo').disabled=false;});
+    $('#bGo').onclick=ev=>run(ev.target,()=>Cloud.admin.block(p.id,target,$('#bWhy').value),'Заблокирован '+until(target));
+  }
+  if(b.dataset.a==='wipe'){
+    open(`<h2>Стереть прогресс?</h2><p>${who}<br>Удалятся звёзды, уровни, улучшения и открытые вещества или реакции - на сервере и на устройствах игрока при следующем заходе. Аккаунт, ник и премиум останутся. <b>Отменить нельзя.</b></p>
+      <span class="lbl">Что стереть</span>
+      <div class="chips" id="wWhat"><button class="chip" type="button" data-g="" aria-pressed="true">Все игры</button>${GAMES.map(([g,c,name])=>`<button class="chip" type="button" data-g="${g}" aria-pressed="false">${name}${p['up_'+g]?` · ${p['up_'+g]} ${plural(p['up_'+g],'улучшение','улучшения','улучшений')}`:''}</button>`).join('')}</div>
+      <span class="lbl">Напиши «стереть», чтобы подтвердить</span><input id="wOk" autocomplete="off">
+      <div class="foot"><span></span><span class="acts"><button class="btn ghost" type="button" data-close>Отмена</button><button class="btn bad" type="button" id="wGo" disabled>Стереть</button></span></div>`);
+    let game='';
+    $('#wWhat').addEventListener('click',ev=>{const c=ev.target.closest('[data-g]'); if(!c) return; game=c.dataset.g;
+      $('#wWhat').querySelectorAll('.chip').forEach(x=>x.setAttribute('aria-pressed',String(x===c)));
+      $('#wGo').textContent=game?'Стереть '+GAMES.find(x=>x[0]===game)[2]:'Стереть всё';});
+    $('#wGo').textContent='Стереть всё';
+    $('#wOk').addEventListener('input',()=>{ $('#wGo').disabled=$('#wOk').value.trim().toLowerCase()!=='стереть'; });
+    $('#wGo').onclick=ev=>run(ev.target,()=>Cloud.admin.wipe(p.id,game||null),game?'Прогресс в игре стёрт':'Прогресс стёрт');
+  }
+});
+
+/* ---------- сообщения об ошибках ---------- */
+const repCount=n=>{ $('#tabRep').textContent=n?`Ошибки · ${n}`:'Ошибки'; };
+async function loadReports(){
+  $('#rlist').innerHTML='<div class="note">Загрузка…</div>';
+  try{ R=(await Cloud.admin.reports(rdone))||[]; }catch(e){ $('#rlist').innerHTML='<div class="note">Не получилось загрузить сообщения.</div>'; return; }
+  if(!rdone) repCount(R.length); else Cloud.admin.reports(false).then(x=>repCount((x||[]).length)).catch(()=>{});
+  $('#rlist').innerHTML=R.length?R.map(r=>`<article class="card" data-r="${r.id}">
+      <div class="rh"><span><span class="place">${esc(PLACES[r.place]||r.place)}</span> <b>${esc(r.nick||'гость')}</b> <span class="meta">${esc(r.email||'')}</span></span><span class="meta">${d(r.created_at,true)}</span></div>
+      <p class="msg">${esc(r.message)}</p>
+      ${r.shot?`<div class="shot" data-shot="${esc(r.shot)}"><span class="meta">Скриншот загружается…</span></div>`:''}
+      ${r.device?`<div class="dev">${esc(r.device)}</div>`:''}
+      <div class="acts"><button class="btn sm${rdone?' ghost':''}" type="button" data-done="${rdone?0:1}">${rdone?'Вернуть в новые':'Исправлено'}</button></div>
+    </article>`).join(''):`<div class="note">${rdone?'Исправленных пока нет.':'Новых сообщений нет.'}</div>`;
+  document.querySelectorAll('[data-shot]').forEach(async el=>{
+    try{ const u=await Cloud.admin.shot(el.dataset.shot); el.innerHTML=`<a href="${u}" target="_blank" rel="noopener"><img src="${u}" alt="Скриншот от игрока"></a>`; }
+    catch(e){ el.innerHTML='<span class="meta">Скриншот не загрузился</span>'; }
+  });
+}
+$('#rf').addEventListener('click',e=>{const b=e.target.closest('[data-d]'); if(!b) return; rdone=b.dataset.d==='1';
+  document.querySelectorAll('#rf [data-d]').forEach(x=>x.setAttribute('aria-selected',String(x===b))); loadReports();});
+$('#rlist').addEventListener('click',async e=>{const b=e.target.closest('[data-done]'); if(!b) return; b.disabled=true;
+  try{ await Cloud.admin.reportDone(+b.closest('[data-r]').dataset.r,b.dataset.done==='1'); toast(b.dataset.done==='1'?'Отмечено как исправленное':'Возвращено в новые');
+    await loadReports(); }
+  catch(x){ fail(x); b.disabled=false; }});
+
+boot();
+</script>
+</body>
+</html>

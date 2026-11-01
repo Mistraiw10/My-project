@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="ru">
 <head>
-<meta charset="utf-8">
+<meta charset="utf-8"><link rel="manifest" href="manifest.webmanifest?v=2"><meta name="theme-color" content="#6650C9"><link rel="icon" href="icons/favicon.png?v=2"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=2"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Органика"><script>if('serviceWorker' in navigator&&location.protocol.indexOf('http')===0)navigator.serviceWorker.register('sw.js').catch(function(){})</script><script>if(/[?&]embed=profile/.test(location.search))document.documentElement.classList.add('embed');try{var t=localStorage.getItem('organika-theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}if(location.protocol==='file:')document.addEventListener('DOMContentLoaded',function(){document.querySelectorAll('a[href="hub"]').forEach(function(a){a.setAttribute('href','hub.html')})});</script>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}[hidden]{display:none!important}</style>
 <title>Органика в играх</title>
@@ -15,18 +15,18 @@
 :root{
   --bg:#E9EEF0; --surface:#FFFFFF; --surface2:#F2F5F6; --ink:#15232B; --muted:#5A6B74; --line:#D3DCE0;
   --accent:#E2621B; --accent-ink:#FFFFFF; --steel:#2F5566; --star:#E0A100; --fire:#E2531B; --err:#C62828;
-  --c-aro:#5B3FD1; --c-ene:#E2621B; --c-yne:#1F8A9E; --c-diene:#B3367A;
+  --c-aro:#5B3FD1; --c-ene:#D46A2C; --c-yne:#2B8795; --c-diene:#A8487A; --c-garden:#5E8F51; --c-chain:#6E7FD8;
   --f-display:"Russo One","Arial Black",sans-serif; --f-body:"Golos Text","Segoe UI",system-ui,sans-serif;
 }
 @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
   --bg:#10181D; --surface:#1A252C; --surface2:#213039; --ink:#E5EDF0; --muted:#9AAEB7; --line:#2E3F48;
   --accent:#FF8A47; --accent-ink:#1A1206; --steel:#8FB6C7; --star:#FFC93C; --fire:#FF8A47; --err:#FF7A7A;
-  --c-aro:#A08CFF; --c-ene:#FF8A47; --c-yne:#4FC3D6; --c-diene:#F07AB8;
+  --c-aro:#A08CFF; --c-ene:#E8935C; --c-yne:#62B6C2; --c-diene:#D98AB2; --c-garden:#9CC48C; --c-chain:#9AA8F2;
   color-scheme:dark }}
 :root[data-theme="dark"]{
   --bg:#10181D; --surface:#1A252C; --surface2:#213039; --ink:#E5EDF0; --muted:#9AAEB7; --line:#2E3F48;
   --accent:#FF8A47; --accent-ink:#1A1206; --steel:#8FB6C7; --star:#FFC93C; --fire:#FF8A47; --err:#FF7A7A;
-  --c-aro:#A08CFF; --c-ene:#FF8A47; --c-yne:#4FC3D6; --c-diene:#F07AB8;
+  --c-aro:#A08CFF; --c-ene:#E8935C; --c-yne:#62B6C2; --c-diene:#D98AB2; --c-garden:#9CC48C; --c-chain:#9AA8F2;
   color-scheme:dark }
 *{box-sizing:border-box}
 body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.5;
@@ -36,6 +36,31 @@ h1,h2,h3{font-family:var(--f-display);font-weight:400;margin:0;letter-spacing:.0
 .top{display:flex;justify-content:flex-end;align-items:center;gap:12px}
 .me{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:5px 14px 5px 5px;max-width:min(320px,70vw);font:inherit;color:inherit;cursor:pointer;text-align:left}
 .me:hover{border-color:var(--accent)}
+/* тариф: слева от профиля; премиум - золотой */
+.plan{display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:5px 14px 5px 5px;font:inherit;color:inherit;cursor:pointer;text-align:left;flex:none}
+.plan:hover{border-color:var(--accent)}
+.plan .pi{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:var(--surface2);color:var(--muted);flex:none}
+.plan .pi svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+.plan .who{display:flex;flex-direction:column;line-height:1.2}
+.plan small{color:var(--muted);font-size:12px;font-weight:600}
+.plan b{font-weight:700}
+.plan.prem{border-color:color-mix(in srgb,var(--star) 55%,var(--line))}
+.plan.prem .pi{background:color-mix(in srgb,var(--star) 18%,var(--surface));color:var(--star)}
+.plan.prem .pi svg{fill:currentColor}
+@media (max-width:420px){.plan small{display:none}.plan{padding-right:12px}.me{max-width:58vw}}
+/* окно сравнения тарифов */
+.tariffs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media (max-width:560px){.tariffs{grid-template-columns:minmax(0,1fr)}}
+.tf{border:1px solid var(--line);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:8px;background:var(--surface2)}
+.tf h3{font-size:19px;display:flex;align-items:center;gap:8px}
+.tf.prem{border:2px solid color-mix(in srgb,var(--star) 60%,var(--line));background:color-mix(in srgb,var(--star) 7%,var(--surface))}
+.tf.cur::after{content:"сейчас у тебя";align-self:flex-start;order:-1;font-size:11.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:1px 9px}
+.tf ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px;font-size:14px}
+.tf li{display:grid;grid-template-columns:18px minmax(0,1fr);gap:6px}
+.tf li::before{content:"✓";font-weight:800;color:var(--good,#1E8A64)}
+.tf li.no::before{content:"–";color:var(--muted)}
+.tf li.no{color:var(--muted)}
+.tf .price{font-size:13px;color:var(--muted);font-weight:600;margin-top:auto}
 .ava{width:36px;height:36px;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-family:var(--f-display);font-size:17px;flex:none;line-height:1}
 .ava.emo{background:var(--surface2);font-family:inherit;font-size:21px}
 .me .who{display:flex;flex-direction:column;min-width:0;line-height:1.2}
@@ -45,7 +70,7 @@ header{display:flex;flex-direction:column;gap:6px}
 header h1{font-size:clamp(28px,6.5vw,40px);line-height:1.1}
 header p{margin:0;color:var(--muted);max-width:60ch;font-size:16px}
 .stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
-.stat{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px;display:flex;flex-direction:column;justify-content:center;gap:4px;min-width:0}
 .stat .k{color:var(--muted);font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase}
 .stat .v{font-family:var(--f-display);font-size:22px;line-height:1.2;display:flex;align-items:center;gap:6px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .stat .v svg{width:20px;height:20px;flex:none}
@@ -65,7 +90,8 @@ header p{margin:0;color:var(--muted);max-width:60ch;font-size:16px}
 .cont .btn{flex:none;background:var(--c)}
 .cont:hover .btn{filter:brightness(1.08)}
 @media (max-width:520px){.cont{flex-wrap:wrap}.cont .btn{width:100%;text-align:center}}
-.ref{display:flex;align-items:center;gap:16px;background:linear-gradient(110deg,var(--steel),color-mix(in srgb,var(--steel) 70%,var(--c-yne)));color:#fff;border-radius:16px;padding:18px 20px;text-decoration:none}
+/* справочник: радуга из цветов игр - Аромадом, Алкадиены, Алкены */
+.ref{display:flex;align-items:center;gap:16px;background:linear-gradient(110deg,#6650C9,#A94F84 55%,#D27744);color:#fff;box-shadow:0 10px 24px -14px #A94F84;border-radius:16px;padding:18px 20px;text-decoration:none}
 .ref .ic{width:52px;height:52px;flex:none;border-radius:12px;background:rgba(255,255,255,.16);display:grid;place-items:center}
 .ref .ic svg{width:30px;height:30px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .ref .txt{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}
@@ -76,6 +102,7 @@ header p{margin:0;color:var(--muted);max-width:60ch;font-size:16px}
 .ref .arr{font-size:26px;flex:none;transition:transform .15s}
 .ref:hover .arr{transform:translateX(4px)}
 .sec{display:flex;flex-direction:column;gap:12px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .sec-h{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap}
 .sec-h h2{font-size:20px}
 .sec-h span{color:var(--muted);font-size:13px}
@@ -84,6 +111,7 @@ header p{margin:0;color:var(--muted);max-width:60ch;font-size:16px}
 .game{--c:var(--accent);display:grid;grid-template-columns:96px minmax(0,1fr);gap:16px;align-items:center;
   background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px;color:inherit;text-decoration:none;
   transition:transform .15s,border-color .15s,box-shadow .15s}
+.game.locked .pic{filter:grayscale(.7);opacity:.6}
 a.game:hover{border-color:var(--c);transform:translateY(-2px);box-shadow:0 6px 0 -2px color-mix(in srgb,var(--c) 35%,transparent)}
 .game:focus-visible,.cont:focus-visible,.ref:focus-visible{outline:3px solid var(--c,var(--accent));outline-offset:3px}
 .pic{width:96px;height:96px;border-radius:14px;background:color-mix(in srgb,var(--c) 12%,var(--surface));display:grid;place-items:center;color:var(--c);flex:none}
@@ -98,17 +126,25 @@ a.game:hover{border-color:var(--c);transform:translateY(-2px);box-shadow:0 6px 0
 .prog{display:flex;flex-direction:column;gap:4px;margin-top:2px}
 .bar{height:8px;border-radius:99px;background:var(--surface2);overflow:hidden}
 .bar i{display:block;height:100%;width:0;background:var(--c);border-radius:99px;transition:width .4s}
-.pl{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;font-size:12.5px;font-weight:600;color:var(--muted)}
+.pl{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;font-size:12.5px;font-weight:600;color:var(--muted)}
+.body>.pl{margin-top:14px}   /* у Сада и Цепочек нет полоски прогресса - строку опускаем на тот же уровень, что у игр */
 .pl .st{display:inline-flex;align-items:center;gap:4px}
 .pl svg{width:14px;height:14px;fill:var(--star)}
 .go{font-weight:700;color:var(--c);font-size:14px}
 .go::after{content:" →"}
-.aro{--c:var(--c-aro)} .ene{--c:var(--c-ene)} .yne{--c:var(--c-yne)} .diene{--c:var(--c-diene)} .exam{--c:var(--steel)}
+.aro{--c:var(--c-aro)} .ene{--c:var(--c-ene)} .yne{--c:var(--c-yne)} .diene{--c:var(--c-diene)} .exam{--c:var(--steel)} .adm{--c:var(--steel)} .garden{--c:var(--c-garden)} .chains{--c:var(--c-chain)}
+.blocked{background:color-mix(in srgb,var(--err) 12%,var(--surface));border:2px solid var(--err);border-radius:14px;padding:12px 16px;font-weight:600}
+#admNote.new{color:var(--err)}
 .game.soon{border-style:dashed;background:transparent}
+/* метка подписки - золотая плашка */
+/* метка подписки - серая плашка, как «скоро» */
+.pl .prem-tag{display:inline-flex;align-items:center;font-size:12px;font-weight:700;color:var(--muted);background:var(--surface2);border:1px solid var(--line);border-radius:999px;padding:2px 10px;white-space:nowrap}
 .soon-tag{font-size:12px;font-weight:700;color:var(--muted);background:var(--surface2);border-radius:999px;padding:2px 10px}
 .ach{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
 .a{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px;display:flex;flex-direction:column;align-items:flex-start;gap:4px}
 .a .e{font-size:26px;line-height:1.1}
+.ach .a.cut{display:none}   /* свёрнуто: видны первые две строки */
+.achmore{align-self:center;margin-top:-4px}
 .a b{font-size:14px;line-height:1.25}
 .a span{color:var(--muted);font-size:12.5px;line-height:1.3}
 .a.lock{opacity:.5}
@@ -116,14 +152,44 @@ a.game:hover{border-color:var(--c);transform:translateY(-2px);box-shadow:0 6px 0
 footer{color:var(--muted);font-size:13px;max-width:70ch}
 .btn{font:inherit;font-weight:700;border:0;border-radius:10px;padding:10px 18px;cursor:pointer;background:var(--accent);color:var(--accent-ink);text-decoration:none;display:inline-block}
 .btn.ghost{background:var(--surface2);color:var(--ink)}
+/* установка как приложения */
+.install{display:flex;align-items:center;gap:14px;text-align:left;border:1px solid var(--line);padding:14px 16px;border-radius:16px}
+.install .ic{font-size:26px;line-height:1}
+.install span:last-child{display:flex;flex-direction:column;gap:2px}
+.install small{font-weight:600;color:var(--muted);font-size:13px}
+.inst{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:8px}
+/* кнопка «Играть в Аромадом» - в цвет Аромадома */
+.aro-btn{display:block;text-align:center;padding:11px 16px;border-radius:12px;font-weight:700;text-decoration:none;background:color-mix(in srgb,#6A4FD6 13%,var(--surface));color:#5B3FD1;border:2px solid color-mix(in srgb,#6A4FD6 40%,transparent)}
+.aro-btn:hover{background:color-mix(in srgb,#6A4FD6 20%,var(--surface))}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .aro-btn{color:#B9ABFF} }
+:root[data-theme="dark"] .aro-btn{color:#B9ABFF}
 /* dialogs */
-.ov{position:fixed;inset:0;background:color-mix(in srgb,#000 45%,transparent);display:grid;place-items:center;padding:16px;z-index:10;overflow-y:auto}
+.ov{position:fixed;inset:0;background:color-mix(in srgb,#000 45%,transparent);display:grid;place-items:center;padding:16px;z-index:10;overflow-y:auto;overscroll-behavior:contain}
+/* пока открыто окно, страница под ним не прокручивается - колесо крутит само окно */
+html.modal-open,html.modal-open body{overflow:hidden}
 .box{background:var(--surface);border-radius:18px;padding:22px;width:100%;max-width:460px;display:flex;flex-direction:column;gap:12px;box-shadow:0 20px 50px -10px rgba(0,0,0,.35);margin:auto}
 .box h2{font-size:22px}
 .box p{margin:0;color:var(--muted)}
 .lbl{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
-.box input{font:inherit;font-size:17px;padding:10px 12px;border-radius:10px;border:2px solid var(--line);background:var(--surface2);color:var(--ink);width:100%}
-.box input:focus{outline:none;border-color:var(--accent)}
+.box input,.box select,.box textarea{font:inherit;font-size:17px;padding:10px 12px;border-radius:10px;border:2px solid var(--line);background:var(--surface2);color:var(--ink);width:100%}
+.box input:focus,.box select:focus,.box textarea:focus{outline:none;border-color:var(--accent)}
+.box textarea{font-size:15px;resize:vertical;min-height:110px}
+/* bug report */
+.shot{display:flex;flex-direction:column;gap:8px;align-items:flex-start}
+.shot label.btn{cursor:pointer}
+.shot label.btn.off{opacity:.55;cursor:not-allowed}
+.shot-prev{display:flex;align-items:flex-end;gap:12px}
+.shot-prev img{max-width:180px;max-height:140px;border-radius:10px;border:1px solid var(--line);display:block}
+.hint{font-size:13px}
+.bugbtn{align-self:flex-start}
+/* профиль внутри игры: хаб открыт в прозрачной рамке поверх игры, видны только окна */
+html.embed,html.embed body{background:transparent!important}
+html.embed .wrap{display:none!important}
+.pushrow{display:flex;flex-direction:column;gap:8px}
+#pushBox{display:flex;flex-direction:column;gap:8px;align-items:flex-start}
+#pushBox .st{font-size:13.5px;color:var(--muted)}
+.timerow{display:flex;align-items:center;gap:10px;font-weight:600}
+.timerow select{font:inherit;font-weight:700;padding:7px 10px;border-radius:10px;border:2px solid var(--line);background:var(--surface2);color:var(--ink);width:auto}
 .err{color:var(--err)!important;font-size:14px;font-weight:600}
 .chips{display:flex;flex-wrap:wrap;gap:8px}
 .chip{font:inherit;font-size:13px;background:var(--surface2);border:1px solid var(--line);color:var(--ink);border-radius:999px;padding:5px 12px;cursor:pointer}
@@ -131,11 +197,37 @@ footer{color:var(--muted);font-size:13px;max-width:70ch}
 .acts{display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap;margin-top:4px}
 .pf-head{display:flex;align-items:center;gap:14px}
 .pf-head .ava{width:64px;height:64px;font-size:28px}
-.pf-head .ava.emo{font-size:36px}
+.pf-head .ava.emo{font-size:36px;color:inherit}
 .pf-head b{font-family:var(--f-display);font-weight:400;font-size:22px;display:block;line-height:1.15;word-break:break-word}
-.pf-head span{color:var(--muted);font-size:14px}
+.pf-head span{color:var(--muted);font-size:14px;display:block}
+.pf-head span.ava{display:grid;color:var(--accent-ink)}
+.pf-head .nickrow{display:flex;align-items:center;gap:6px;color:inherit}
+.nickedit{flex:none;width:30px;height:30px;border-radius:8px;border:1px solid var(--line);background:var(--surface2);display:grid;place-items:center;cursor:pointer;color:var(--muted)}
+.nickedit:hover{color:var(--accent);border-color:var(--accent)}
+.nickedit svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.pf-head .schoolrow{display:flex;align-items:center;gap:6px}
+.nickedit.sm{width:24px;height:24px;border-radius:7px}
+.nickedit.sm svg{width:13px;height:13px}
+#pfSchool.empty{font-style:italic}
+/* цель-оценка: один широкий переключатель на три кнопки */
+.grade{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;background:var(--surface2);border:1px solid var(--line);border-radius:16px;padding:4px}
+.grade button{border:0;background:none;border-radius:12px;padding:8px 4px;display:flex;flex-direction:column;align-items:center;gap:0;cursor:pointer;color:var(--muted);font:inherit}
+.grade b{font-family:var(--f-display);font-weight:400;font-size:30px;line-height:1.1}
+.grade small{font-size:12px;font-weight:600}
+.grade button:hover{color:var(--ink)}
+.grade button[aria-checked="true"]{background:var(--accent);color:var(--accent-ink)}
+.grade button[data-g="3"][aria-checked="true"]{background:#E0A100;color:#1A1206}
+.grade button[data-g="4"][aria-checked="true"]{background:#2F8F5B;color:#fff}
 .avas{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:6px}
 .avas button{aspect-ratio:1;font-size:22px;border-radius:10px;border:2px solid transparent;background:var(--surface2);cursor:pointer;padding:0;line-height:1}
+.ava.own{background:var(--surface2);overflow:hidden;position:relative}
+.ava.own img{position:absolute;inset:0}
+.ava img{width:100%;height:100%;object-fit:cover;display:block;border-radius:50%}
+.avas button.own{overflow:hidden;position:relative}
+.avas button.own img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.avas button.up{position:relative;color:var(--muted);display:grid;place-items:center}
+.avas button.up svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linejoin:round}
+.avas button.up i{position:absolute;top:2px;right:4px;font-style:normal;font-size:11px;color:var(--star,#E3A82B)}
 .avas button[aria-pressed="true"]{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 14%,var(--surface))}
 @media (max-width:400px){.avas{grid-template-columns:repeat(6,minmax(0,1fr))}}
 .pf-rank{background:var(--surface2);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:6px}
@@ -157,12 +249,18 @@ footer{color:var(--muted);font-size:13px;max-width:70ch}
 .lr+.lr{border-top:1px solid var(--line)}
 .lr.me2{background:color-mix(in srgb,var(--accent) 12%,var(--surface));border-top-color:transparent}
 .lr .pl2{font-family:var(--f-display);font-size:16px;text-align:center;color:var(--muted)}
-.lr:nth-child(1) .pl2{color:#D4A000} .lr:nth-child(2) .pl2{color:#8A9AA5} .lr:nth-child(3) .pl2{color:#B8763E}
+.lr.p1 .pl2{color:#D4A000} .lr.p2 .pl2{color:#8A9AA5} .lr.p3 .pl2{color:#B8763E}
 .lr .ava{width:34px;height:34px;font-size:15px}
 .lr .ava.emo{font-size:19px}
 .lr b{font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .lr .ss{display:inline-flex;align-items:center;gap:4px;font-weight:700}
 .lr .ss svg{width:15px;height:15px;fill:var(--star)}
+.lr .nm{display:flex;flex-direction:column;gap:2px;min-width:0}
+.ups{display:flex;flex-wrap:wrap;gap:2px 10px;font-size:12px;font-weight:700;color:var(--muted);font-variant-numeric:tabular-nums}
+.up{display:inline-flex;align-items:center;gap:4px}
+.up i{width:8px;height:8px;border-radius:50%;background:var(--c);flex:none}
+.up.zero{opacity:.45}
+.lb-leg{display:flex;flex-wrap:wrap;gap:2px 12px;padding:8px 10px 6px;font-size:12px;font-weight:600;color:var(--muted);border-bottom:1px solid var(--line)}
 .lb-note{color:var(--muted);font-size:14px;padding:14px 12px;text-align:center}
 .lb-note button{font:inherit;font-weight:700;color:var(--accent);background:none;border:0;cursor:pointer;padding:0;text-decoration:underline}
 /* account */
@@ -184,6 +282,7 @@ footer{color:var(--muted);font-size:13px;max-width:70ch}
 
 <div class="wrap">
   <div class="top">
+    <button class="plan" id="planBtn" type="button" aria-label="Тариф: сравнить базовый и премиум"><span class="pi" id="planIc" aria-hidden="true"></span><span class="who"><small>Тариф</small><b id="planName">Базовый</b></span></button>
     <button class="me" id="me" type="button" aria-label="Открыть профиль">
       <span class="ava" id="ava" aria-hidden="true">?</span>
       <span class="who"><b id="meNick">Гость</b><small id="meRank">Ввести ник</small></span>
@@ -196,10 +295,26 @@ footer{color:var(--muted);font-size:13px;max-width:70ch}
   </header>
 
   <div class="stats">
-    <div class="stat star"><span class="k">Звёзды</span><span class="v"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.3 6.1 20.6l1.3-6.6L2.5 9.4l6.6-.8z"/></svg><span id="sStars">0</span></span><span class="s">заработано во всех играх</span></div>
+    <div class="stat star"><span class="k">Звёзды</span><span class="v"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.3 6.1 20.6l1.3-6.6L2.5 9.4l6.6-.8z"/></svg><span id="sStars">0</span></span><span class="s">заработано за всё время</span></div>
     <div class="stat fire"><span class="k">Серия</span><span class="v" id="sStreak">0 дней</span><span class="s" id="sStreakNote">занимайся каждый день</span></div>
     <div class="stat rk"><span class="k">Звание</span><span class="v rank" id="sRank">Лаборант</span><div class="mini"><i id="sRankBar"></i></div><span class="s" id="sRankNote"></span></div>
   </div>
+
+  <div class="blocked" id="blocked" role="alert" hidden></div>
+
+  <section class="sec" id="admSec" aria-labelledby="hAdm" hidden>
+    <div class="sec-h"><h2 id="hAdm">Администрирование</h2></div>
+    <div class="grid">
+      <a class="game adm" href="admin.html">
+        <span class="pic" aria-hidden="true"><svg viewBox="0 0 80 80"><path d="M40 10 64 19v19c0 15-10 26-24 32C26 64 16 53 16 38V19z"/><path d="M29 40l8 8 15-16"/></svg></span>
+        <span class="body">
+          <span class="row"><h3>Админ-панель</h3></span>
+          <p>Игроки, премиум, блокировки и сообщения об ошибках.</p>
+          <span class="pl"><span id="admNote">Видна только тебе</span><span class="go">Открыть</span></span>
+        </span>
+      </a>
+    </div>
+  </section>
 
   <a class="cont" id="cont" hidden></a>
 
@@ -207,20 +322,36 @@ footer{color:var(--muted);font-size:13px;max-width:70ch}
     <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 4.5A1.5 1.5 0 0 1 5.5 3H20v15H5.5A1.5 1.5 0 0 0 4 19.5z"/><path d="M4 19.5A1.5 1.5 0 0 0 5.5 21H20v-3"/><path d="M9 7h7M9 11h5"/></svg></span>
     <span class="txt">
       <h2>Справочник</h2>
-      <p>Все реакции и вещества из всех игр.</p>
-      <span class="tags"><span>Аромадом</span><span>Алкены</span><span>Алкины</span><span>Алкадиены</span></span>
+      <p>Реакции и вещества из всех игр.</p>
+      <span class="tags"><span>Аромадом</span><span>Алкены</span><span>Алкины</span><span>Алкадиены</span><span>Цепочки</span></span>
     </span>
     <span class="arr" aria-hidden="true">→</span>
   </a>
 
   <section class="sec" aria-labelledby="hHc">
-    <div class="sec-h"><h2 id="hHc">Углеводороды</h2><span>4 игры</span></div>
+    <div class="sec-h"><h2 id="hHc">Углеводороды</h2></div>
     <nav class="grid" aria-label="Игры: углеводороды" id="games"></nav>
   </section>
 
   <section class="sec" aria-labelledby="hSt">
     <div class="sec-h"><h2 id="hSt">Учёба</h2></div>
     <div class="grid">
+      <a class="game chains" href="chains.html" id="chainsCard">
+        <span class="pic" aria-hidden="true"><svg viewBox="0 0 80 80"><rect x="8" y="16" width="20" height="24" rx="5"/><rect x="52" y="40" width="20" height="24" rx="5"/><path d="M18 40v12h28"/><path d="M41 47l6 5-6 5"/></svg></span>
+        <span class="body">
+          <span class="row"><h3>Цепочки</h3><span class="badge">A → B</span></span>
+          <p>Схемы превращений: найди вещества по буквам и построй трубопровод химзавода.</p>
+          <span class="pl"><span id="chainsNote">Алкены, алкины, алкадиены</span><span class="go">Собирать</span></span>
+        </span>
+      </a>
+      <a class="game garden" href="mistakes.html">
+        <span class="pic" aria-hidden="true"><svg viewBox="0 0 80 80"><path d="M10 62h60"/><path d="M24 62V44M24 48c-7-1-10-6-10-12 7 1 10 6 10 12zM24 46c1-7 5-11 11-12 0 7-4 11-11 12z"/><path d="M54 62V40"/><circle cx="54" cy="32" r="6"/><path d="M54 24v-4M62 32h4M54 40v0M46 32h-4M59.7 26.3l2.8-2.8M48.3 26.3l-2.8-2.8"/></svg></span>
+        <span class="body">
+          <span class="row"><h3>Работа над ошибками</h3></span>
+          <p>Сад, где каждая ошибка - сорняк. Реши её верно 2 раза подряд - получишь лопату и выкопаешь его.</p>
+          <span class="pl"><span id="gardenNote">Ошибок пока нет</span><span class="prem-tag" id="gardenTag">доступно с премиумом</span><span class="go">В сад</span></span>
+        </span>
+      </a>
       <div class="game exam soon" aria-disabled="true">
         <span class="pic" aria-hidden="true"><svg viewBox="0 0 80 80"><path d="M14 22h40l12 12v28H14z"/><path d="M24 36h24M24 46h30M24 56h16"/><path d="M54 22v12h12"/></svg></span>
         <span class="body">
@@ -241,9 +372,37 @@ footer{color:var(--muted);font-size:13px;max-width:70ch}
   <section class="sec" aria-labelledby="hAc">
     <div class="sec-h"><h2 id="hAc">Достижения</h2><span id="achN"></span></div>
     <div class="ach" id="ach"></div>
+    <button class="link2 achmore" type="button" id="achMore" aria-controls="ach" hidden></button>
   </section>
 
-  <footer>Прогресс всегда сохраняется в этом браузере. Если войти в аккаунт, он ещё копируется на сервер - тогда можно играть с любого устройства и попасть в рейтинг.</footer>
+  <footer><button class="link2" type="button" data-bug>Сообщить об ошибке</button></footer>
+</div>
+
+<!-- bug report -->
+<div class="ov" id="bugOv" hidden>
+  <form class="box" id="bugForm" role="dialog" aria-modal="true" aria-labelledby="bugTitle" novalidate>
+    <h2 id="bugTitle">Сообщить об ошибке</h2>
+    <p>Расскажи, что пошло не так. Посмотрим и исправим.</p>
+    <label class="lbl" for="bugPlace">Где</label>
+    <select id="bugPlace">
+      <option value="hub">Главная</option><option value="spravochnik">Справочник</option>
+      <option value="aromadom">Аромадом</option><option value="alkeny">Алкены</option><option value="alkiny">Алкины</option><option value="alkadieny">Алкадиены</option><option value="oshibki">Работа над ошибками</option>
+      <option value="other">Другое</option>
+    </select>
+    <label class="lbl" for="bugText">Что случилось</label>
+    <textarea id="bugText" rows="5" maxlength="3000" placeholder="Например: в Алкенах на 5 уровне верный ответ засчитался как ошибка"></textarea>
+    <span class="lbl">Скриншот</span>
+    <div class="shot">
+      <label class="btn ghost" id="bugPick"><input type="file" accept="image/*" id="bugFile" hidden>Приложить скриншот</label>
+      <div class="shot-prev" id="bugPrev" hidden><img id="bugImg" alt="Скриншот"><button type="button" class="link2" id="bugDel">Убрать</button></div>
+      <p class="hint" id="bugShotNote" hidden></p>
+    </div>
+    <p class="err" id="bugErr" hidden></p>
+    <div class="acts">
+      <button class="btn ghost" type="button" id="bugCancel">Отмена</button>
+      <button class="btn" type="submit" id="bugGo">Отправить</button>
+    </div>
+  </form>
 </div>
 
 <!-- nickname -->
@@ -265,7 +424,7 @@ footer{color:var(--muted);font-size:13px;max-width:70ch}
 <!-- profile -->
 <div class="ov" id="pfOv" hidden>
   <div class="box" role="dialog" aria-modal="true" aria-labelledby="pfNick">
-    <div class="pf-head"><span class="ava" id="pfAva" aria-hidden="true"></span><div><b id="pfNick"></b><span id="pfRankLine"></span></div></div>
+    <div class="pf-head"><span class="ava" id="pfAva" aria-hidden="true"></span><div><span class="nickrow"><b id="pfNick"></b><button class="nickedit" type="button" id="pfNickBtn" title="Сменить ник" aria-label="Сменить ник"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></svg></button></span><span id="pfRankLine"></span><span class="schoolrow"><span id="pfSchool"></span><button class="nickedit sm" type="button" id="pfSchoolBtn" title="Изменить учебное заведение" aria-label="Изменить учебное заведение"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></svg></button></span></div></div>
     <div class="pf-stats">
       <div><b id="pfStars">0</b><span>звёзд</span></div>
       <div><b id="pfStreak">0</b><span>дней подряд</span></div>
@@ -276,13 +435,102 @@ footer{color:var(--muted);font-size:13px;max-width:70ch}
       <div class="mini"><i id="pfBar"></i></div>
       <div class="ranks" id="pfRanks"></div>
     </div>
+    <span class="lbl" id="gradeLbl">На какую оценку хочешь сдать органику</span>
+    <div class="grade" role="radiogroup" aria-labelledby="gradeLbl" id="gradeSeg">
+      <button type="button" role="radio" data-g="3"><b>3</b><small>удовл.</small></button>
+      <button type="button" role="radio" data-g="4"><b>4</b><small>хорошо</small></button>
+      <button type="button" role="radio" data-g="5"><b>5</b><small>отлично</small></button>
+    </div>
     <span class="lbl">Аватарка</span>
     <div class="avas" id="avas"></div>
+    <input type="file" id="avaFile" accept="image/*" hidden>
+    <button class="link2" type="button" id="avaMore" aria-controls="avas" style="align-self:flex-start"></button>
+    <span class="lbl">Тема</span>
+    <div class="seg" role="radiogroup" id="themeSeg" style="align-self:flex-start"><button type="button" role="radio" data-t="">Как в системе</button><button type="button" role="radio" data-t="light">Светлая</button><button type="button" role="radio" data-t="dark">Тёмная</button></div>
+    <div class="pushrow" id="pushRow">
+      <span class="lbl">Напоминания о серии</span>
+      <div id="pushBox"></div>
+    </div>
+    <div id="instRow" hidden style="display:flex;flex-direction:column;gap:8px">
+      <span class="lbl">Приложение</span>
+      <button class="btn ghost install" id="installBtn" type="button"><span class="ic" aria-hidden="true">📲</span><span><b>Установить на телефон</b><small>Иконка на экране «Домой», открывается как приложение</small></span></button>
+    </div>
     <div class="acc" id="acc"></div>
+    <button class="btn ghost bugbtn" type="button" data-bug>Сообщить об ошибке</button>
     <div class="acts">
-      <button class="btn ghost" type="button" id="pfNickBtn">Сменить ник</button>
       <button class="btn" type="button" id="pfClose">Готово</button>
     </div>
+  </div>
+</div>
+
+<!-- how to install the site as an app -->
+<div class="ov" id="instOv" hidden>
+  <div class="box" role="dialog" aria-modal="true" aria-labelledby="instTitle">
+    <h2 id="instTitle">Установить на телефон</h2>
+    <p id="instText"></p>
+    <ol class="inst" id="instSteps"></ol>
+    <div class="acts"><button class="btn" type="button" id="instClose">Понятно</button></div>
+  </div>
+</div>
+
+<!-- school: edited like the nick -->
+<div class="ov" id="schoolOv" hidden>
+  <form class="box" id="schoolForm" role="dialog" aria-modal="true" aria-labelledby="schoolTitle">
+    <h2 id="schoolTitle">Учебное заведение</h2>
+    <p>Где ты учишься? Это видно только тебе и администратору.</p>
+    <input id="schoolIn" maxlength="80" autocomplete="organization" placeholder="например, КФУ">
+    <div class="acts"><button class="btn ghost" type="button" id="schoolCancel">Отмена</button><button class="btn" type="submit">Сохранить</button></div>
+  </form>
+</div>
+
+<!-- tariffs: basic vs premium -->
+<div class="ov" id="planOv" hidden>
+  <div class="box" role="dialog" aria-modal="true" aria-labelledby="planTitle" style="max-width:680px">
+    <h2 id="planTitle">Тарифы</h2>
+    <div class="tariffs">
+      <div class="tf" id="tfBase">
+        <h3>Базовый</h3>
+        <ul>
+          <li>Аромадом - сразу, без входа</li>
+          <li>Алкены, Алкины, Алкадиены и Цепочки - после входа</li>
+          <li>5 жизней, новая каждые 10 минут</li>
+          <li>Справочник, рейтинг, звания и достижения</li>
+        </ul>
+        <span class="price">Бесплатно</span>
+      </div>
+      <div class="tf prem" id="tfPrem">
+        <h3><span aria-hidden="true" style="color:var(--star)">★</span> Премиум</h3>
+        <ul>
+          <li>Всё, что есть в базовом</li>
+          <li>Бесконечные жизни</li>
+          <li>«Работа над ошибками»: возможность полоть сад - задания только из своих ошибок</li>
+          <li>Своё фото на аватарке - в профиле, играх и рейтинге</li>
+        </ul>
+        <span class="price" id="premState">Подключить можно будет совсем скоро</span>
+      </div>
+    </div>
+    <div class="acts"><button class="btn" type="button" id="planClose">Понятно</button></div>
+  </div>
+</div>
+
+<!-- own photo avatar: subscription only -->
+<div class="ov" id="premOv" hidden>
+  <div class="box" role="dialog" aria-modal="true" aria-labelledby="premTitle" style="text-align:center">
+    <h2 id="premTitle">Своё фото - с премиумом</h2>
+    <p>С премиумом можно поставить на аватарку своё фото. Его будет видно в профиле, в играх и в рейтинге.</p>
+    <p>А ещё с премиумом бесконечные жизни во всех играх и «Работа над ошибками» в саду.</p>
+    <div class="acts"><button class="btn ghost" type="button" id="premPlans">Сравнить тарифы</button><button class="btn" type="button" id="premClose">Понятно</button></div>
+  </div>
+</div>
+
+<!-- closed game: sign in first -->
+<div class="ov" id="lockOv" hidden>
+  <div class="box" role="dialog" aria-modal="true" aria-labelledby="lockTitle" style="text-align:center">
+    <h2 id="lockTitle">Нужен вход в аккаунт</h2>
+    <p>Эта игра открывается после входа.<br>Войди, чтобы открыть все игры и не потерять прогресс.</p>
+    <p>Без аккаунта можно играть в Аромадом.</p>
+    <a class="aro-btn" href="aromadom.html">Играть в Аромадом</a>
+    <button class="btn" type="button" id="lockGo" style="margin-top:2px">Войти</button>
   </div>
 </div>
 
@@ -290,8 +538,10 @@ footer{color:var(--muted);font-size:13px;max-width:70ch}
 <div class="ov" id="authOv" hidden>
   <form class="box" id="authForm" role="dialog" aria-modal="true" aria-labelledby="authTitle" novalidate>
     <h2 id="authTitle">Аккаунт</h2>
-    <p id="authText">Прогресс сохранится на сервере: можно играть с телефона и компьютера и попасть в рейтинг.</p>
+    <p id="authText">Прогресс сохранится на сервере: можно играть с телефона и компьютера.</p>
     <div class="tabs2" role="tablist" id="authTabs"><button type="button" role="tab" data-m="in" aria-selected="true">Вход</button><button type="button" role="tab" data-m="up" aria-selected="false">Регистрация</button></div>
+    <label class="lbl" for="authSchool" data-f="school">Учебное заведение</label>
+    <input id="authSchool" data-f="school" maxlength="80" autocomplete="organization" placeholder="например, КФУ">
     <label class="lbl" for="authMail" data-f="mail">Почта</label>
     <input id="authMail" data-f="mail" type="email" autocomplete="email" inputmode="email" placeholder="you@mail.ru">
     <label class="lbl" for="authPass" data-f="pass" id="authPassLbl">Пароль</label>
@@ -306,10 +556,14 @@ footer{color:var(--muted);font-size:13px;max-width:70ch}
   </form>
 </div>
 
-<script src="cloud.js?v=3"></script>
+<script src="nickfilter.js?v=2"></script>
+<script src="cloud.js?v=8"></script>
 <script>
 /* Общие ключи: ник и аватарка - в хабе; organika-hub пишут игры (прогресс, последняя игра, дни занятий) */
-const NICK='organika-nick', AVA='organika-avatar', HUB='organika-hub';
+const NICK='organika-nick', AVA='organika-avatar', HUB='organika-hub', THEME='organika-theme', SCHOOL='organika-school';
+const GRADE='organika-grade';   // на какую оценку хочет сдать: '3' | '4' | '5'
+const AVA_MINE='organika-avatar-mine';   // последнее загруженное фото - чтобы вернуться к нему после эмодзи
+const premium=()=>{ try{ return (JSON.parse(get(HUB)||'{}').premiumUntil||0)>Date.now(); }catch(e){ return false; } };
 const $=s=>document.querySelector(s);
 const get=k=>{try{return localStorage.getItem(k);}catch(e){return null;}};
 const set=(k,v)=>{try{localStorage.setItem(k,v);}catch(e){}};
@@ -321,7 +575,7 @@ const plural=(n,a,b,c)=>{const m=n%10,h=n%100; return m===1&&h!==11?a:m>=2&&m<=4
 const GAMES=[
   {id:'aromadom',key:'aromadom-v1',href:'aromadom.html',cls:'aro',name:'Аромадом',badge:'Ar',unit:'веществ',
    desc:'Арены: по структуре выбери название и наоборот. Бензол, ксилолы, нафталин, фенолы, кислоты.',
-   svg:'<polygon points="40,10 66,25 66,55 40,70 14,55 14,25"/><path d="M45,18.6 62,28.4M62,51.6 45,61.4M18,51.6V28.4"/>'},
+   svg:'<polygon points="40,10 66,25 66,55 40,70 14,55 14,25"/><path d="M42.8,21.2 54.8,28.2M54.8,51.8 42.8,58.8M22.3,46.9V33.1"/>'},
   {id:'alkeny',key:'dvoinaya-svyaz-v1',href:'alkeny.html',cls:'ene',name:'Алкены',badge:'C<sub>n</sub>H<sub>2n</sub>',unit:'реакций',
    desc:'Получение и свойства: реагенты, продукты, цепочки. Зайцев и Гофман, Марковников и Хараш.',
    svg:'<path d="M10,52 26,40 54,40 70,28M26,34 54,34"/>'},
@@ -360,57 +614,78 @@ function bestStreak(days){
   return best;
 }
 const ACH=[
+  /* [значок, название, условие, проверка, секретное] */
   ['⭐','Первая звезда','Заработай первую звезду',x=>x.stars>=1],
-  ['🌟','Сотня','100 звёзд во всех играх',x=>x.stars>=100],
-  ['💫','Звездопад','500 звёзд',x=>x.stars>=500],
-  ['🏆','Звёздный химик','2000 звёзд',x=>x.stars>=2000],
+  ['🌟','Сотня','100 звёзд во всех играх',x=>x.stars>=100,1],
+  ['💫','Звездопад','500 звёзд',x=>x.stars>=500,1],
+  ['🏆','Звёздный химик','2000 звёзд',x=>x.stars>=2000,1],
   ['🔥','Три дня подряд','Серия 3 дня',x=>x.best>=3],
   ['📅','Неделя без пропусков','Серия 7 дней',x=>x.best>=7],
   ['🗓️','Месяц органики','Серия 30 дней',x=>x.best>=30],
+  ['🏃','Марафон','Серия 100 дней',x=>x.best>=100,1],
   ['🧭','Исследователь','Сыграй во все игры',x=>x.played>=GAMES.length],
   ['📈','Десятый уровень','Дойди до 10 уровня в любой игре',x=>x.maxLevel>=10],
   ['📚','Знаток темы','Открой всё в одной игре',x=>x.full>=1],
-  ['🎓','Энциклопедист','Открой всё во всех играх',x=>x.full>=GAMES.length]
+  ['🎓','Энциклопедист','Открой всё во всех играх',x=>x.full>=GAMES.length,1],
+  ['✨','Чистая работа','Собери цепочку без единой протечки',x=>x.ch.clean>=1],
+  ['🏭','Инженер завода','Построй весь химзавод в Цепочках',x=>x.ch.owned>=12],
+  ['🧩','Коллекционер','Собери все цепочки одной темы',x=>x.ch.fullTopic],
+  ['👷','Главный технолог','Собери все цепочки',x=>x.ch.done>=x.ch.total&&x.ch.total>0,1],
+  ['🌱','Садовник','Выкопай 10 сорняков',x=>x.dug>=10],
+  ['🌷','Цветущий сад','Выкопай последний сорняк - чтобы в саду не осталось ни одного',x=>x.dug>=1&&x.weeds===0,1],
+  ['🌙','Ночная смена','Заработай звезду после полуночи',x=>x.F.night,1],
+  ['🐦','Ранняя пташка','Заработай звезду до 7 утра',x=>x.F.early,1],
+  ['🎲','Универсал','Звёзды во всех четырёх играх за один день',x=>x.allDay],
+  ['⚗️','Реагент-мастер','20 верных ответов подряд на вопросы «какой реагент»',x=>x.rgBest>=20,1],
+  ['🔄','Возвращение','Вернись к занятиям после недели перерыва',x=>x.comeback,1],
+  ['🥇','В топе','Попади в первую десятку рейтинга недели',x=>x.F.top]
 ];
 
-/* ---------- nickname filter (как в Аромадоме) ---------- */
-const BAD_CYR=['гитлер','хитлер','адольф','муссолин','мусолин','геббельс','гиммлер','геринг','менгеле','эйхман','фашист','фашизм','нацист','нацизм','зигхайл','хайльгит','свастик','бенладен','полпот','чикатило','игил','куклукс',
-  'хуй','хуя','хуе','хуи','пизд','ебан','ебат','ебал','ебло','еблан','заеб','уеб','выеб','проеб','долбоеб','бляд','блят','сука','суки','мудак','мудил','гандон','пидор','пидар','пидр','педик','шлюх','залуп','дроч','ниггер','нигер','негр','дебил','имбецил','дерьм','говн','жопа','жопу','ублюд','шалав'];
-const BAD_LAT=['hitler','gitler','adolf','mussolini','musolini','goebbels','himmler','goering','mengele','eichmann','nazi','fascis','siegheil','heilhitler','swastik','binladen','polpot','chikatilo','kukluks','fuck','fuk','shit','bitch','cunt','nigger','nigga','faggot','whore','slut','retard','pussy','asshole','porn','huy','pizd','blyad','blyat','suka','pidor','eban'];
-const BAD_WORD=['жид','жиды','хач','чмо','хохол','кацап','чурка','урод','isis','kkk','ss','сс','fag','nig','dick'];
-const L2C={a:'а',b:'б',c:'с',e:'е',h:'н',k:'к',m:'м',o:'о',p:'р',t:'т',x:'х',y:'у','0':'о','3':'з','4':'ч','6':'б','@':'а'};
-const C2L={'а':'a','в':'b','е':'e','к':'k','м':'m','н':'h','о':'o','р':'p','с':'c','т':'t','у':'y','х':'x','0':'o','1':'i','3':'e','4':'a','5':'s','7':'t','@':'a','$':'s'};
-const mapS=(s,M)=>[...s].map(c=>M[c]||c).join('');
-function nickOk(raw){
-  const s=String(raw||'').toLowerCase().replace(/ё/g,'е');
-  if(/14\D{0,3}88/.test(s)) return false;
-  const st=s.replace(/[^a-zа-я0-9@$]/g,'');
-  const cyr=mapS(st,L2C), lat=mapS(st,C2L);
-  if(BAD_CYR.some(w=>cyr.includes(w)) || BAD_LAT.some(w=>lat.includes(w))) return false;
-  const words=s.split(/[^a-zа-я0-9@$]+/).filter(Boolean);
-  if(words.some(w=>BAD_WORD.includes(w)||BAD_WORD.includes(mapS(w,L2C))||BAD_WORD.includes(mapS(w,C2L)))) return false;
-  return true;
-}
+/* фильтр ников - общий, в nickfilter.js (window.nickOk) */
 const JOKES=['Бензольное колечко','Цис-Изомер','Тройная Связь','Мистер Дильс','Весёлый толуол','Карбокатион','Сонный нафталин','Пи-Связь','Изопренчик','Ёжик в колбе'];
-const AVATARS=['🧪','⚗️','🔬','🧬','⚛️','🔥','💧','🧫','🌿','🍋','🦉','🦊','🐱','🐼','🐸','🦄','🐙','🚀','⭐','🌈','🎯','🧠','👓'];
+/* первые AVA_SHORT видны сразу, остальные - по кнопке «Ещё» */
+const AVATARS=['🧪','⚗️','🔬','🧬','⚛️','🔥','💧','🦊','🐱','🐼','🦉','🐸','🦄','🐙','🚀',
+  '🐘','🐯','🐺','🦁','🐻','🐨','🐰','🐹','🐶','🐷','🐮','🐵','🦒','🦓','🦘','🦔','🦇','🐢','🐍','🦎','🐊','🐬','🐳','🦈','🐧','🦅','🦜','🦩','🐝','🦋','🐞','🦖','🐉',
+  '🧫','🌿','🍋','🍀','🌸','🍄','🌵','🍉','🍕','🍩','☕','⭐','🌙','☀️','⚡','🌈','❄️','🎯','🧠','👓','🎓','📚','🎸','🎮','🎨','⚽','🏀','💎','👑','🤖','👽','👻','🎃','🦾'];
+const AVA_SHORT=15;
+let avaAll=false;
 const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]];}return a;};
 
 function findOldNick(){
   for(const g of GAMES){ try{const s=JSON.parse(get(g.key)||'null'); if(s&&s.nick&&nickOk(s.nick)) return s.nick;}catch(e){} }
   return null;
 }
-function nick(){ let n=get(NICK); if(!n){ n=get('orgchem-nick')||findOldNick(); if(n&&!nickOk(n)) n=null; if(n) set(NICK,n); } return n; }
-function paintAva(el,n){ const a=get(AVA); el.classList.toggle('emo',!!a); el.textContent=a||(n?[...n][0].toUpperCase():'?'); }
+function nick(){ let n=get(NICK); if(n&&!nickOk(n)){ try{localStorage.removeItem(NICK);}catch(e){} n=null; } if(!n){ n=get('orgchem-nick')||findOldNick(); if(n&&!nickOk(n)) n=null; if(n) set(NICK,n); } return n; }
+/* своя картинка (img:...) - адрес даёт cloud.js; без него вместо картинки буква ника */
+const avaSrc=a=>window.Cloud&&Cloud.avaSrc?Cloud.avaSrc(a):null;
+const isImg=a=>/^img:/.test(a||'');
+function paintAva(el,n){ const a=get(AVA), src=avaSrc(a), letter=n?[...n][0].toUpperCase():'?';
+  el.classList.toggle('emo',!!a&&!isImg(a)); el.classList.toggle('own',!!src);
+  if(src) el.innerHTML=`<img src="${esc(src)}" alt="">`; else el.textContent=isImg(a)?letter:a||letter; }
 
 /* ---------- render ---------- */
 let X={};
 function collect(){
   const H=hubData(), info={};
   GAMES.forEach(g=>info[g.id]=gameInfo(g,H));
-  const vals=Object.values(info).filter(Boolean);
-  X={H,info,stars:vals.reduce((a,i)=>a+(i.earned||0),0),played:vals.filter(started).length,
+  const vals=Object.values(info).filter(Boolean), ch=(H.games||{}).chains;   // звёзды «Цепочек» тоже идут в звание
+  X={H,info,chains:ch||null,stars:vals.reduce((a,i)=>a+(i.earned||0),0)+((ch&&ch.earned)||0),played:vals.filter(started).length,
      maxLevel:Math.max(1,...vals.map(i=>i.level||1)),full:vals.filter(i=>i.total&&i.open>=i.total).length,
      streak:streak(H.days),best:bestStreak(H.days),days:(H.days||[]).length};
+  /* данные для достижений */
+  const c=ch||{}; X.ch={clean:c.clean|0,owned:c.owned|0,done:c.open|0,total:c.total|0,fullTopic:(c.fullTopics|0)>0};
+  try{ X.dug=(JSON.parse(get('oshibki-v1')||'{}').count)|0; }catch(e){ X.dug=0; }
+  X.rgBest=H.rgBest|0;
+  /* ночь и раннее утро - по часам, когда начислялись звёзды (H.sh хранит неделю, поэтому отметку запоминаем навсегда) */
+  const F=Object.assign({},H.flags); let fl=false;
+  Object.entries(H.sh||{}).forEach(([k,gs])=>{ if(!Object.values(gs||{}).some(n=>n>0)) return; const h=new Date(k).getHours();
+    if(h<5&&!F.night){ F.night=1; fl=true; } if(h>=5&&h<7&&!F.early){ F.early=1; fl=true; } });
+  if(fl){ H.flags=F; set(HUB,JSON.stringify(H)); }
+  X.F=F;
+  X.allDay=Object.values(H.sd||{}).some(d=>GAMES.every(g=>((d||{})[g.id]|0)>0));
+  /* возвращение: между двумя днями занятий прошло больше недели */
+  const ds=[...(H.days||[])].sort().map(s=>Date.parse(s));
+  X.comeback=ds.some((t,i)=>i>0&&t-ds[i-1]>=8*864e5);
 }
 function render(){
   collect();
@@ -418,6 +693,13 @@ function render(){
   $('#meNick').textContent=n||'Гость';
   $('#meRank').textContent=n?RANKS[ri][1]:'Ввести ник';
   paintAva($('#ava'),n);
+  /* тариф рядом с профилем: базовый или премиум (до какого числа - в окне сравнения) */
+  { const p=premium(), until=(X.H.premiumUntil||0);
+    $('#planBtn').classList.toggle('prem',p); $('#planName').textContent=p?'Премиум':'Базовый';
+    $('#planIc').innerHTML=p?'<svg viewBox="0 0 24 24"><path d="M12 3.5l2.6 5.3 5.8.8-4.2 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8-4.2-4.1 5.8-.8z"/></svg>'
+      :'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M8.5 12.5l2.3 2.3 4.7-5"/></svg>';
+    $('#tfBase').classList.toggle('cur',!p); $('#tfPrem').classList.toggle('cur',p);
+    $('#premState').textContent=p?`Подключён до ${new Date(until).toLocaleDateString('ru-RU',{day:'numeric',month:'long',year:'numeric'})}`:'Подключить можно будет совсем скоро'; }
 
   $('#sStars').textContent=X.stars;
   $('#sStreak').textContent=`${X.streak} ${plural(X.streak,'день','дня','дней')}`;
@@ -428,11 +710,37 @@ function render(){
   $('#sRankBar').style.width=pct+'%';
   $('#sRankNote').textContent=next?`до звания «${next[1]}» ещё ${next[0]-X.stars} ★`:'высшее звание!';
 
+  /* админ-панель и блокировка - по статусу с сервера (cloud.js хранит его в organika-hub) */
+  const C=window.Cloud&&Cloud.user()?Cloud:null, blk=C&&Cloud.blocked();
+  $('#admSec').hidden=!(C&&Cloud.isAdmin());
+  $('#blocked').hidden=!blk; if(blk) $('#blocked').textContent=blockText(blk);
+
+  /* сад ошибок: сорняки - ошибки после последнего выкапывания (та же логика, что в mistakes.html) */
+  { let n=0, r=0; const dug=(()=>{try{return JSON.parse(get('oshibki-v1')||'{}').dug||{};}catch(e){return {};}})();
+    [['aromadom','aromadom-v1','c'],['alkeny','dvoinaya-svyaz-v1','b'],['alkiny','alkiny-v1','b'],['alkadieny','alkadieny-v1','b'],['chains','chains-v1','b']].forEach(([g,k,f])=>{
+      let st={}; try{ st=JSON.parse(get(k)||'{}')||{}; }catch(e){}
+      const off=new Set(st.off||[]);
+      Object.entries(st.stats||{}).forEach(([id,s])=>{ if(s&&s.w>((dug[g]||{})[id]||0)&&!off.has(id)){ n++; if((s[f]||0)>=2) r++; } });
+    });
+    /* без входа сад закрыт, как игры с реакциями: клик открывает окно «Нужен вход» с зелёной кнопкой */
+    const card=$('.game.garden'), lock=needLogin({id:'garden'});
+    card.classList.toggle('locked',lock); card.toggleAttribute('data-need-login',lock);
+    X.weeds=n;
+    $('#gardenNote').textContent=lock?'Нужен вход в аккаунт':n?`${n} ${plural(n,'сорняк','сорняка','сорняков')}${r?` · лопат ${r}`:''}`:'Сорняков нет';
+    card.querySelector('.go').textContent=lock?'Войти':'В сад';
+    $('#gardenTag').hidden=lock||(X.H.premiumUntil||0)>Date.now(); }   // с подпиской метка не нужна
+
+  /* цепочки: без входа закрыты, как игры с реакциями */
+  { const card=$('#chainsCard'), lock=needLogin({id:'chains'}), c=X.chains;
+    card.classList.toggle('locked',lock); card.toggleAttribute('data-need-login',lock);
+    $('#chainsNote').textContent=lock?'Нужен вход в аккаунт':`📐 ${(c&&c.bp)||0} · ур. ${(c&&c.level)||1} · собрано ${(c&&c.open)||0} из ${(c&&c.total)||22}`;
+    card.querySelector('.go').textContent=lock?'Войти':c&&c.open?'Продолжить':'Собирать'; }
+
   /* continue */
   const lastId=X.H.last, lg=GAMES.find(g=>g.id===lastId), li=lg&&X.info[lg.id];
   $('#cont').hidden=!lg;
   if(lg){
-    $('#cont').className='cont '+lg.cls; $('#cont').href=lg.href;
+    $('#cont').className='cont '+lg.cls; $('#cont').href=lg.href; $('#cont').toggleAttribute('data-need-login',needLogin(lg));
     $('#cont').innerHTML=`<span class="pic" aria-hidden="true"><svg viewBox="0 0 80 80">${lg.svg}</svg></span>
       <span class="txt"><span class="k">Последняя игра</span><h2>${lg.name}</h2>
       <span class="s">${li?`★ ${li.earned} · уровень ${li.level}${li.total?` · открыто ${li.open} из ${li.total} ${lg.unit}`:''}`:''}</span></span>
@@ -442,21 +750,27 @@ function render(){
   /* games */
   $('#games').innerHTML=GAMES.map(g=>{
     const i=X.info[g.id], st=started(i), pct=i&&i.total?Math.min(100,Math.round(i.open/i.total*100)):0;
-    return `<a class="game ${g.cls}" href="${g.href}">
+    const lock=needLogin(g);
+    return `<a class="game ${g.cls}${lock?' locked':''}" href="${g.href}" ${lock?'data-need-login':''}>
       <span class="pic" aria-hidden="true"><svg viewBox="0 0 80 80">${g.svg}</svg></span>
       <span class="body">
         <span class="row"><h3>${g.name}</h3><span class="badge">${g.badge}</span></span>
         <p>${g.desc}</p>
         <span class="prog">
           <span class="bar" aria-hidden="true"><i style="width:${pct}%"></i></span>
-          <span class="pl">${st?`<span class="st">${STAR}${i.earned} · ур. ${i.level}</span><span>${i.total?`открыто ${i.open} из ${i.total}`:'открой игру, чтобы обновить'}</span>`:'<span>Ещё не начато</span>'}<span class="go">${st?'Продолжить':'Играть'}</span></span>
+          <span class="pl">${lock?'<span>Нужен вход в аккаунт</span><span class="go">Войти</span>':st?`<span class="st">${STAR}${i.earned} · ур. ${i.level}</span><span>${i.total?`открыто ${i.open} из ${i.total}`:'открой игру, чтобы обновить'}</span>`:'<span>Ещё не начато</span>'}${lock?'':`<span class="go">${st?'Продолжить':'Играть'}</span>`}</span>
         </span>
       </span></a>`;}).join('');
 
   /* achievements */
   const got=ACH.filter(a=>a[3](X)).length;
   $('#achN').textContent=`получено ${got} из ${ACH.length}`;
-  $('#ach').innerHTML=ACH.map(([e,t,d,f])=>{const ok=f(X); return `<div class="a${ok?'':' lock'}" title="${ok?'Получено':'Ещё не получено'}"><span class="e" aria-hidden="true">${e}</span><b>${t}</b><span>${d}</span></div>`;}).join('');
+  /* секретные (5-й элемент) до получения показываются знаком вопроса и стоят в самом конце;
+     полученное секретное встаёт на своё место в списке */
+  const list=ACH.map(a=>({a,ok:a[3](X)})), shown=list.filter(x=>!(x.a[4]&&!x.ok)).concat(list.filter(x=>x.a[4]&&!x.ok));
+  $('#ach').innerHTML=shown.map(({a:[e,t,d,,sec],ok})=>{const hide=sec&&!ok;
+    return `<div class="a${ok?'':' lock'}${hide?' secret':''}" title="${ok?'Получено':hide?'Секретное достижение':'Ещё не получено'}"><span class="e" aria-hidden="true">${hide?'❔':e}</span><b>${hide?'Секрет':t}</b><span>${hide?'Откроется, когда получишь':d}</span></div>`;}).join('');
+  cutAch();
 }
 
 /* ---------- profile ---------- */
@@ -465,21 +779,103 @@ function renderProfile(){
   paintAva($('#pfAva'),n);
   $('#pfNick').textContent=n||'Гость';
   $('#pfRankLine').textContent=RANKS[ri][1];
+  $('#pfSchool').textContent=get(SCHOOL)||'Учебное заведение не указано'; $('#pfSchool').classList.toggle('empty',!get(SCHOOL));
+  const gr=get(GRADE)||'';
+  document.querySelectorAll('#gradeSeg [data-g]').forEach(b=>b.setAttribute('aria-checked',String(b.dataset.g===gr)));
   $('#pfStars').textContent=X.stars; $('#pfStreak').textContent=X.streak; $('#pfDays').textContent=X.days;
   $('#pfRank').textContent=RANKS[ri][1];
   $('#pfNext').textContent=next?`${X.stars} / ${next[0]} ★`:`${X.stars} ★`;
   $('#pfBar').style.width=(next?Math.round((X.stars-RANKS[ri][0])/(next[0]-RANKS[ri][0])*100):100)+'%';
   $('#pfRanks').innerHTML=RANKS.map((r,i)=>`<span class="${i===ri?'on':''}" title="от ${r[0]} ★">${r[1]}</span>`).join('');
-  renderAcc();
+  renderAcc(); renderPush();
+  const th=get(THEME)||'';
+  document.querySelectorAll('#themeSeg [data-t]').forEach(b=>{ b.setAttribute('aria-selected',String(b.dataset.t===th)); b.setAttribute('aria-checked',String(b.dataset.t===th)); });
   const cur=get(AVA);
+  /* выбранная аватарка из длинного списка видна и в свёрнутом виде */
+  const shown=avaAll?AVATARS:AVATARS.slice(0,AVA_SHORT).concat(cur&&AVATARS.indexOf(cur)>=AVA_SHORT?[cur]:[]);
+  /* после буквы - своё фото: загруженное (если есть) и кнопка загрузки (с подпиской) */
+  const mine=avaSrc(cur)||avaSrc(get(AVA_MINE));
   $('#avas').innerHTML=`<button type="button" data-a="" aria-pressed="${!cur}" aria-label="Буква ника" style="font-family:var(--f-display);font-size:18px">${n?esc([...n][0].toUpperCase()):'?'}</button>`+
-    AVATARS.map(a=>`<button type="button" data-a="${a}" aria-pressed="${cur===a}">${a}</button>`).join('');
+    (mine?`<button type="button" class="own" data-a="${esc(isImg(cur)?cur:get(AVA_MINE))}" aria-pressed="${isImg(cur)}" aria-label="Своё фото"><img src="${esc(mine)}" alt=""></button>`:'')+
+    `<button type="button" class="up" data-up aria-label="Загрузить своё фото" title="Своё фото - с премиумом"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h3l1.5-2h7L17 8h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>${premium()?'':'<i aria-hidden="true">★</i>'}</button>`+
+    shown.map(a=>`<button type="button" data-a="${a}" aria-pressed="${cur===a}">${a}</button>`).join('');
+  $('#avaMore').textContent=avaAll?'Свернуть':`Ещё ${AVATARS.length-AVA_SHORT} картинок`;
+  $('#avaMore').setAttribute('aria-expanded',String(avaAll));
 }
-function openProfile(){ if(!nick()) return openNick(); render(); renderProfile(); $('#pfOv').hidden=false; $('#pfClose').focus(); }
-$('#avas').addEventListener('click',e=>{const b=e.target.closest('[data-a]'); if(!b) return;
+function openProfile(){ if(!nick()) return openNick(); render(); renderProfile(); $('#pfOv').hidden=false; $('#pfOv').scrollTop=0; $('#pfClose').focus({preventScroll:true}); }   // профиль открывается с начала, а не прокрученным к кнопке «Готово»
+$('#avas').addEventListener('click',e=>{
+  if(e.target.closest('[data-up]')) return pickPhoto();
+  const b=e.target.closest('[data-a]'); if(!b) return;
   if(b.dataset.a) set(AVA,b.dataset.a); else { try{localStorage.removeItem(AVA);}catch(e){} }
   renderProfile(); render();
   if(window.Cloud&&Cloud.user()&&nick()) Cloud.saveProfile(nick(),get(AVA)).catch(()=>{});});
+/* тема на весь сайт: пусто – как в системе; каждая страница читает organika-theme при загрузке */
+function applyTheme(t){ if(t) document.documentElement.setAttribute('data-theme',t); else document.documentElement.removeAttribute('data-theme'); }
+$('#themeSeg').addEventListener('click',e=>{const b=e.target.closest('[data-t]'); if(!b) return;
+  if(b.dataset.t) set(THEME,b.dataset.t); else { try{localStorage.removeItem(THEME);}catch(x){} }
+  applyTheme(b.dataset.t); renderProfile();});
+$('#avaMore').onclick=()=>{ avaAll=!avaAll; renderProfile(); };
+/* цель-оценка: сразу сохраняется на сервере, чтобы её видел админ */
+$('#gradeSeg').addEventListener('click',e=>{ const b=e.target.closest('[data-g]'); if(!b) return;
+  set(GRADE,b.dataset.g); renderProfile();
+  if(window.Cloud&&Cloud.user()&&nick()) Cloud.saveProfile(nick(),get(AVA),undefined,+b.dataset.g).catch(()=>{});
+  toast(`Цель - сдать на ${b.dataset.g}. Удачи!`); });
+/* учебное заведение - меняется так же, как ник: карандаш открывает окошко */
+$('#pfSchoolBtn').onclick=()=>{ $('#pfOv').hidden=true; $('#schoolIn').value=get(SCHOOL)||''; $('#schoolOv').hidden=false; setTimeout(()=>$('#schoolIn').focus(),30); };
+const schoolBack=()=>{ $('#schoolOv').hidden=true; openProfile(); };
+$('#schoolCancel').onclick=schoolBack;
+$('#schoolOv').addEventListener('click',e=>{ if(e.target.id==='schoolOv') schoolBack(); });
+$('#schoolForm').addEventListener('submit',e=>{ e.preventDefault();
+  const v=$('#schoolIn').value.trim().replace(/\s+/g,' ').slice(0,80);
+  if(v) set(SCHOOL,v); else { try{ localStorage.removeItem(SCHOOL); }catch(x){} }
+  if(window.Cloud&&Cloud.user()&&nick()) Cloud.saveProfile(nick(),get(AVA),v||'').catch(()=>{});
+  toast(v?'Учебное заведение сохранено':'Учебное заведение убрано'); schoolBack(); });
+document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&!$('#schoolOv').hidden) schoolBack(); });
+/* достижения: свёрнуты до двух строк (сколько карточек в строке - зависит от ширины экрана) */
+let achAll=false;
+function cutAch(){
+  const g=$('#ach'), items=[...g.children]; if(!items.length) return;
+  const cols=Math.max(1,getComputedStyle(g).gridTemplateColumns.split(' ').filter(Boolean).length), lim=cols*2;
+  items.forEach((el,i)=>el.classList.toggle('cut',!achAll&&i>=lim));
+  $('#achMore').hidden=items.length<=lim;
+  $('#achMore').textContent=achAll?'Свернуть':`Показать все (${items.length})`;
+  $('#achMore').setAttribute('aria-expanded',String(achAll));
+}
+$('#achMore').onclick=()=>{ achAll=!achAll; cutAch(); if(!achAll) $('#hAc').scrollIntoView({block:'nearest'}); };
+window.addEventListener('resize',()=>cutAch());
+/* своё фото: только со входом и подпиской. Обрезаем по центру в квадрат 256×256 и сжимаем в JPEG */
+function pickPhoto(){
+  if(!(window.Cloud&&Cloud.user())) return openAuth();
+  if(!premium()){ $('#pfOv').hidden=true; $('#premOv').hidden=false; $('#premClose').focus(); return; }
+  $('#avaFile').click();
+}
+async function squareJpeg(file){
+  const url=URL.createObjectURL(file);
+  try{
+    const img=await new Promise((ok,no)=>{const i=new Image(); i.onload=()=>ok(i); i.onerror=no; i.src=url;});
+    const s=Math.min(img.naturalWidth,img.naturalHeight), c=document.createElement('canvas'); c.width=c.height=256;
+    const g=c.getContext('2d'); g.fillStyle='#fff'; g.fillRect(0,0,256,256);
+    g.drawImage(img,(img.naturalWidth-s)/2,(img.naturalHeight-s)/2,s,s,0,0,256,256);
+    return await new Promise(ok=>c.toBlob(ok,'image/jpeg',.85));
+  }finally{ URL.revokeObjectURL(url); }
+}
+$('#avaFile').addEventListener('change',async()=>{ const f=$('#avaFile').files[0]; $('#avaFile').value=''; if(!f) return;
+  toast('Загружаю фото…');
+  try{
+    const v=await Cloud.avatarUpload(await squareJpeg(f));
+    set(AVA,v); set(AVA_MINE,v); renderProfile(); render();
+    await Cloud.saveProfile(nick(),v).catch(()=>{});
+    toast('Фото сохранено');
+  }catch(x){ toast(x.offline?'Нет связи с сервером, попробуй позже':x.status===403||x.status===400?'Своё фото можно загрузить с премиумом':'Не получилось загрузить фото'); }
+});
+$('#planBtn').onclick=()=>{ render(); $('#planOv').hidden=false; $('#planClose').focus(); };
+$('#planClose').onclick=()=>{ $('#planOv').hidden=true; };
+$('#premPlans').onclick=()=>{ $('#premOv').hidden=true; $('#planBtn').click(); };
+$('#planOv').addEventListener('click',e=>{ if(e.target.id==='planOv') $('#planOv').hidden=true; });
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') $('#planOv').hidden=true; });
+$('#premClose').onclick=()=>{ $('#premOv').hidden=true; openProfile(); };
+$('#premOv').addEventListener('click',e=>{ if(e.target.id==='premOv') $('#premOv').hidden=true; });
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') $('#premOv').hidden=true; });
 $('#me').onclick=openProfile;
 $('#pfClose').onclick=()=>{$('#pfOv').hidden=true;};
 $('#pfNickBtn').onclick=()=>{$('#pfOv').hidden=true; openNick();};
@@ -529,7 +925,7 @@ function renderAcc(){
   el.innerHTML=`<span class="lbl">Аккаунт</span><div class="row2"><span class="mail">${esc(u.email)}</span><button class="link2" type="button" data-out>Выйти</button></div>${st}<div><button class="btn ghost" type="button" data-sync>Синхронизировать</button></div>`;
 }
 $('#acc').addEventListener('click',async e=>{
-  if(e.target.closest('[data-out]')){ await Cloud.signOut(); renderAcc(); loadLb(); toast('Выход выполнен. Прогресс остался на этом устройстве.'); }
+  if(e.target.closest('[data-out]')){ await Cloud.signOut(); try{ localStorage.removeItem(SCHOOL); localStorage.removeItem(GRADE); }catch(x){} renderAcc(); loadLb(); toast('Выход выполнен. Прогресс остался на этом устройстве.'); render(); }
   if(e.target.closest('[data-sync]')){ const b=e.target.closest('[data-sync]'); b.disabled=true;
     try{ if(await Cloud.sync(false)) render(); toast('Синхронизировано'); }catch(x){ toast('Сервер недоступен, попробуем позже'); }
     renderAcc(); }
@@ -539,8 +935,8 @@ document.addEventListener('click',e=>{ if(e.target.closest('[data-auth]')) openA
 /* режимы окна: in - вход, up - регистрация, reset - прислать ссылку, new - задать новый пароль после ссылки */
 let authMode='in';
 const AUTH_UI={
-  in:   {title:'Аккаунт',      go:'Войти',            mail:1,pass:1,tabs:1,forgot:1,text:'Прогресс сохранится на сервере: можно играть с телефона и компьютера и попасть в рейтинг.'},
-  up:   {title:'Аккаунт',      go:'Создать аккаунт',  mail:1,pass:1,tabs:1,forgot:0,text:'Прогресс сохранится на сервере: можно играть с телефона и компьютера и попасть в рейтинг.'},
+  in:   {title:'Аккаунт',      go:'Войти',            school:0,mail:1,pass:1,tabs:1,forgot:1,text:'Прогресс сохранится на сервере: можно играть с телефона и компьютера.'},
+  up:   {title:'Аккаунт',      go:'Создать аккаунт',  school:1,mail:1,pass:1,tabs:1,forgot:0,text:'Прогресс сохранится на сервере: можно играть с телефона и компьютера.'},
   reset:{title:'Восстановление пароля', go:'Прислать ссылку', mail:1,pass:0,tabs:0,forgot:0,text:'Введи почту, с которой регистрировался. Придёт письмо со ссылкой - по ней можно задать новый пароль.'},
   new:  {title:'Новый пароль', go:'Сохранить пароль', mail:0,pass:1,tabs:0,forgot:0,text:'Придумай новый пароль - не меньше 6 символов.'}
 };
@@ -548,6 +944,7 @@ function setAuthMode(m){ authMode=m; const u=AUTH_UI[m];
   document.querySelectorAll('#authTabs [data-m]').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.m===m)));
   $('#authTitle').textContent=u.title; $('#authText').textContent=u.text; $('#authGo').textContent=u.go;
   $('#authTabs').hidden=!u.tabs; $('#forgotBtn').hidden=!u.forgot;
+  document.querySelectorAll('#authForm [data-f="school"]').forEach(x=>x.hidden=!u.school);
   document.querySelectorAll('#authForm [data-f="mail"]').forEach(x=>x.hidden=!u.mail);
   document.querySelectorAll('#authForm [data-f="pass"]').forEach(x=>x.hidden=!u.pass);
   $('#authPassLbl').textContent=m==='new'?'Новый пароль':'Пароль';
@@ -581,7 +978,8 @@ $('#authForm').addEventListener('submit',async e=>{e.preventDefault();
       await Cloud.setPassword(pass);
       $('#authOv').hidden=true; toast('Пароль изменён'); await afterLogin(); return;
     }
-    if(authMode==='up'){ const r=await Cloud.signUp(mail,pass);
+    if(authMode==='up'){ const sc=$('#authSchool').value.trim().replace(/\s+/g,' ').slice(0,80); if(sc) set(SCHOOL,sc);   // учебное заведение - необязательно
+      const r=await Cloud.signUp(mail,pass);
       if(!r.ok){ setAuthMode('in'); return err('Аккаунт создан. Подтверди почту по ссылке из письма, потом войди.'); } }
     else await Cloud.signIn(mail,pass);
     $('#authOv').hidden=true; toast('Вход выполнен');
@@ -595,14 +993,16 @@ $('#authForm').addEventListener('submit',async e=>{e.preventDefault();
 async function afterLogin(){
   try{
     const p=await Cloud.getProfile();
-    if(p){ set(NICK,p.nick); if(p.avatar) set(AVA,p.avatar); else { try{localStorage.removeItem(AVA);}catch(e){} } }
+    if(p){ set(NICK,p.nick); if(p.avatar){ set(AVA,p.avatar); if(isImg(p.avatar)) set(AVA_MINE,p.avatar); } else { try{localStorage.removeItem(AVA);}catch(e){} }
+      if(p.school) set(SCHOOL,p.school); else if(get(SCHOOL)) Cloud.saveProfile(p.nick,p.avatar,get(SCHOOL)).catch(()=>{});
+      if(p.grade) set(GRADE,String(p.grade)); else if(get(GRADE)) Cloud.saveProfile(p.nick,p.avatar,undefined,+get(GRADE)).catch(()=>{}); }
     else if(nick()){
-      try{ await Cloud.saveProfile(nick(),get(AVA)); }
+      try{ await Cloud.saveProfile(nick(),get(AVA),get(SCHOOL),+get(GRADE)||undefined); }
       catch(x){ if(x.code==='taken'){ toast(`Ник «${nick()}» уже занят - выбери другой`); setTimeout(openNick,400); } }
     }
     await Cloud.sync(true);
   }catch(e){}
-  render(); loadLb();
+  render(); loadLb(); admCount();
 }
 async function bootCloud(){
   /* пришли по ссылке из письма «восстановить пароль» */
@@ -617,14 +1017,27 @@ async function bootCloud(){
   if(!window.Cloud||!Cloud.user()) return;
   try{
     if(hubData().profileDirty&&nick()) await Cloud.saveProfile(nick(),get(AVA)).catch(()=>{});
-    if(await Cloud.sync(false)) render();
+    await Cloud.sync(false);
   }catch(e){}
+  render(); admCount();
   if(!$('#pfOv').hidden) renderAcc();
+}
+function blockText(b){
+  const t=new Date(b.until)-Date.now()>50*365*864e5?'навсегда':'до '+new Date(b.until).toLocaleString('ru-RU',{day:'numeric',month:'long',hour:'2-digit',minute:'2-digit'});
+  return `Аккаунт заблокирован ${t}. Прогресс сейчас не сохраняется на сервере.`+(b.reason?` Причина: ${b.reason}`:'');
+}
+/* сколько новых сообщений об ошибках ждёт - на карточке админ-панели */
+async function admCount(){
+  if(!window.Cloud||!Cloud.user()||!Cloud.isAdmin()) return;
+  try{ const n=((await Cloud.admin.reports(false))||[]).length;
+    $('#admNote').textContent=n?`Новых сообщений об ошибках: ${n}`:'Новых сообщений об ошибках нет'; $('#admNote').classList.toggle('new',n>0); }catch(e){}
 }
 
 /* ---------- рейтинг ---------- */
 let lbPeriod='week';
-const avaHTML=(a,n)=>`<span class="ava${a?' emo':''}" aria-hidden="true">${a?esc(a):esc([...(n||'?')][0].toUpperCase())}</span>`;
+const avaHTML=(a,n)=>{ const src=avaSrc(a), letter=esc([...(n||'?')][0].toUpperCase());
+  return src?`<span class="ava own" aria-hidden="true"><img src="${esc(src)}" alt="" loading="lazy"></span>`
+    :`<span class="ava${a&&!isImg(a)?' emo':''}" aria-hidden="true">${a&&!isImg(a)?esc(a):letter}</span>`; };
 async function loadLb(){
   const el=$('#lb');
   if(!window.Cloud){ el.innerHTML='<div class="lb-note">Рейтинг сейчас недоступен.</div>'; return; }
@@ -633,7 +1046,13 @@ async function loadLb(){
   try{
     const rows=(await Cloud.leaderboard(lbPeriod))||[];
     if(!rows.length){ el.innerHTML=`<div class="lb-note">${lbPeriod==='week'?'На этой неделе ещё никто не набрал звёзд.':'Пока пусто.'} Будь первым!</div>`+hint; return; }
-    el.innerHTML=rows.slice(0,20).map(r=>`<div class="lr${r.is_me?' me2':''}"><span class="pl2">${r.place}</span>${avaHTML(r.avatar,r.nick)}<b>${esc(r.nick)}${r.is_me?' · ты':''}</b><span class="ss">${STAR}${r.stars}</span></div>`).join('')+hint;
+    /* достижение «В топе»: попал в первую десятку рейтинга недели - запоминаем навсегда */
+    if(lbPeriod==='week'&&rows.some(r=>r.is_me&&r.place<=10)){ const H=hubData(); if(!(H.flags||{}).top){ H.flags=Object.assign({},H.flags,{top:1}); set(HUB,JSON.stringify(H)); render(); } }
+    /* под ником - сколько улучшений куплено в каждой игре (цвет точки = цвет игры) */
+    const ups=rows[0].up_aromadom!=null;
+    const upHTML=r=>`<span class="ups">${GAMES.map(g=>{const n=r['up_'+g.id]|0; return `<span class="up ${g.cls}${n?'':' zero'}" title="${g.name}: ${n} ${plural(n,'улучшение','улучшения','улучшений')}"><i></i>${n}</span>`;}).join('')}</span>`;
+    el.innerHTML=(ups?`<div class="lb-leg"><span>Улучшения:</span>${GAMES.map(g=>`<span class="up ${g.cls}"><i></i>${g.name}</span>`).join('')}</div>`:'')+
+      rows.slice(0,20).map(r=>`<div class="lr${r.is_me?' me2':''}${r.place<=3?' p'+r.place:''}"><span class="pl2">${r.place}</span>${avaHTML(r.avatar,r.nick)}<span class="nm"><b>${esc(r.nick)}${r.is_me?' · ты':''}</b>${ups?upHTML(r):''}</span><span class="ss">${STAR}${r.stars}</span></div>`).join('')+hint;
   }catch(e){
     el.innerHTML='<div class="lb-note">Рейтинг сейчас недоступен: нет связи с сервером. Игры работают как обычно.</div>';
   }
@@ -641,12 +1060,139 @@ async function loadLb(){
 $('#lbSeg').addEventListener('click',e=>{const b=e.target.closest('[data-p]'); if(!b||b.dataset.p===lbPeriod) return;
   lbPeriod=b.dataset.p; document.querySelectorAll('#lbSeg [data-p]').forEach(x=>x.setAttribute('aria-selected',String(x===b))); loadLb();});
 
+/* ---------- напоминания о серии ---------- */
+/* время напоминания - с шагом 30 минут, с 6:00 до 23:30 (сервер проверяет каждые полчаса) */
+const PUSH_TIMES=[]; for(let h=6;h<24;h++) PUSH_TIMES.push([h,0],[h,30]);
+const tstr=(h,m)=>h+':'+String(m).padStart(2,'0');
+const timeSel=(h,m)=>`<select id="pushTime" aria-label="Время напоминания">${PUSH_TIMES.map(([x,y])=>`<option value="${x}:${y}" ${x===h&&y===m?'selected':''}>${tstr(x,y)}</option>`).join('')}</select>`;
+function renderPush(){
+  const el=$('#pushBox'), P=window.Cloud&&Cloud.push;
+  const ios=/iphone|ipad|ipod/i.test(navigator.userAgent);
+  if(!P){ $('#pushRow').hidden=true; return; }
+  $('#pushRow').hidden=false;
+  if(!Cloud.user()){ el.innerHTML='<span class="st">Войди в аккаунт, чтобы включить напоминания.</span>'; return; }
+  if(!P.ok()){ el.innerHTML=`<span class="st">${ios?'На iPhone напоминания работают, если установить сайт на экран «Домой»: «Поделиться» → «На экран Домой», потом открыть его оттуда.':'Этот браузер не умеет показывать уведомления.'}</span>`; return; }
+  const t=P.time();
+  if(!t){ el.innerHTML=`<span class="st">Пришлём уведомление, если в этот день ты ещё не занимался, а серия вот-вот сгорит.</span>
+    <div class="timerow"><span>Во сколько:</span>${timeSel(19,0)}</div>
+    <button class="btn ghost" type="button" data-push="on">Включить напоминания</button>`; return; }
+  el.innerHTML=`<span class="st">Напоминание придёт в ${tstr(t.hour,t.minute)}, если за день не было занятий.</span>
+    <div class="timerow"><span>Время:</span>${timeSel(t.hour,t.minute)}</div>
+    <button class="link2" type="button" data-push="off">Выключить напоминания</button>`;
+}
+async function pushDo(fn,ok){
+  try{ await fn(); toast(ok); }
+  catch(x){ toast(x.code==='denied'?'Уведомления запрещены в настройках браузера - разреши их для сайта':x.offline?'Нет связи с сервером':'Не получилось: '+x.message); }
+  renderPush();
+}
+const pickedTime=()=>$('#pushTime').value.split(':').map(Number);
+$('#pushBox').addEventListener('click',e=>{
+  const b=e.target.closest('[data-push]'); if(!b) return; b.disabled=true;
+  if(b.dataset.push==='off') pushDo(()=>Cloud.push.off(),'Напоминания выключены');
+  else { const [h,m]=pickedTime(); pushDo(()=>Cloud.push.on(h,m),`Напоминания включены: ${tstr(h,m)} 🔥`); }
+});
+/* при включённых напоминаниях новое время сохраняется сразу */
+$('#pushBox').addEventListener('change',e=>{
+  if(e.target.id!=='pushTime'||!Cloud.push.time()) return;
+  const [h,m]=pickedTime(); pushDo(()=>Cloud.push.on(h,m),`Теперь напоминание в ${tstr(h,m)}`);
+});
+
+/* ---------- сообщить об ошибке ---------- */
+let bugShot=null, bugFrom='';   // bugFrom - игра, из которой пришли в профиль
+function openBug(place){
+  $('#pfOv').hidden=true;
+  if(place&&[...$('#bugPlace').options].some(o=>o.value===place)) $('#bugPlace').value=place;
+  $('#bugErr').hidden=true; setShot(null);
+  const can=!!(window.Cloud&&Cloud.user());   // скриншоты - только со входом
+  $('#bugFile').disabled=!can; $('#bugPick').classList.toggle('off',!can);
+  $('#bugShotNote').textContent='Скриншот можно приложить после входа в аккаунт.'; $('#bugShotNote').hidden=can;
+  $('#bugOv').hidden=false; setTimeout(()=>$('#bugText').focus(),30);
+}
+function setShot(b){
+  bugShot=b; $('#bugFile').value='';
+  if($('#bugImg').src) URL.revokeObjectURL($('#bugImg').src);
+  $('#bugPrev').hidden=!b; $('#bugPick').hidden=!!b;
+  if(b) $('#bugImg').src=URL.createObjectURL(b); else $('#bugImg').removeAttribute('src');
+}
+/* уменьшить до 1600 px по длинной стороне и сжать в JPEG - чтобы быстро грузилось с телефона */
+async function shrink(file){
+  const url=URL.createObjectURL(file);
+  try{
+    const img=await new Promise((ok,no)=>{const i=new Image(); i.onload=()=>ok(i); i.onerror=no; i.src=url;});
+    const k=Math.min(1,1600/Math.max(img.naturalWidth,img.naturalHeight));
+    const c=document.createElement('canvas'); c.width=Math.round(img.naturalWidth*k); c.height=Math.round(img.naturalHeight*k);
+    const g=c.getContext('2d'); g.fillStyle='#fff'; g.fillRect(0,0,c.width,c.height); g.drawImage(img,0,0,c.width,c.height);
+    return await new Promise(ok=>c.toBlob(ok,'image/jpeg',.85));
+  }finally{ URL.revokeObjectURL(url); }
+}
+$('#bugFile').addEventListener('change',async()=>{ const f=$('#bugFile').files[0]; if(!f) return;
+  try{ setShot(await shrink(f)); }catch(e){ $('#bugErr').textContent='Не получилось открыть картинку. Попробуй другой файл.'; $('#bugErr').hidden=false; } });
+$('#bugDel').onclick=()=>setShot(null);
+$('#bugCancel').onclick=()=>{ $('#bugOv').hidden=true; };
+$('#bugOv').addEventListener('click',e=>{ if(e.target.id==='bugOv') $('#bugOv').hidden=true; });
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') $('#bugOv').hidden=true; });
+document.addEventListener('click',e=>{ if(e.target.closest('[data-bug]')) openBug(bugFrom||'hub'); });
+$('#bugForm').addEventListener('submit',async e=>{ e.preventDefault();
+  const msg=$('#bugText').value.trim(), go=$('#bugGo');
+  const err=m=>{ $('#bugErr').textContent=m; $('#bugErr').hidden=false; };
+  if(msg.length<3) return err('Опиши ошибку хотя бы парой слов.');
+  if(!window.Cloud) return err('Сервер сейчас недоступен. Попробуй позже.');
+  go.disabled=true; $('#bugErr').hidden=true;
+  try{
+    await Cloud.report({place:$('#bugPlace').value,message:msg,shot:bugShot,nick:nick(),
+      device:`${navigator.userAgent} · экран ${innerWidth}×${innerHeight}`.slice(0,500)});
+    $('#bugOv').hidden=true; $('#bugText').value=''; setShot(null); toast('Спасибо! Сообщение отправлено');
+  }catch(x){ err(x.offline?'Нет связи с сервером. Текст не пропадёт - попробуй отправить чуть позже.':'Не получилось отправить: '+x.message); }
+  finally{ go.disabled=false; }
+});
+
+/* ---------- установка как приложения ---------- */
+let installEvt=null;
+const standalone=matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
+/* кнопка установки - только на Android и только в профиле; на компьютере и iPhone её нет */
+const isAndroid=/android/i.test(navigator.userAgent);
+$('#instRow').hidden=!(isAndroid&&!standalone);
+window.addEventListener('beforeinstallprompt',e=>{ e.preventDefault(); installEvt=e; });
+window.addEventListener('appinstalled',()=>{ $('#instRow').hidden=true; toast('Готово! Иконка уже на экране'); });
+$('#installBtn').onclick=async()=>{
+  if(installEvt){ installEvt.prompt(); const r=await installEvt.userChoice; installEvt=null; if(r.outcome==='accepted') $('#instRow').hidden=true; return; }
+  $('#pfOv').hidden=true;
+  $('#instText').textContent='Иконка появится на экране, а игры будут открываться как отдельное приложение - без адресной строки.';
+  $('#instSteps').innerHTML=['Открой сайт в Chrome.','Нажми меню ⋮ в правом верхнем углу.','Выбери «Добавить на главный экран» или «Установить приложение».'].map(s=>`<li>${esc(s)}</li>`).join('');
+  $('#instOv').hidden=false; $('#instClose').focus();
+};
+$('#instClose').onclick=()=>{ $('#instOv').hidden=true; };
+$('#instOv').addEventListener('click',e=>{ if(e.target.id==='instOv') $('#instOv').hidden=true; });
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') $('#instOv').hidden=true; });
+
 /* Возврат из игры кнопкой «Назад» - обновить всё */
 window.addEventListener('pageshow',e=>{ render(); if(e.persisted){ bootCloud(); loadLb(); } });
 window.addEventListener('storage',render);
 
+/* без входа открыт только Аромадом; клик по закрытой игре открывает вход */
+const needLogin=g=>g.id!=='aromadom'&&!(window.Cloud&&Cloud.user());
+document.addEventListener('click',e=>{ const a=e.target.closest('[data-need-login]'); if(!a) return; e.preventDefault(); if(!nick()) return openNick();
+  const c=getComputedStyle(a).getPropertyValue('--c').trim();               // «Войти» - в цвет выбранной игры
+  $('#lockGo').style.background=c||''; $('#lockOv').hidden=false; $('#lockGo').focus(); },true);
+$('#lockGo').onclick=()=>{ $('#lockOv').hidden=true; openAuth(); };
+$('#lockOv').addEventListener('click',e=>{ if(e.target.id==='lockOv') $('#lockOv').hidden=true; });
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') $('#lockOv').hidden=true; });
 render();
-if(!nick()) openNick();
+/* открыто любое окно - блокируем прокрутку страницы под ним */
+{ const ovs=[...document.querySelectorAll('.ov')], sync=()=>document.documentElement.classList.toggle('modal-open',ovs.some(o=>!o.hidden));
+  const mo=new MutationObserver(sync); ovs.forEach(o=>mo.observe(o,{attributes:true,attributeFilter:['hidden']})); sync(); }
+/* ?profile=1&from=<игра> - пришли из игры по нажатию на ник */
+const QS=new URLSearchParams(location.search), EMBED=QS.get('embed')==='profile';
+if(QS.has('profile')){ history.replaceState(null,'',location.pathname); if(QS.get('from')) bugFrom=QS.get('from'); }
+/* внутри игры: когда все окна закрыты - сказать игре, чтобы убрала рамку */
+if(EMBED){
+  if(QS.get('from')) bugFrom=QS.get('from');
+  setInterval(()=>{ if([...document.querySelectorAll('.ov')].every(o=>o.hidden)) parent.postMessage({organika:'profile-closed'},location.origin==='null'?'*':location.origin); },250);
+}
+if(EMBED) openProfile();
+else if(!nick()) openNick();
+else if(QS.has('login')&&window.Cloud&&!Cloud.user()) openAuth();
+else if(QS.has('profile')) openProfile();
 bootCloud().then(()=>{ if(window.Cloud&&Cloud.online()===false) $('#lb').innerHTML='<div class="lb-note">Рейтинг сейчас недоступен: нет связи с сервером. Игры работают как обычно.</div>'; else loadLb(); });
 </script>
 

@@ -1,11 +1,11 @@
 <!doctype html>
 <html lang="ru">
 <head>
-<meta charset="utf-8">
+<meta charset="utf-8"><link rel="manifest" href="manifest.webmanifest?v=2"><meta name="theme-color" content="#6650C9"><link rel="icon" href="icons/favicon.png?v=2"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=2"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Органика"><script>if('serviceWorker' in navigator&&location.protocol.indexOf('http')===0)navigator.serviceWorker.register('sw.js').catch(function(){})</script><script>try{var t=localStorage.getItem('organika-theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Органика в играх</title>
 <!-- Главная страница сайта - хаб по адресу /hub. Хвост адреса (#… после письма «восстановить пароль») переносим с собой. -->
-<script>location.replace('hub'+location.search+location.hash);</script>
+<script>location.replace((location.protocol==='file:'?'hub.html':'hub')+location.search+location.hash);</script>
 <noscript><meta http-equiv="refresh" content="0; url=hub"></noscript>
 <style>body{margin:0;font:16px system-ui,sans-serif;background:#E9EEF0;color:#15232B;display:grid;place-items:center;min-height:100vh}
 @media (prefers-color-scheme:dark){body{background:#10181D;color:#E5EDF0}}a{color:inherit}</style>

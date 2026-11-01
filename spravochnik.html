@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="ru">
 <head>
-<meta charset="utf-8">
+<meta charset="utf-8"><link rel="manifest" href="manifest.webmanifest?v=2"><meta name="theme-color" content="#6650C9"><link rel="icon" href="icons/favicon.png?v=2"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=2"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Органика"><script>if('serviceWorker' in navigator&&location.protocol.indexOf('http')===0)navigator.serviceWorker.register('sw.js').catch(function(){})</script><script>try{var t=localStorage.getItem('organika-theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}if(location.protocol==='file:')document.addEventListener('DOMContentLoaded',function(){document.querySelectorAll('a[href="hub"]').forEach(function(a){a.setAttribute('href','hub.html')})});</script>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}[hidden]{display:none!important}</style>
 <title>Справочник</title>
@@ -12,15 +12,15 @@
 /* Layout: sticky top bar (back to hub + title + section tabs), below it the chosen game's reference shown in a full-height frame */
 :root{
   --bg:#E9EEF0; --surface:#FFFFFF; --surface2:#F2F5F6; --ink:#15232B; --muted:#5A6B74; --line:#D3DCE0; --steel:#2F5566;
-  --c-aro:#5B3FD1; --c-ene:#E2621B; --c-yne:#1F8A9E; --c-diene:#B3367A;
+  --c-aro:#5B3FD1; --c-ene:#E2621B; --c-yne:#1F8A9E; --c-diene:#B3367A; --c-chain:#6E7FD8;
   --f-display:"Russo One","Arial Black",sans-serif; --f-body:"Golos Text","Segoe UI",system-ui,sans-serif;
 }
 @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
   --bg:#10181D; --surface:#1A252C; --surface2:#213039; --ink:#E5EDF0; --muted:#9AAEB7; --line:#2E3F48; --steel:#8FB6C7;
-  --c-aro:#A08CFF; --c-ene:#FF8A47; --c-yne:#4FC3D6; --c-diene:#F07AB8; color-scheme:dark }}
+  --c-aro:#A08CFF; --c-ene:#FF8A47; --c-yne:#4FC3D6; --c-diene:#F07AB8; --c-chain:#9AA8F2; color-scheme:dark }}
 :root[data-theme="dark"]{
   --bg:#10181D; --surface:#1A252C; --surface2:#213039; --ink:#E5EDF0; --muted:#9AAEB7; --line:#2E3F48; --steel:#8FB6C7;
-  --c-aro:#A08CFF; --c-ene:#FF8A47; --c-yne:#4FC3D6; --c-diene:#F07AB8; color-scheme:dark }
+  --c-aro:#A08CFF; --c-ene:#FF8A47; --c-yne:#4FC3D6; --c-diene:#F07AB8; --c-chain:#9AA8F2; color-scheme:dark }
 *{box-sizing:border-box}
 html,body{height:100%}
 body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.5;display:flex;flex-direction:column}
@@ -36,7 +36,7 @@ h1{font-family:var(--f-display);font-weight:400;font-size:clamp(22px,5vw,28px);m
 .tab{--c:var(--steel);font:inherit;font-weight:700;font-size:14px;color:var(--muted);background:none;border:0;border-bottom:3px solid transparent;padding:8px 14px 10px;cursor:pointer;white-space:nowrap}
 .tab:hover{color:var(--ink)}
 .tab[aria-selected="true"]{color:var(--c);border-bottom-color:var(--c)}
-.aro{--c:var(--c-aro)} .ene{--c:var(--c-ene)} .yne{--c:var(--c-yne)} .diene{--c:var(--c-diene)}
+.aro{--c:var(--c-aro)} .ene{--c:var(--c-ene)} .yne{--c:var(--c-yne)} .diene{--c:var(--c-diene)} .chain{--c:var(--c-chain)}
 .frame{flex:1;min-height:0;position:relative}
 iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:var(--bg)}
 </style>
@@ -54,6 +54,7 @@ iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:var(
       <button class="tab ene" role="tab" type="button" data-g="alkeny">Алкены</button>
       <button class="tab yne" role="tab" type="button" data-g="alkiny">Алкины</button>
       <button class="tab diene" role="tab" type="button" data-g="alkadieny">Алкадиены</button>
+      <button class="tab chain" role="tab" type="button" data-g="chains">Цепочки</button>
     </nav>
   </div>
 </div>
@@ -69,6 +70,8 @@ function pick(g){
 }
 document.getElementById('tabs').addEventListener('click',e=>{const b=e.target.closest('[data-g]'); if(b) pick(b.dataset.g);});
 window.addEventListener('hashchange',()=>pick(location.hash.slice(1)));
+/* Escape - назад в хаб (если фокус внутри раздела, это делает сама игра в режиме справочника) */
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') document.querySelector('.back').click(); });
 pick(location.hash.slice(1));
 </script>
 </body>

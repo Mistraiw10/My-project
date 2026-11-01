@@ -1,0 +1,466 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8"><link rel="manifest" href="manifest.webmanifest?v=2"><meta name="theme-color" content="#6B9A5E"><link rel="icon" href="icons/favicon.png?v=2"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=2"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Органика"><script>if('serviceWorker' in navigator&&location.protocol.indexOf('http')===0)navigator.serviceWorker.register('sw.js').catch(function(){})</script><script>try{var t=localStorage.getItem('organika-theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}if(location.protocol==='file:')document.addEventListener('DOMContentLoaded',function(){document.querySelectorAll('a[href="hub"]').forEach(function(a){a.setAttribute('href','hub.html')})});</script>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}[hidden]{display:none!important}</style>
+<title>Работа над ошибками</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Russo+One&family=Golos+Text:wght@400;500;600;700&display=swap">
+<style>
+/* Сад ошибок: шапка → луг в мелких цветах → кнопка «Полоть» → ошибки по играм (с иконками игр) + «Как это работает».
+   Каждая ошибка в любой игре - сорняк с проплешиной вокруг. 2 верных ответа подряд дают лопату: сорняк выкапывается, луг зарастает. */
+:root{
+  --bg:#EEF3EA; --surface:#FFFFFF; --surface2:#F3F6EF; --ink:#1E2B1F; --muted:#5E6E5D; --line:#D6DFCF;
+  --accent:#6B9A5E; --accent-ink:#FFFFFF; --good:#4E8A45;
+  --sky:#E3EEF0; --grass:#CFE3BE; --grass2:#AFCF98; --soil:#DCC7A9; --soil2:#CDB491; --soil-line:#B89A78; --thistle:#B28BD8; --clover:#F0B3C7; --clover2:#D9849F; --sage:#AFC2B0; --sage2:#869C88; --fence2:#DCCBB1; --weed:#5B7F35; --weed2:#7FA348; --puff:#FFFFFF; --puff-line:#C9CFC2;
+  --petal1:#F2A7B8; --petal2:#C4B0E6; --petal3:#F4CF77; --petal4:#9FCBE0; --heart:#F7E7A1; --fence:#E9DCC7; --sun:#F6DE8D;
+  --metal:#9AA8AF; --wood:#B98B5E;
+  --c-aro:#7A64D8; --c-ene:#DA8A55; --c-yne:#4FA4B1; --c-diene:#C1749C; --c-chain:#6E7FD8;
+  --f-display:"Russo One","Arial Black",sans-serif; --f-body:"Golos Text","Segoe UI",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#141B15; --surface:#1D261E; --surface2:#243026; --ink:#E3ECE0; --muted:#9DB09A; --line:#324034;
+  --accent:#9CC48C; --accent-ink:#132013; --good:#8FCB84;
+  --sky:#1C2A31; --grass:#2D4029; --grass2:#3D5637; --soil:#5B4B3B; --soil2:#4E4033; --soil-line:#7A6550; --thistle:#B79BE0; --clover:#D99AB0; --clover2:#B9718B; --sage:#8FA592; --sage2:#AFC3B1; --fence2:#332E23; --weed:#82AC52; --weed2:#A2C76C; --puff:#E8ECE4; --puff-line:#7D8879;
+  --petal1:#E995A8; --petal2:#B39DDC; --petal3:#E8C266; --petal4:#86B7CF; --heart:#F0DC8A; --fence:#3A3528; --sun:#C9B266;
+  --metal:#AEBBC1; --wood:#C99B6E;
+  --c-aro:#A99BFF; --c-ene:#EDAA7C; --c-yne:#7CC6D1; --c-diene:#DD9CBE; --c-chain:#9AA8F2; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#141B15; --surface:#1D261E; --surface2:#243026; --ink:#E3ECE0; --muted:#9DB09A; --line:#324034;
+  --accent:#9CC48C; --accent-ink:#132013; --good:#8FCB84;
+  --sky:#1C2A31; --grass:#2D4029; --grass2:#3D5637; --soil:#5B4B3B; --soil2:#4E4033; --soil-line:#7A6550; --thistle:#B79BE0; --clover:#D99AB0; --clover2:#B9718B; --sage:#8FA592; --sage2:#AFC3B1; --fence2:#332E23; --weed:#82AC52; --weed2:#A2C76C; --puff:#E8ECE4; --puff-line:#7D8879;
+  --petal1:#E995A8; --petal2:#B39DDC; --petal3:#E8C266; --petal4:#86B7CF; --heart:#F0DC8A; --fence:#3A3528; --sun:#C9B266;
+  --metal:#AEBBC1; --wood:#C99B6E;
+  --c-aro:#A99BFF; --c-ene:#EDAA7C; --c-yne:#7CC6D1; --c-diene:#DD9CBE; --c-chain:#9AA8F2; color-scheme:dark }
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.5}
+.app{max-width:980px;margin:0 auto;padding-block:14px 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:16px}
+h1,h2,h3{font-family:var(--f-display);font-weight:400;margin:0}
+.back{color:var(--muted);text-decoration:none;font-weight:600;font-size:14px;align-self:flex-start}
+.top{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;margin-right:auto}
+.brand .logo{width:38px;height:38px;border-radius:10px;background:var(--accent);display:grid;place-items:center}
+.brand .logo svg{width:26px;height:26px}
+.brand h1{font-size:clamp(20px,4.6vw,26px)}
+.pill{display:inline-flex;align-items:center;gap:6px;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1}
+.pill svg{width:18px;height:18px;display:block;flex:none}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:18px}
+/* сцена */
+.scene{overflow:hidden}
+.scene svg{display:block;width:100%;height:auto}
+.weed.ready{cursor:pointer}
+.weed.ready .glow{animation:glow 1.6s ease-in-out infinite}
+@keyframes glow{0%,100%{opacity:.3}50%{opacity:.75}}
+.weed:focus{outline:none}
+.weed.ready:focus-visible .glow{opacity:1;animation:none}
+.dig{animation:dig .55s ease-in forwards;transform-box:fill-box;transform-origin:50% 100%}
+@keyframes dig{to{transform:translateY(-14px) scale(.2) rotate(-25deg);opacity:0}}
+.bloom{animation:bloom .5s ease-out;transform-box:fill-box;transform-origin:50% 100%}
+@keyframes bloom{from{transform:scale(.2);opacity:0}to{transform:scale(1);opacity:1}}
+@media (prefers-reduced-motion:reduce){.weed.ready .glow,.dig,.bloom{animation:none}}
+/* кнопка «Полоть» */
+.play{padding:16px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.play .txt{flex:1 1 260px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.play .txt b{font-family:var(--f-display);font-weight:400;font-size:19px}
+.play .txt span{color:var(--muted);font-size:14px}
+.playbtn{font:inherit;border:0;border-radius:14px;padding:14px 26px;cursor:pointer;background:var(--accent);color:var(--accent-ink);display:flex;flex-direction:column;align-items:center;gap:2px;min-width:200px;flex:0 1 auto;font-family:var(--f-display);font-size:20px;line-height:1.2;box-shadow:0 4px 0 color-mix(in srgb,var(--accent) 60%,#000)}
+.playbtn small{font-family:var(--f-body);font-size:12.5px;font-weight:600;opacity:.9}
+.playbtn:hover{filter:brightness(1.05)}
+.playbtn.locked{background:var(--surface2);color:var(--ink);border:1px solid var(--line);box-shadow:none}
+.playbtn[disabled]{opacity:.5;cursor:default}
+@media (max-width:520px){.playbtn{width:100%}}
+/* панели */
+.grid{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:14px;align-items:start}
+@media (max-width:760px){.grid{grid-template-columns:minmax(0,1fr)}}
+.panel{padding:16px;display:flex;flex-direction:column;gap:12px}
+.panel h2{font-size:19px}
+.rules{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:7px;color:var(--muted);font-size:14px}
+.rules b{color:var(--ink)}
+.btn{font:inherit;font-weight:700;border:0;border-radius:10px;padding:6px 12px;font-size:13.5px;cursor:pointer;background:var(--accent);color:var(--accent-ink)}
+.games{display:flex;flex-direction:column;gap:8px}
+.g{--c:var(--accent);border:1px solid var(--line);border-radius:14px}
+.g>summary{list-style:none;display:flex;align-items:center;gap:12px;padding:10px 12px;cursor:pointer}
+.g>summary::-webkit-details-marker{display:none}
+.g[open]>summary{border-bottom:1px dashed var(--line)}
+.g .ic{width:40px;height:40px;border-radius:10px;background:color-mix(in srgb,var(--c) 14%,var(--surface));color:var(--c);display:grid;place-items:center;flex:none}
+.g .ic svg{width:32px;height:32px}
+.g .ic svg *{stroke:currentColor;fill:none;stroke-width:4;stroke-linecap:round;stroke-linejoin:round}
+.g .nm{flex:1;min-width:0;display:flex;flex-direction:column;line-height:1.25}
+.g .nm b{font-weight:700}
+.g .nm span{color:var(--muted);font-size:13px}
+.g .chev{color:var(--muted);transition:transform .15s;flex:none}
+.g[open] .chev{transform:rotate(90deg)}
+.g.zero>summary{cursor:default}
+.g.zero .chev{visibility:hidden}
+.aro{--c:var(--c-aro)} .ene{--c:var(--c-ene)} .yne{--c:var(--c-yne)} .diene{--c:var(--c-diene)} .chain{--c:var(--c-chain)}
+.ws{display:flex;flex-direction:column;padding:2px 12px}
+.w{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:13.5px;padding:9px 0;border-top:1px dashed var(--line)}
+.w:first-child{border-top:0}
+.w .t{min-width:0;display:flex;flex-direction:column;line-height:1.3}
+.w .t small{color:var(--muted);font-size:12px;margin-top:2px}
+.prog{display:inline-flex;align-items:center;gap:5px;flex:none;color:var(--muted);font-weight:700;font-size:12.5px;font-variant-numeric:tabular-nums}
+.prog i{width:8px;height:8px;border-radius:50%;background:var(--line)}
+.prog i.on{background:var(--good)}
+/* окно */
+.modal{position:fixed;inset:0;z-index:20;background:color-mix(in srgb,#000 45%,transparent);display:grid;place-items:center;padding:16px}
+.sheet{background:var(--surface);border-radius:18px;padding:22px;max-width:420px;width:100%;display:flex;flex-direction:column;gap:12px;text-align:center}
+.sheet h2{font-size:21px}
+.sheet p{margin:0;color:var(--muted)}
+.sheet .big{font-family:var(--f-display);font-size:34px;line-height:1.1}
+.sheet .btn{padding:11px 18px;font-size:15px;border-radius:12px}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:12px;font-weight:700;z-index:30;max-width:calc(100% - 32px)}
+</style>
+</head>
+<body>
+<div class="app">
+  <a class="back" href="hub">← Все игры</a>
+  <header class="top">
+    <div class="brand">
+      <span class="logo" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21V11" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/><path d="M12 13c-4.5 0-6.5-3-6.5-6.5C9.5 6.5 12 8.5 12 13zM12 11c0-4 2.2-6.5 6.5-6.5 0 4-2.5 6.5-6.5 6.5z" fill="#fff"/></svg></span>
+      <h1>Работа над ошибками</h1>
+    </div>
+    <span class="pill" title="Сорняки - ошибки, которые ещё не исправлены"><svg viewBox="0 0 24 24" aria-hidden="true" id="icWeed"></svg><span id="nWeeds">0</span></span>
+    <span class="pill" title="Лопаты - сорняки, которые можно выкопать"><svg viewBox="0 0 24 24" aria-hidden="true" id="icShovel"></svg><span id="nShovels">0</span></span>
+    <span class="pill" title="Выкопано сорняков - исправленные ошибки"><svg viewBox="0 0 24 24" aria-hidden="true" id="icFlower"></svg><span id="nFlowers">0</span></span>
+    <button class="mechip" id="nickBtn" type="button"></button>
+  </header>
+
+  <section class="card scene" aria-label="Сад ошибок"><div id="sceneSvg"></div></section>
+
+  <section class="card play">
+    <div class="txt"><b id="playTitle">Полоть сорняки</b><span id="playNote"></span></div>
+    <button class="playbtn" id="playBtn" type="button"><span>Полоть</span><small id="playSmall"></small></button>
+  </section>
+
+  <div class="grid">
+    <section class="card panel">
+      <h2>Ошибки по играм</h2>
+      <div class="games" id="games"></div>
+    </section>
+    <section class="card panel">
+      <h2>Как это работает</h2>
+      <ul class="rules">
+        <li>Каждая ошибка в любой игре вырастает в саду <b>сорняком</b>.</li>
+        <li><b>«Полоть»</b> - это задания только из твоих ошибок, до 8 за раз, из всех игр сразу. Спрашивается то, в чём ты ошибся: реагенты, продукт, название или структура.</li>
+        <li>Звёзд здесь нет. Вместо них счёт: <b>1 из 2, 2 из 2</b>. Ошибёшься - счёт начнётся сначала.</li>
+        <li>На «2 из 2» получаешь <b>лопату</b>. Нажми на подсвеченный сорняк - он выкопается, и проплешина снова зарастёт <b>цветами</b>.</li>
+        <li>Счёт общий с обычными играми: верные ответы там тоже могут дать лопату.</li>
+        <li>Выкапывать сорняки можно всем. Полоть - то есть решать задания только из своих ошибок - можно с премиумом.</li>
+      </ul>
+    </section>
+  </div>
+</div>
+
+<div class="modal" id="lockModal" hidden><div class="sheet" role="dialog" aria-modal="true" aria-labelledby="lockTitle">
+  <h2 id="lockTitle">Доступно с премиумом</h2>
+  <p>С премиумом можно полоть: решать задания только из своих ошибок, пока сад снова не зацветёт.</p>
+  <p>Без премиума лопату тоже можно заработать - верными ответами в обычных играх.</p>
+  <p>А ещё с премиумом бесконечные жизни во всех играх.</p>
+  <button class="btn" type="button" data-close>Понятно</button>
+</div></div>
+<div class="modal" id="doneModal" hidden><div class="sheet" role="dialog" aria-modal="true" aria-labelledby="doneTitle">
+  <h2 id="doneTitle">Раунд окончен</h2>
+  <div class="big" id="doneBig"></div>
+  <p id="doneText"></p>
+  <button class="btn" type="button" data-close>К сорнякам</button>
+</div></div>
+
+<script src="me.js?v=4"></script>
+<script src="cloud.js?v=8"></script>
+<script>
+const $=s=>document.querySelector(s);
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const plural=(n,a,b,c)=>{const m=n%10,h=n%100; return m===1&&h!==11?a:m>=2&&m<=4&&(h<12||h>14)?b:c;};
+const json=k=>{ try{ return JSON.parse(localStorage.getItem(k)||'null'); }catch(e){ return null; } };
+const KEY='oshibki-v1', RUNKEY='oshibki-run', MAXQ=8;
+/* игры: ключ сохранения, поле «верно подряд» в статистике (в Аромадоме c, в остальных b), иконка - как в хабе */
+const GAMES=[
+  {id:'aromadom', key:'aromadom-v1',       name:'Аромадом',  cls:'aro',   streak:'c',
+   svg:'<polygon points="40,10 66,25 66,55 40,70 14,55 14,25"/><path d="M42.8,21.2 54.8,28.2M54.8,51.8 42.8,58.8M22.3,46.9V33.1"/>'},
+  {id:'alkeny',   key:'dvoinaya-svyaz-v1', name:'Алкены',    cls:'ene',   streak:'b', svg:'<path d="M10,52 26,40 54,40 70,28M26,34 54,34"/>'},
+  {id:'alkiny',   key:'alkiny-v1',         name:'Алкины',    cls:'yne',   streak:'b', svg:'<path d="M10,40H70M22,32H58M22,48H58"/>'},
+  {id:'alkadieny',key:'alkadieny-v1',      name:'Алкадиены', cls:'diene', streak:'b', svg:'<path d="M8,52 26,30 44,52 62,30 72,42M17,50 27,38M53,50 63,38"/>'},
+  {id:'chains',   key:'chains-v1',         name:'Цепочки',   cls:'chain', streak:'b', svg:'<rect x="8" y="16" width="20" height="24" rx="5"/><rect x="52" y="40" width="20" height="24" rx="5"/><path d="M18 40v12h28"/><path d="M41 47l6 5-6 5"/>'}
+];
+/* dug - сколько ошибок было у реакции, когда её сорняк выкопали; count - сколько всего выкопано */
+const G=(()=>{ const g=json(KEY)||{}; g.dug=g.dug||{}; if(g.count==null) g.count=(g.flowers||[]).length; delete g.flowers; return g; })();
+const store=()=>{ try{ localStorage.setItem(KEY,JSON.stringify(G)); }catch(e){} };
+const premium=()=>((json('organika-hub')||{}).premiumUntil||0)>Date.now();
+const SIGNED=!!json('organika-session');
+const needLogin=g=>g.id!=='aromadom'&&!SIGNED;
+
+/* Сорняк - ошибка, которая появилась после последнего выкапывания: w (ошибок всего) больше, чем было при выкапывании.
+   Прогресс - сколько верных подряд (до 2). Выключенные из заданий реакции не считаются - их не прополоть. */
+const NEED=2;
+/* названия реакций и веществ из игр (на случай, если игра ещё не записала свои в organika-hub.wn) */
+const NAMES={"aromadom":{"benzene":"Бензол","toluene":"Толуол","styrene":"Стирол","cumene":"Кумол","cymene":"п-Цимол","durene":"Дурол","mesitylene":"Мезитилен","opda":"о-Фенилендиамин","biphenyl":"Дифенил","dpm":"Дифенилметан","tpm":"Трифенилметан","naph":"Нафталин","anth":"Антрацен","phen":"Фенантрен","ethylbenzene":"Этилбензол","oxy":"о-Ксилол","mxy":"м-Ксилол","pxy":"п-Ксилол","stilbene":"транс-Стильбен","mpda":"м-Фенилендиамин","ppda":"п-Фенилендиамин","aniline":"Анилин","nitro":"Нитробензол","nitrile":"Бензонитрил","chloro":"Хлорбензол","bromo":"Бромбензол","phenol":"Фенол","cresol":"п-Крезол","catechol":"Пирокатехин","resorcinol":"Резорцин","hydroquinone":"Гидрохинон","anisole":"Анизол","benzylalc":"Бензиловый спирт","benzoic":"Бензойная кислота","benzald":"Бензальдегид","acetoph":"Ацетофенон","benzoph":"Бензофенон","salicylic":"Салициловая кислота","tereph":"Терефталевая кислота"},"alkeny":{"p_dehydrog":"Каталитическое дегидрирование алканов","p_lindlar":"Гидрирование алкинов на отравленном Pd (Линдлар / Розенмунд)","p_dibal":"Гидроалюминирование алкинов DIBAL-H","p_diimide_yne":"Восстановление алкинов цис-диимидом","p_na_nh3":"Восстановление алкинов натрием в жидком аммиаке","p_zn":"Дегалогенирование вицинальных дигалогеналканов","p_pph3":"Дебромирование трифенилфосфином","p_nai":"Дегалогенирование иодидом натрия (стереоспецифичное)","d_h2so4":"Внутримолекулярная дегидратация спиртов","d_h3po4":"Дегидратация спиртов (правило Зайцева)","d_al2o3":"Газофазная дегидратация спиртов на Al₂O₃","d_khso4":"Дегидратация спиртов гидросульфатом калия","d_oxalic":"Дегидратация третичных спиртов щавелевой кислотой","d_zncl2":"Дегидратация спиртов с ZnCl₂","e_koh":"Дегидрогалогенирование (E2, правило Зайцева)","e_tbuok":"Дегидрогалогенирование по Гофману (объёмное основание)","e_cope":"Реакция Коупа (элиминирование N-оксидов)","e_hofmann":"Расщепление по Гофману (исчерпывающее метилирование)","w_wittig":"Реакция Виттига","w_mcmurry":"Реакция Мак-Мурри (восстановительное сочетание)","w_cuprate":"Сочетание винилгалогенидов с диалкилкупратами лития (Кори-Хауса)","h_ni":"Гетерогенное каталитическое гидрирование","h_pt":"Гетерогенное каталитическое гидрирование","h_wilk":"Гомогенное гидрирование (катализатор Уилкинсона)","h_diimide":"Восстановление алкенов диимидом","a_hydr":"Кислотная гидратация (по Марковникову)","a_oxyhg":"Оксимеркурирование-демеркурирование","a_solvohg":"Сольвомеркурирование (алкоксимеркурирование)","a_h2so4":"Присоединение серной кислоты (AdE)","a_hbr":"Гидрогалогенирование по Марковникову (AdE)","a_kharasch":"Присоединение HBr по Харашу (перекисный эффект)","a_halohydrin":"Синтез галогенгидринов","a_br2":"Присоединение брома (ионное AdE / радикальное)","a_nocl":"Присоединение нитрозилхлорида (реакция Тильдена)","a_ch2":"Циклопропанирование по Симмонсу-Смиту","a_ch2n2":"Присоединение метилена :CH₂ (из диазометана)","a_ccl2":"Присоединение дихлоркарбена","a_nitrene":"Присоединение нитренов (азиридирование)","b_oh":"Гидроборирование-окисление (реакция Брауна)","b_br":"Гидроборирование-галогенолиз (Браун)","x_cl500":"Аллильное хлорирование (SR)","x_nbs":"Реакция Воля-Циглера (аллильное бромирование NBS)","o_wagner":"Реакция Вагнера (мягкое окисление)","o_hot":"Жёсткое окисление (разрыв C=C)","o_ozon":"Озонолиз (с восстановительной обработкой)","o_epox":"Эпоксидирование по Прилежаеву","i_al2o3":"Изомеризация алкенов (миграция двойной связи)","b_h":"Гидроборирование-протонолиз (восстановление алкенов)"},"alkiny":{"p_cac2":"Гидролиз карбида кальция","p_ch4":"Пиролиз метана","p_dbr_koh":"Двойное дегидрогалогенирование вицинальных дигалогенидов","p_dbr_nanh2":"Дегидрогалогенирование амидом натрия","p_pcl5":"Замена карбонильного кислорода на хлор (PCl₅)","p_gem":"Дегидрогалогенирование геминальных дигалогенидов","p_tetra_zn":"Дегалогенирование тетрагалогеналканов","p_kolbe":"Электролиз солей малеиновой кислоты (по Кольбе)","p_alkyl":"Алкилирование ацетиленидов","p_corey":"Реакция Кори-Фукса","h_full":"Полное каталитическое гидрирование алкинов","h_lindlar":"Гидрирование на катализаторе Линдлара","h_na":"Восстановление натрием в жидком аммиаке","h_dibal":"Гидроалюминирование алкинов DIBAL-H","h_borane":"Гидроборирование-протонолиз","a_hbr1":"Гидробромирование алкинов (по Марковникову)","a_hbr2":"Присоединение двух молекул HBr","a_hbr_rad":"Присоединение HBr против Марковникова (эффект Хараша)","a_br2_1":"Присоединение одной молекулы брома","a_br2_2":"Бромирование алкинов до тетрабромида","a_hcl":"Гидрохлорирование ацетилена (синтез винилхлорида)","a_kuch_ac":"Реакция Кучерова (ацетилен → альдегид)","a_kuch":"Реакция Кучерова (гомологи → кетоны)","b_hydrobor":"Гидроборирование-окисление алкинов (Браун)","a_roh":"Винилирование спиртов (Фаворский-Шостаковский)","a_ch3cooh":"Присоединение уксусной кислоты (синтез винилацетата)","a_hcn":"Присоединение HCN (синтез акрилонитрила)","a_dimer":"Димеризация ацетилена (Ньюленд)","a_trimer":"Тримеризация ацетилена (Зелинский)","a_tetramer":"Тетрамеризация ацетилена (Реппе)","o_hot":"Жёсткое окисление алкинов перманганатом","o_mild":"Мягкое окисление алкинов до 1,2-дикетонов","o_ozon":"Озонолиз алкинов","x_nanh2":"Кислотные свойства: ацетиленид натрия","x_ag":"Качественная реакция на концевую тройную связь (Ag)","x_cu":"Качественная реакция с аммиачным раствором CuCl","x_iotsich":"Реакция Иоцича","x_favorskii":"Реакция Фаворского (алкинилирование кетонов)","x_reppe":"Этинилирование по Реппе","c_glaser":"Реакция Глазера","c_eglinton":"Реакция Эглинтона","c_cadiot":"Реакция Кадио-Ходкевича","c_sonog":"Реакция Соногаширы","x_brom":"Бромирование терминальных алкинов по C–H","i_koh":"Изомеризация Фаворского (тройная связь - внутрь)","i_nanh2":"Изомеризация Фаворского (тройная связь - на конец)","p_alkyl2":"Алкилирование готового ацетиленида"},"alkadieny":{"d_lebedev":"Реакция Лебедева","d_dehydro":"Каталитическое дегидрирование бутана","d_reppe1":"Синтез бутадиена по Реппе: этинилирование","d_reppe2":"Синтез бутадиена по Реппе: гидрирование бутиндиола","d_reppe3":"Синтез бутадиена по Реппе: дегидратация бутан-1,4-диола","d_fav1":"Изопрен по Фаворскому: алкинилирование ацетона","d_fav2":"Изопрен по Фаворскому: частичное гидрирование","d_fav3":"Изопрен по Фаворскому: дегидратация","d_br12":"Бромирование диенов: 1,2-присоединение","d_br14":"Бромирование диенов: 1,4-присоединение","d_br2x":"Исчерпывающее бромирование диенов","d_hbr12":"Гидробромирование диенов: 1,2-присоединение","d_hbr14":"Гидробромирование диенов: 1,4-присоединение","d_hcl_iso":"Гидрохлорирование изопрена (1,4)","d_cbrcl3":"Радикальное присоединение CBrCl₃ (Хараш)","d_h2":"Полное каталитическое гидрирование диенов","d_na":"1,4-Восстановление натрием в спирте","d_pril":"Реакция Прилежаева (синтез эпоксидов)","d_pril_chd":"Реакция Прилежаева (циклический диен)","d_hydrol":"Гидролиз эпоксидов (после реакции Прилежаева)","d_wagner":"Реакция Вагнера (мягкое окисление)","d_os":"Цис-гидроксилирование OsO₄","d_wo3":"Транс-гидроксилирование H₂O₂ (WO₃)","d_v2o5":"Транс-гидроксилирование H₂O₂ (V₂O₅, MoO₃)","d_oz_red":"Восстановительный озонолиз диенов","d_oz_red2":"Восстановительный озонолиз (диметилсульфид)","d_oz_ox":"Окислительный озонолиз диенов","d_kmno4":"Жёсткое окисление диенов перманганатом","d_da1":"Реакция Дильса-Альдера","d_da2":"Дильс-Альдер с акролеином","d_da_cis":"Дильс-Альдер: стереоспецифичность (цис-диенофил)","d_da_trans":"Дильс-Альдер: стереоспецифичность (транс-диенофил)","d_da_alk":"Дильс-Альдер с алкином","d_da_endo":"Дильс-Альдер: правило эндо (Альдер)","d_dimer":"Димеризация бутадиена (Дильс-Альдер)","d_cpd_dimer":"Димеризация циклопентадиена","d_poly":"Полимеризация бутадиена (каучук Лебедева)","d_poly_iso":"Стереорегулярная полимеризация изопрена","a_zn":"Дегалогенирование тетрагалогеналканов с геминальным центром","a_doer1":"Метод Дёринга: присоединение дибромкарбена","a_doer2":"Метод Дёринга: раскрытие дибромциклопропана","a_wittig":"Реакция Виттига (тетразамещённые аллены)","al_br1":"Бромирование аллена (1 экв.)","al_br2":"Бромирование аллена (2 экв.)","al_hbr":"Гидробромирование аллена","al_hbr2":"Присоединение двух молекул HBr к аллену","al_ss1":"Реакция Симмонса-Смита","al_ss2":"Симмонса-Смита: спиропентан","al_h2":"Гидрирование аллена","al_h2o":"Гидратация аллена","al_dimer":"Димеризация аллена","al_kmno4":"Жёсткое окисление алленов","al_oz":"Озонолиз алленов"}};
+function weeds(){
+  const names=(json('organika-hub')||{}).wn||{};
+  return GAMES.map(g=>{
+    const st=json(g.key)||{}, stats=st.stats||{}, off=new Set(st.off||[]), dug=G.dug[g.id]||{};
+    const list=Object.entries(stats).filter(([id,s])=>s&&s.w>(dug[id]||0)&&!off.has(id))
+      .map(([id,s])=>({game:g,id,w:s.w,wt:s.wt||'',p:Math.min(NEED,s[g.streak]||0),name:(names[g.id]||{})[id]||(NAMES[g.id]||{})[id]||''}))
+      .sort((x,y)=>y.p-x.p||y.w-x.w);
+    return {g,list};
+  });
+}
+/* Названия реакций и веществ: игры кладут их в organika-hub.wn при сохранении. Если каких-то нет (старые ошибки),
+   один раз подгружаем игру в скрытой рамке в режиме справочника (?ref=1 ничего не сохраняет) и берём названия оттуда. */
+const nameTried=new Set();
+function fillNames(){
+  ALL.forEach(({g,list})=>{
+    if(!list.some(w=>!w.name)||nameTried.has(g.id)) return;
+    nameTried.add(g.id);
+    const f=document.createElement('iframe'); f.hidden=true; f.src=g.id+'.html?ref=1';
+    f.onload=()=>{ try{
+      const map=f.contentWindow.eval(g.id==='aromadom'?'Object.fromEntries(MOLS.map(m=>[m.id,m.n]))':g.id==='chains'?'WNAMES()':'Object.fromEntries(R.map(r=>[r.id,r.name]))');
+      const H=json('organika-hub')||{}; H.wn=H.wn||{}; H.wn[g.id]=Object.assign({},map,H.wn[g.id]);
+      localStorage.setItem('organika-hub',JSON.stringify(H)); render();
+    }catch(e){} f.remove(); };
+    document.body.appendChild(f);
+  });
+}
+const wname=w=>w.name||(w.game.id==='aromadom'?'вещество':w.game.id==='chains'?'цепочка':'реакция');
+/* в чём была ошибка (игры пишут stats.wt при неверном ответе) */
+const WT={rg:'ошибка в выборе реагентов',pr:'ошибка в выборе продукта',s2n:'ошибка в выборе названия',n2s:'ошибка в выборе структуры'};
+/* ошибки до обновления: что именно было не так, не записано - пишем оба варианта (и в раунде спрашиваются оба) */
+const wtext=w=>w.game.id==='chains'?(w.wt==='rg'?WT.rg:'ошибка в выборе вещества'):WT[w.wt]||(w.game.id==='aromadom'?'ошибка в выборе названия и структуры':'ошибка в выборе реагентов и продукта');
+/* в списке - с заглавной; приставки о-, м-, п-, цис-, втор- и т. п. остаются строчными (о-ксилол) */
+const cap=s=>/^[a-zа-яё]{1,5}-/i.test(s)?s:s.charAt(0).toUpperCase()+s.slice(1);
+
+/* ---------- рисунки ---------- */
+const SHOVEL=(x,y,s,rot)=>`<g transform="translate(${x} ${y}) rotate(${rot}) scale(${s})">
+  <rect x="-3.5" y="-1" width="7" height="3" rx="1.5" style="fill:var(--wood)"/>
+  <rect x="-1" y="1.5" width="2" height="11" style="fill:var(--wood)"/>
+  <path d="M-4.5 12h9v5.5a4.5 4.5 0 0 1-9 0z" style="fill:var(--metal)"/></g>`;
+/* десять сорняков (вид - по id, чтобы у ошибки всегда был один и тот же): растут от точки (0,0) вверх */
+const deg=a=>a*Math.PI/180;
+const WEEDS=[
+  /* одуванчик-пустоцвет: зубчатая розетка и белый пушистый шарик */
+  ()=>`<path d="M0 0L-15-4-11-7-17-11-10-11-13-16-5-11z" style="fill:var(--weed)"/><path d="M0 0L15-4 11-7 17-11 10-11 13-16 5-11z" style="fill:var(--weed)"/>
+    <path d="M0 0L-7-10-5-13-8-18-2-14 0-20 2-14 8-18 5-13 7-10z" style="fill:var(--weed2)"/>
+    <path d="M1-6C3-14 3-20 2-27" style="stroke:var(--weed);stroke-width:1.6;fill:none"/>
+    <circle cx="2" cy="-31" r="5.5" style="fill:var(--puff);stroke:var(--puff-line);stroke-width:.8"/>
+    <g style="stroke:var(--puff-line);stroke-width:.6">${[0,45,90,135].map(a=>`<path d="M${(2-5*Math.cos(deg(a))).toFixed(1)} ${(-31-5*Math.sin(deg(a))).toFixed(1)}L${(2+5*Math.cos(deg(a))).toFixed(1)} ${(-31+5*Math.sin(deg(a))).toFixed(1)}"/>`).join('')}</g>`,
+  /* чертополох: колючие листья и лиловая шишечка */
+  ()=>`<path d="M0 0C0-8 0-16 0-24" style="stroke:var(--weed);stroke-width:2;fill:none"/>
+    <path d="M0-4L-13-8-9-10-15-14-7-13-7-18 0-11z" style="fill:var(--weed)"/><path d="M0-4L13-8 9-10 15-14 7-13 7-18 0-11z" style="fill:var(--weed)"/>
+    <path d="M0-14L-9-18-6-19-9-23-3-20 0-17z" style="fill:var(--weed2)"/><path d="M0-14L9-18 6-19 9-23 3-20 0-17z" style="fill:var(--weed2)"/>
+    <ellipse cx="0" cy="-27" rx="4.6" ry="4" style="fill:var(--weed2)"/>
+    <g style="stroke:var(--thistle);stroke-width:1.8;stroke-linecap:round">${[-4,-2,0,2,4].map(d=>`<path d="M${d*.8} -29L${d*1.3} ${-36+Math.abs(d)*.6}"/>`).join('')}</g>`,
+  /* крапива: прямой стебель и пары пильчатых листьев */
+  ()=>`<path d="M0 0V-34" style="stroke:var(--weed);stroke-width:1.8;fill:none"/>
+    ${[[-8,11],[-18,9],[-27,7]].map(([y,w])=>[-1,1].map(d=>`<path d="M0 ${y}L${d*w*.35} ${y-3.5}L${d*w*.55} ${y-2}L${d*w*.75} ${y-4}L${d*w} ${y-1.5}L${d*w*.7} ${y+1}L${d*w*.75} ${y+2.8}L${d*w*.3} ${y+2}z" style="fill:var(${d<0?'--weed':'--weed2'})"/>`).join('')).join('')}
+    <path d="M0-34L-2.5-38M0-34L2.5-38" style="stroke:var(--weed2);stroke-width:1.4"/>`,
+  /* клевер: тонкие черешки с тройчатыми листьями и розовая головка */
+  ()=>`<g style="stroke:var(--weed);stroke-width:1.3;fill:none;stroke-linecap:round">
+      <path d="M0 0C-4-5-8-9-11-13"/><path d="M0 0C4-6 8-11 10-17"/><path d="M0 0C-1-8-2-15-3-22"/><path d="M0 0C2-10 3-20 4-28"/></g>
+    ${[[-11,-15,'--weed2'],[10,-19,'--weed'],[-3,-24,'--weed2']].map(([x,y,c])=>[-90,30,150].map(a=>
+      `<circle cx="${(x+3.4*Math.cos(deg(a))).toFixed(1)}" cy="${(y+3.4*Math.sin(deg(a))).toFixed(1)}" r="3.3" style="fill:var(${c})"/>`).join('')
+      +`<circle cx="${x}" cy="${y}" r="1" style="fill:var(--puff);opacity:.55"/>`).join('')}
+    <path d="M4-28L0-30M4-28L8-30" style="stroke:var(--weed2);stroke-width:2.2;stroke-linecap:round"/>
+    <ellipse cx="4" cy="-34" rx="5.2" ry="5.6" style="fill:var(--clover)"/>
+    <g style="stroke:var(--clover2);stroke-width:.9;fill:none;stroke-linecap:round">${[[-2,-37],[1,-39],[4,-36],[7,-38],[2,-33],[6,-32]].map(([x,y])=>`<path d="M${x+2} ${y+1.5}l-1-2.4"/>`).join('')}</g>`,
+  /* лопух: большие листья у земли и колючие корзинки на ветках */
+  ()=>`<path d="M0-2C-6-1-16-4-18-11C-19-16-13-18-9-15C-6-13-3-8 0-2z" style="fill:var(--weed)"/>
+    <path d="M0-2C6-1 16-4 18-11C19-16 13-18 9-15C6-13 3-8 0-2z" style="fill:var(--weed)"/>
+    <path d="M0-3C-5-8-7-15-4-20C-1-23 2-22 3-19C4-14 3-8 0-3z" style="fill:var(--weed2)"/>
+    <path d="M0-2L-15-12M0-2L15-12M0-3L-1-18" style="stroke:var(--puff-line);stroke-width:.7;opacity:.7;fill:none"/>
+    <path d="M0-6V-33M0-20L-8-28M0-24L8-31" style="stroke:var(--weed);stroke-width:1.7;fill:none;stroke-linecap:round"/>
+    ${[[0,-35],[-9,-30],[9,-33]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="3.4" style="fill:var(--weed2)"/>
+      <g style="stroke:var(--weed);stroke-width:.7">${[0,60,120].map(a=>`<path d="M${(x-3.9*Math.cos(deg(a))).toFixed(1)} ${(y-3.9*Math.sin(deg(a))).toFixed(1)}L${(x+3.9*Math.cos(deg(a))).toFixed(1)} ${(y+3.9*Math.sin(deg(a))).toFixed(1)}"/>`).join('')}</g>
+      <ellipse cx="${x}" cy="${y-3}" rx="2.4" ry="1.6" style="fill:var(--thistle)"/>`).join('')}`,
+  /* вьюнок: закрученный стебель, листья-стрелки и белые граммофончики */
+  ()=>`<path d="M0 0C-9-5 8-11 0-18C-9-24 7-29 1-37" style="stroke:var(--weed);stroke-width:1.6;fill:none;stroke-linecap:round"/>
+    ${[[-5,-5,-1],[6,-13,1],[-6,-22,-1],[6,-29,1]].map(([x,y,d])=>`<path d="M${x} ${y}l${d*7} -4l${-d*2} 4l${d*2} 4z" style="fill:var(${d<0?'--weed':'--weed2'})"/>`).join('')}
+    ${[[-8,-31],[9,-21]].map(([x,y])=>`<path d="M${x} ${y+5}l-1.6-5h3.2z" style="fill:var(--weed2)"/><circle cx="${x}" cy="${y}" r="4.4" style="fill:var(--puff);stroke:var(--clover2);stroke-width:.7"/><circle cx="${x}" cy="${y}" r="1.6" style="fill:var(--clover)"/>`).join('')}`,
+  /* осот: розетка зубчатых листьев, ветвистый стебель и жёлтые корзинки */
+  ()=>`<path d="M0 0L-16-5-11-7-15-11-8-10-9-15-2-8z" style="fill:var(--weed)"/><path d="M0 0L16-5 11-7 15-11 8-10 9-15 2-8z" style="fill:var(--weed2)"/>
+    <path d="M0-4V-26M0-18L-8-30M0-22L7-33" style="stroke:var(--weed);stroke-width:1.6;fill:none;stroke-linecap:round"/>
+    ${[[-8,-32],[7,-35],[0,-28]].map(([x,y])=>`<g style="fill:var(--petal3)">${[0,45,90,135,180,225,270,315].map(a=>`<ellipse cx="${(x+2.6*Math.cos(deg(a))).toFixed(1)}" cy="${(y+2.6*Math.sin(deg(a))).toFixed(1)}" rx="1.5" ry=".9" transform="rotate(${a} ${(x+2.6*Math.cos(deg(a))).toFixed(1)} ${(y+2.6*Math.sin(deg(a))).toFixed(1)})"/>`).join('')}</g><circle cx="${x}" cy="${y}" r="1.6" style="fill:var(--heart)"/>`).join('')}`,
+  /* пастушья сумка: прикорневая розетка, тонкий стебель со стручками-сердечками и белыми цветочками */
+  ()=>`<path d="M0 0L-13-3-9-5-12-8-5-6z" style="fill:var(--weed)"/><path d="M0 0L13-3 9-5 12-8 5-6z" style="fill:var(--weed2)"/>
+    <path d="M0-2C0-14 1-26 0-38" style="stroke:var(--weed);stroke-width:1.3;fill:none"/>
+    ${[[-12,-1],[-17,1],[-22,-1],[-27,1],[-31,-1]].map(([y,d])=>`<path d="M0 ${y}l${d*4} -2" style="stroke:var(--weed);stroke-width:.8"/><path d="M${d*4} ${y-2}l${d*2.6} -3.4l${-d*1.3} .8l${-d*1.3} -.8z" style="fill:var(--weed2)"/>`).join('')}
+    <g style="fill:var(--puff);stroke:var(--puff-line);stroke-width:.4">${[[-1.5,-38],[1.5,-38],[0,-40.5]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="1.5"/>`).join('')}</g>`,
+  /* полынь: несколько серебристых стеблей с перистыми листочками */
+  ()=>`${[[-9,-28,-1],[0,-36,0],[9,-30,1]].map(([x,y,d])=>`<path d="M0 0Q${x*.4} ${y*.5} ${x} ${y}" style="stroke:var(--sage2);stroke-width:1.4;fill:none"/>
+      ${[.3,.5,.7,.9].map(t=>{ const px=x*t*(1-t*.2)+x*.0, py=y*t; return `<ellipse cx="${(px-3).toFixed(1)}" cy="${(py+1).toFixed(1)}" rx="3" ry="1.2" transform="rotate(${30+d*10} ${(px-3).toFixed(1)} ${(py+1).toFixed(1)})" style="fill:var(--sage)"/><ellipse cx="${(px+3).toFixed(1)}" cy="${(py+1).toFixed(1)}" rx="3" ry="1.2" transform="rotate(${-30+d*10} ${(px+3).toFixed(1)} ${(py+1).toFixed(1)})" style="fill:var(--sage)"/>`; }).join('')}
+      <circle cx="${x}" cy="${y-1}" r="1.4" style="fill:var(--petal3)"/>`).join('')}`,
+  /* мышиный горошек: перистые листья, усики-завитки и лиловая кисть цветков */
+  ()=>`<path d="M0 0C1-12-1-24 1-34" style="stroke:var(--weed);stroke-width:1.5;fill:none"/>
+    ${[[-6,-1],[-15,1],[-24,-1]].map(([y,d])=>`<path d="M0 ${y}l${d*12} -5" style="stroke:var(--weed);stroke-width:.9"/>
+      ${[3,6,9].map(k=>`<ellipse cx="${d*k}" cy="${(y-k*.42-1.6).toFixed(1)}" rx="1.4" ry="2" style="fill:var(--weed2)"/><ellipse cx="${d*k}" cy="${(y-k*.42+1.6).toFixed(1)}" rx="1.4" ry="2" style="fill:var(--weed)"/>`).join('')}
+      <path d="M${d*12} ${y-5}c${d*3} -1 ${d*4} -5 ${d*1} -6c${-d*2} 0 ${-d*2} 2 0 2" style="stroke:var(--weed);stroke-width:.8;fill:none"/>`).join('')}
+    <g style="fill:var(--thistle)">${[0,1,2,3,4].map(k=>`<ellipse cx="${(1+(k%2?2.4:-2.4)).toFixed(1)}" cy="${-34-k*2.4}" rx="2" ry="1.5"/>`).join('')}</g>`
+];
+const WEED=(kind,s)=>`<g transform="scale(${s})">${WEEDS[kind]()}</g>`;
+const PET=['--petal1','--petal2','--petal3','--petal4'];
+/* маленький цветок луга */
+const TINY=(x,y,c,s)=>`<g transform="translate(${x.toFixed(1)} ${y.toFixed(1)}) scale(${s.toFixed(2)})"><g style="fill:var(${PET[c]})">${[0,72,144,216,288].map(a=>`<circle cx="${(2*Math.cos(deg(a-90))).toFixed(1)}" cy="${(2*Math.sin(deg(a-90))).toFixed(1)}" r="1.6"/>`).join('')}</g><circle r="1" style="fill:var(--heart)"/></g>`;
+const TUFT=(x,y,s)=>`<path d="M${x-3*s} ${y}l${s} ${-5*s}M${x} ${y}v${-6*s}M${x+3*s} ${y}l${-s} ${-5*s}" style="stroke:var(--grass2);stroke-width:1.1;fill:none;stroke-linecap:round"/>`;
+$('#icWeed').innerHTML=`<path d="M12 22V6" style="stroke:var(--weed);stroke-width:2;stroke-linecap:round"/>
+  <path d="M12 18L7 17 8.5 15.5 4 14 8 13 6 10.5 10 12 12 15z" style="fill:var(--weed)"/>
+  <path d="M12 13L17 12 15.5 10.5 20 9 16 8 18 5.5 14 7 12 10z" style="fill:var(--weed2)"/>
+  <path d="M12 7L10 3.5 12 4.5 14 3.5z" style="fill:var(--weed)"/>`;
+$('#icShovel').innerHTML=SHOVEL(12,3.5,1,0);
+$('#icFlower').innerHTML=`<g transform="translate(12 12) scale(2.6)">${TINY(0,0,0,1).replace(/^<g transform="[^"]*">/,'<g>')}</g>`;
+
+/* ---------- сцена: небо, забор на линии земли, луг из маленьких цветов.
+   Вокруг сорняка - голая земля, цветы там пропадают; выкопал - проплешина снова зарастает. ---------- */
+const VW=400, VH=250, GROUND=80;
+const rng=seed=>()=>((seed=(seed*1664525+1013904223)>>>0)/4294967296);
+/* луг: цветы и травинки раскладываются так, чтобы не наползать друг на друга (у каждого свой кружок-место) */
+const MEADOW=(()=>{ const r=rng(20261101), out=[];
+  for(let i=0;i<4000&&out.length<240;i++){
+    const t=r()<.3, sz=.75+r()*.5, f={x:8+r()*384,y:GROUND+12+r()*(VH-GROUND-18),c:Math.floor(r()*4),s:sz,t};
+    f.cy=t?f.y-3*sz:f.y; f.rad=(t?4.2:3.8)*sz;
+    if(out.every(o=>(o.x-f.x)**2+(o.cy-f.cy)**2>=(o.rad+f.rad+1.2)**2)) out.push(f);
+  }
+  return out.sort((a,b)=>a.y-b.y); })();
+/* места для сорняков: 3 ряда по 7, ряды со сдвигом */
+/* места для сорняков: 3 ряда (7, 6, 7), средний со сдвигом; шаг больше ширины проплешины - они не соприкасаются */
+const SPOTS=[]; [132,180,228].forEach((y,ri)=>{ const n=ri===1?6:7, x0=ri===1?61:34; for(let k=0;k<n;k++) SPOTS.push([x0+k*55,y]); });
+const hash=s=>{ let h=2166136261; for(const c of s) h=Math.imul(h^c.charCodeAt(0),16777619); return h>>>0; };
+/* Место сорняка запоминается (oshibki-v1.spots), чтобы он не прыгал. Новому достаётся свободное место
+   подальше от уже занятых - так сорняки разбросаны по всему саду, а не кучкуются. */
+function place(list){
+  G.spots=G.spots||{}; const keys=new Set(list.map(w=>w.game.id+w.id)); let changed=false;
+  Object.keys(G.spots).forEach(k=>{ if(!keys.has(k)||G.spots[k]>=SPOTS.length){ delete G.spots[k]; changed=true; } });
+  const taken=new Set(Object.values(G.spots)), out=[];
+  const far=i=>Math.min(Infinity,...[...taken].map(j=>Math.hypot(SPOTS[i][0]-SPOTS[j][0],(SPOTS[i][1]-SPOTS[j][1])*1.6)));
+  list.forEach(w=>{ const key=w.game.id+w.id; let k=G.spots[key];
+    if(k==null){ const free=SPOTS.map((_,i)=>i).filter(i=>!taken.has(i)); if(!free.length) return;
+      free.sort((a,b)=>far(b)-far(a)||hash(key+a)%97-hash(key+b)%97); k=free[0]; G.spots[key]=k; taken.add(k); changed=true; }
+    out.push([w,...SPOTS[k]]); });
+  if(changed) store();
+  return out;
+}
+const near=(f,ps,k=1)=>ps.some(([,x,y])=>((f.x-x)/(26*k))**2+((f.y-y)/(14*k))**2<1);
+const weedSVG=(x,y,w,i)=>{
+  const ready=w.p>=NEED, s=[1.25,1.08,.95][w.p], kind=w.kind||0;   // чем ближе к лопате, тем слабее сорняк
+  return `<g class="weed${ready?' ready':''}" data-i="${i}" ${ready?`tabindex="0" role="button" aria-label="Выкопать сорняк: ${esc(wname(w))}"`:''}>
+    <title>${esc(w.game.name)}: ${esc(wname(w))} (${wtext(w)}) · ${ready?'можно выкопать':w.p+' из '+NEED}</title>
+    ${ready?`<ellipse class="glow" cx="${x}" cy="${y-16}" rx="17" ry="21" style="fill:var(--sun)"/>`:''}
+    <g transform="translate(${x} ${y})">${WEED(kind,s)}</g>
+    ${ready?SHOVEL(x+12,y-48,1,30)
+      :`<g transform="translate(${x-3} ${y+7})">${[0,1].map(k=>`<circle cx="${k*6}" cy="0" r="1.9" style="fill:${k<w.p?'var(--good)':'var(--soil-line)'}"/>`).join('')}</g>`}
+  </g>`;
+};
+let W=[], ALL=[], justDug=null;
+function render(){
+  ALL=weeds(); W=ALL.flatMap(x=>x.list);
+  /* вид сорняка - по порядку (игра + id): десять разных подряд, повтор только с одиннадцатого */
+  W.slice().sort((a,b)=>(a.game.id+a.id)<(b.game.id+b.id)?-1:1).forEach((w,i)=>{ w.kind=i%WEEDS.length; });
+  const ready=W.filter(w=>w.p>=NEED).length, todo=W.filter(w=>w.p<NEED&&!needLogin(w.game)), dugN=G.count||0;
+  $('#nWeeds').textContent=W.length; $('#nShovels').textContent=ready; $('#nFlowers').textContent=dugN;
+
+  const P=place(W);
+  let s=`<svg viewBox="0 0 ${VW} ${VH}" role="img" aria-label="Сад: ${W.length?`${W.length} ${plural(W.length,'сорняк','сорняка','сорняков')}`:'всё в цветах'}">
+    <rect width="${VW}" height="${VH}" style="fill:var(--sky)"/>
+    <circle cx="372" cy="19" r="11" style="fill:var(--sun)"/>
+    ${Array.from({length:20},(_,k)=>`<path d="M${6+k*21} ${GROUND+2}V${46}l5-6 5 6V${GROUND+2}z" style="fill:var(--fence)"/>`).join('')}
+    <rect x="0" y="52" width="${VW}" height="5" rx="2" style="fill:var(--fence2)"/><rect x="0" y="68" width="${VW}" height="5" rx="2" style="fill:var(--fence2)"/>
+    <rect x="0" y="${GROUND}" width="${VW}" height="${VH-GROUND}" style="fill:var(--grass)"/>
+    <path d="M0 ${GROUND}H${VW}" style="stroke:var(--grass2);stroke-width:2"/>
+    ${P.map(([,x,y])=>`<ellipse cx="${x}" cy="${y-2}" rx="24" ry="11" style="fill:var(--soil)"/><ellipse cx="${x}" cy="${y-2}" rx="17" ry="7" style="fill:var(--soil2)"/>`).join('')}`;
+  MEADOW.forEach(f=>{ if(near(f,P)) return;
+    const bloom=justDug&&near(f,[[0,justDug[0],justDug[1]]],1.1);
+    const g=f.t?TUFT(f.x,f.y,f.s):TINY(f.x,f.y,f.c,f.s);
+    s+=bloom?`<g class="bloom">${g}</g>`:g; });
+  P.sort((a,b)=>a[2]-b[2]).forEach(([w,x,y])=>{ s+=weedSVG(x,y,w,W.indexOf(w)); });
+  if(W.length>P.length) s+=`<text x="${VW-10}" y="${VH-8}" text-anchor="end" style="fill:var(--muted);font:700 11px var(--f-body)">и ещё ${W.length-P.length}</text>`;
+  $('#sceneSvg').innerHTML=s+'</svg>';
+  justDug=null;
+
+  /* кнопка «Полоть» */
+  const prem=premium(), n=Math.min(MAXQ,todo.reduce((a,w)=>a+NEED-w.p,0));
+  $('#playBtn').classList.toggle('locked',!prem);
+  $('#playBtn').disabled=prem&&!n;
+  $('#playSmall').textContent=!prem?'доступно с премиумом':n?`${n} ${plural(n,'задание','задания','заданий')}`:'нечего полоть';
+  $('#playTitle').textContent=W.length?(ready?`Лопат: ${ready}`:'Полоть сорняки'):'Сад в цвету';
+  $('#playNote').textContent=ready?'Нажми на подсвеченный сорняк в саду, чтобы выкопать его.'
+    :todo.length?`В саду ${W.length} ${plural(W.length,'сорняк','сорняка','сорняков')}. Каждую ошибку нужно решить верно 2 раза подряд.`
+    :W.length?'Сорняки из игр, где нужен вход: войди в аккаунт, чтобы их полоть.':'Ошибёшься в любой игре - здесь вырастет сорняк.';
+
+  /* ошибки по играм */
+  $('#games').innerHTML=ALL.map(({g,list})=>{
+    const r=list.filter(w=>w.p>=NEED).length;
+    return `<details class="g ${g.cls}${list.length?'':' zero'}"${list.length?'':' onclick="return false"'}>
+      <summary><span class="ic" aria-hidden="true"><svg viewBox="0 0 80 80">${g.svg}</svg></span>
+        <span class="nm"><b>${g.name}</b><span>${list.length?`${list.length} ${plural(list.length,'ошибка','ошибки','ошибок')}${r?` · лопат ${r}`:''}`:'ошибок нет'}</span></span>
+        <span class="chev" aria-hidden="true">›</span></summary>
+      ${list.length?`<div class="ws">${list.map(w=>`<div class="w"><span class="t">${esc(cap(wname(w)))}<small>${cap(wtext(w))}</small></span>${w.p>=NEED
+        ?`<button class="btn" type="button" data-dig="${W.indexOf(w)}">Выкопать</button>`
+        :`<span class="prog">${[0,1].map(k=>`<i class="${k<w.p?'on':''}"></i>`).join('')}${w.p} из ${NEED}</span>`}</div>`).join('')}</div>`:''}
+    </details>`;
+  }).join('');
+  fillNames();
+  meChip($('#nickBtn'),localStorage.getItem('organika-nick'));
+}
+function dig(i){
+  const w=W[i]; if(!w||w.p<NEED) return;
+  const el=document.querySelector(`.weed[data-i="${i}"]`), spot=place(W).find(x=>x[0]===w);
+  const done=()=>{
+    G.dug[w.game.id]=G.dug[w.game.id]||{}; G.dug[w.game.id][w.id]=w.w; G.count=(G.count||0)+1;
+    store(); justDug=spot?[spot[1],spot[2]]:null; render(); toast(`Выкопано: ${wname(w)}`);
+  };
+  if(el&&!matchMedia('(prefers-reduced-motion: reduce)').matches){ el.classList.add('dig'); setTimeout(done,520); } else done();
+}
+
+/* ---------- раунд: до 8 заданий из всех игр. Ошибка повторяется, пока не наберёт 2 из 2; игры идут по очереди ---------- */
+function lock(){ $('#lockModal').hidden=false; $('#lockModal .btn').focus(); }
+function startRun(){
+  if(!premium()) return lock();
+  const todo=W.filter(w=>w.p<NEED&&!needLogin(w.game)).sort((a,b)=>a.p-b.p||b.w-a.w);
+  const need=new Map(); let left=MAXQ;
+  for(const w of todo){ if(!left) break; const k=Math.min(NEED-w.p,left); need.set(w,k); left-=k; }
+  const queue=GAMES.map(g=>{
+    const ws=[...need.keys()].filter(w=>w.game===g), ids=[];
+    for(let r=0;ws.some(w=>need.get(w)>r);r++) ws.forEach(w=>{ if(need.get(w)>r) ids.push(w.id); });   // вперемешку, а не три одинаковых подряд
+    return {game:g.id,ids};
+  }).filter(x=>x.ids.length);
+  if(!queue.length) return;
+  const total=queue.reduce((a,x)=>a+x.ids.length,0);
+  try{ sessionStorage.setItem(RUNKEY,JSON.stringify({queue,total,done:0,right:0,start:Date.now()})); }catch(e){}
+  location.href=queue[0].game+'.html?fix=1';
+}
+$('#playBtn').onclick=startRun;
+
+/* вернулись из последней игры раунда */
+if(new URLSearchParams(location.search).get('run')==='done'){
+  history.replaceState(null,'',location.pathname);
+  let r=null; try{ r=JSON.parse(sessionStorage.getItem(RUNKEY)||'null'); sessionStorage.removeItem(RUNKEY); }catch(e){}
+  if(r&&r.total){
+    const ready=weeds().flatMap(x=>x.list).filter(w=>w.p>=NEED).length;
+    $('#doneBig').textContent=`${r.right} из ${r.total}`;
+    $('#doneText').textContent=ready?`Лопат: ${ready}. Выкопай подсвеченные сорняки - и проплешины снова зарастут цветами.`:'Сорняки пока на месте: лопата - за 2 верных ответа подряд.';
+    $('#doneModal').hidden=false;
+  }
+}
+
+$('#sceneSvg').addEventListener('click',e=>{ const g=e.target.closest('.weed.ready'); if(g) dig(+g.dataset.i); });
+$('#sceneSvg').addEventListener('keydown',e=>{ const g=e.target.closest('.weed.ready'); if(g&&(e.key==='Enter'||e.key===' ')){ e.preventDefault(); dig(+g.dataset.i); } });
+$('#games').addEventListener('click',e=>{ const d=e.target.closest('[data-dig]'); if(d){ e.preventDefault(); dig(+d.dataset.dig); } });
+document.querySelectorAll('.modal').forEach(m=>m.addEventListener('click',e=>{ if(e.target===m||e.target.closest('[data-close]')) m.hidden=true; }));
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') document.querySelectorAll('.modal:not(.gate)').forEach(m=>m.hidden=true); });
+$('#nickBtn').onclick=()=>localStorage.getItem('organika-nick')?goProfile('oshibki'):location.href=(location.protocol==='file:'?'hub.html':'hub');
+let tt=null;
+function toast(m){ let t=$('.toast'); if(!t){ t=document.createElement('div'); t.className='toast'; t.setAttribute('role','status'); document.body.appendChild(t); } t.textContent=m; t.hidden=false; clearTimeout(tt); tt=setTimeout(()=>t.hidden=true,2600); }
+/* возврат кнопкой «Назад» и изменения в другой вкладке - перерисовать */
+window.addEventListener('pageshow',e=>{ if(e.persisted) render(); });
+window.addEventListener('storage',render);
+render();
+if(!SIGNED){
+  const hub=(location.protocol==='file:'?'hub.html':'hub')+'?login=1';
+  document.body.insertAdjacentHTML('beforeend',`<div class="modal gate" style="background:color-mix(in srgb,var(--bg) 85%,transparent);backdrop-filter:blur(5px)"><div class="sheet" role="dialog" aria-modal="true" aria-labelledby="gateTitle">
+    <h2 id="gateTitle">Нужен вход в аккаунт</h2><p>Работа над ошибками открывается после входа.<br>Войди, чтобы видеть свой сад и не потерять прогресс.</p>
+    <a class="btn" href="${hub}" style="text-decoration:none">Войти</a></div></div>`);
+}
+/* подписка могла поменяться на сервере */
+if(window.Cloud&&Cloud.user()) Cloud.status().then(render).catch(()=>{});
+</script>
+</body>
+</html>
