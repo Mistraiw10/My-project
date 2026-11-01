@@ -243,7 +243,7 @@ footer{color:var(--muted);font-size:13px;max-width:70ch}
     <div class="ach" id="ach"></div>
   </section>
 
-  <footer>Прогресс всегда сохраняется в этом браузере. Если войти в аккаунт, он ещё копируется на сервер – тогда можно играть с любого устройства и попасть в рейтинг.</footer>
+  <footer>Прогресс всегда сохраняется в этом браузере. Если войти в аккаунт, он ещё копируется на сервер - тогда можно играть с любого устройства и попасть в рейтинг.</footer>
 </div>
 
 <!-- nickname -->
@@ -306,9 +306,9 @@ footer{color:var(--muted);font-size:13px;max-width:70ch}
   </form>
 </div>
 
-<script src="cloud.js?v=2"></script>
+<script src="cloud.js?v=3"></script>
 <script>
-/* Общие ключи: ник и аватарка – в хабе; organika-hub пишут игры (прогресс, последняя игра, дни занятий) */
+/* Общие ключи: ник и аватарка - в хабе; organika-hub пишут игры (прогресс, последняя игра, дни занятий) */
 const NICK='organika-nick', AVA='organika-avatar', HUB='organika-hub';
 const $=s=>document.querySelector(s);
 const get=k=>{try{return localStorage.getItem(k);}catch(e){return null;}};
@@ -329,7 +329,7 @@ const GAMES=[
    desc:'Ацетилен и гомологи: Кучеров, Линдлар, ацетилениды, олигомеризация.',
    svg:'<path d="M10,40H70M22,32H58M22,48H58"/>'},
   {id:'alkadieny',key:'alkadieny-v1',href:'alkadieny.html',cls:'diene',name:'Алкадиены',badge:'C<sub>n</sub>H<sub>2n–2</sub>',unit:'реакций',
-   desc:'Сопряжённые диены: 1,2- и 1,4-присоединение, Дильс–Альдер, Лебедев, озонолиз.',
+   desc:'Сопряжённые диены: 1,2- и 1,4-присоединение, Дильс-Альдер, Лебедев, озонолиз.',
    svg:'<path d="M8,52 26,30 44,52 62,30 72,42M17,50 27,38M53,50 63,38"/>'}
 ];
 
@@ -501,7 +501,7 @@ $('#nickForm').addEventListener('submit',async e=>{e.preventDefault();
   const err=m=>{$('#nickErr').textContent=m; $('#nickErr').hidden=false;};
   if(v.length<2) return err('Ник должен быть от 2 до 18 символов.');
   if(!nickOk(v)) return err('Такой ник не подойдёт. Выбери другой или возьми вариант ниже.');
-  /* с аккаунтом ник должен быть свободен; без связи – сохраняем локально и отправим позже */
+  /* с аккаунтом ник должен быть свободен; без связи - сохраняем локально и отправим позже */
   if(window.Cloud&&Cloud.user()){
     try{ await Cloud.saveProfile(v,get(AVA)); }
     catch(x){ if(x.code==='taken') return err('Этот ник уже занят. Выбери другой.'); }
@@ -516,12 +516,12 @@ document.addEventListener('keydown',e=>{ if(e.key!=='Escape') return;
 let tt=null;
 function toast(m){let t=$('.toast'); if(!t){t=document.createElement('div'); t.className='toast'; t.setAttribute('role','status'); document.body.appendChild(t);} t.textContent=m; t.hidden=false; clearTimeout(tt); tt=setTimeout(()=>t.hidden=true,2400);}
 
-/* ---------- аккаунт (Supabase) – всё необязательно: без связи сайт работает как раньше ---------- */
+/* ---------- аккаунт (Supabase) - всё необязательно: без связи сайт работает как раньше ---------- */
 function renderAcc(){
   const el=$('#acc');
   if(!window.Cloud){ el.hidden=true; return; }
   const u=Cloud.user();
-  if(!u){ el.innerHTML=`<span class="lbl">Аккаунт</span><div class="row2"><span class="st">Вход не выполнен – прогресс только на этом устройстве</span><button class="btn" type="button" data-auth>Войти</button></div>`; return; }
+  if(!u){ el.innerHTML=`<span class="lbl">Аккаунт</span><div class="row2"><span class="st">Вход не выполнен - прогресс только на этом устройстве</span><button class="btn" type="button" data-auth>Войти</button></div>`; return; }
   const H=hubData(), on=Cloud.online();
   const st=on===false?'<span class="st bad">Сервер недоступен. Прогресс сохраняется на этом устройстве и отправится позже.</span>'
     :H.lastSync?`<span class="st ok">Сохранено на сервере в ${new Date(H.lastSync).toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'})}</span>`
@@ -536,13 +536,13 @@ $('#acc').addEventListener('click',async e=>{
 });
 document.addEventListener('click',e=>{ if(e.target.closest('[data-auth]')) openAuth(); });
 
-/* режимы окна: in – вход, up – регистрация, reset – прислать ссылку, new – задать новый пароль после ссылки */
+/* режимы окна: in - вход, up - регистрация, reset - прислать ссылку, new - задать новый пароль после ссылки */
 let authMode='in';
 const AUTH_UI={
   in:   {title:'Аккаунт',      go:'Войти',            mail:1,pass:1,tabs:1,forgot:1,text:'Прогресс сохранится на сервере: можно играть с телефона и компьютера и попасть в рейтинг.'},
   up:   {title:'Аккаунт',      go:'Создать аккаунт',  mail:1,pass:1,tabs:1,forgot:0,text:'Прогресс сохранится на сервере: можно играть с телефона и компьютера и попасть в рейтинг.'},
-  reset:{title:'Восстановление пароля', go:'Прислать ссылку', mail:1,pass:0,tabs:0,forgot:0,text:'Введи почту, с которой регистрировался. Придёт письмо со ссылкой – по ней можно задать новый пароль.'},
-  new:  {title:'Новый пароль', go:'Сохранить пароль', mail:0,pass:1,tabs:0,forgot:0,text:'Придумай новый пароль – не меньше 6 символов.'}
+  reset:{title:'Восстановление пароля', go:'Прислать ссылку', mail:1,pass:0,tabs:0,forgot:0,text:'Введи почту, с которой регистрировался. Придёт письмо со ссылкой - по ней можно задать новый пароль.'},
+  new:  {title:'Новый пароль', go:'Сохранить пароль', mail:0,pass:1,tabs:0,forgot:0,text:'Придумай новый пароль - не меньше 6 символов.'}
 };
 function setAuthMode(m){ authMode=m; const u=AUTH_UI[m];
   document.querySelectorAll('#authTabs [data-m]').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.m===m)));
@@ -559,7 +559,7 @@ $('#authTabs').addEventListener('click',e=>{const b=e.target.closest('[data-m]')
 $('#forgotBtn').onclick=()=>{ setAuthMode('reset'); $('#authMail').focus(); };
 $('#authCancel').onclick=()=>{ if(authMode==='reset') setAuthMode('in'); else $('#authOv').hidden=true; };
 const AUTH_ERR=[[/invalid login|invalid_credentials/i,'Неверная почта или пароль.'],
-  [/already registered|user_already_exists/i,'Эта почта уже зарегистрирована – просто войди.'],
+  [/already registered|user_already_exists/i,'Эта почта уже зарегистрирована - просто войди.'],
   [/at least 6|weak_password|password should/i,'Пароль слишком короткий: нужно не меньше 6 символов.'],
   [/not confirmed|email_not_confirmed/i,'Почта не подтверждена. Открой письмо и нажми ссылку, потом войди.'],
   [/rate limit|over_.*rate|for security purposes/i,'Слишком много попыток. Подожди пару минут.'],
@@ -569,12 +569,12 @@ $('#authForm').addEventListener('submit',async e=>{e.preventDefault();
   const mail=$('#authMail').value.trim(), pass=$('#authPass').value, go=$('#authGo');
   const err=m=>{$('#authErr').textContent=m; $('#authErr').hidden=false; $('#authOk').hidden=true;};
   if(authMode!=='new'&&!/^\S+@\S+\.\S+$/.test(mail)) return err('Проверь адрес почты.');
-  if(authMode!=='reset'&&pass.length<6) return err('Пароль – не меньше 6 символов.');
+  if(authMode!=='reset'&&pass.length<6) return err('Пароль - не меньше 6 символов.');
   go.disabled=true; $('#authErr').hidden=true;
   try{
     if(authMode==='reset'){
       await Cloud.recover(mail);
-      $('#authOk').textContent='Если эта почта зарегистрирована, письмо со ссылкой уже в пути. Загляни и в папку «Спам».';
+      $('#authOk').textContent='Если эта почта зарегистрирована, письмо со ссылкой уже в пути. Не забудь проверить папку «Спам».';
       $('#authOk').hidden=false; return;
     }
     if(authMode==='new'){
@@ -587,7 +587,7 @@ $('#authForm').addEventListener('submit',async e=>{e.preventDefault();
     $('#authOv').hidden=true; toast('Вход выполнен');
     await afterLogin();
   }catch(x){
-    err(x.offline?'Сервер сейчас недоступен. Играть можно и без аккаунта – попробуй войти позже.'
+    err(x.offline?'Сервер сейчас недоступен. Играть можно и без аккаунта - попробуй войти позже.'
       :(AUTH_ERR.find(([r])=>r.test(x.message+' '+(x.code||'')))||[0,'Не получилось: '+x.message])[1]);
   }finally{ go.disabled=false; }
 });
@@ -598,7 +598,7 @@ async function afterLogin(){
     if(p){ set(NICK,p.nick); if(p.avatar) set(AVA,p.avatar); else { try{localStorage.removeItem(AVA);}catch(e){} } }
     else if(nick()){
       try{ await Cloud.saveProfile(nick(),get(AVA)); }
-      catch(x){ if(x.code==='taken'){ toast(`Ник «${nick()}» уже занят – выбери другой`); setTimeout(openNick,400); } }
+      catch(x){ if(x.code==='taken'){ toast(`Ник «${nick()}» уже занят - выбери другой`); setTimeout(openNick,400); } }
     }
     await Cloud.sync(true);
   }catch(e){}
@@ -609,7 +609,7 @@ async function bootCloud(){
   if(window.Cloud){
     try{
       const l=await Cloud.fromLink();
-      if(l&&l.error) toast(/expired|otp/i.test(l.error+l.message)?'Ссылка устарела или уже использована – запроси новую':'Ссылка не сработала – запроси новую');
+      if(l&&l.error) toast(/expired|otp/i.test(l.error+l.message)?'Ссылка устарела или уже использована - запроси новую':'Ссылка не сработала - запроси новую');
       else if(l&&l.type==='recovery') openAuth('new');
       else if(l){ await afterLogin(); return; }
     }catch(e){ toast('Не получилось открыть ссылку: нет связи с сервером'); }
@@ -641,7 +641,7 @@ async function loadLb(){
 $('#lbSeg').addEventListener('click',e=>{const b=e.target.closest('[data-p]'); if(!b||b.dataset.p===lbPeriod) return;
   lbPeriod=b.dataset.p; document.querySelectorAll('#lbSeg [data-p]').forEach(x=>x.setAttribute('aria-selected',String(x===b))); loadLb();});
 
-/* Возврат из игры кнопкой «Назад» – обновить всё */
+/* Возврат из игры кнопкой «Назад» - обновить всё */
 window.addEventListener('pageshow',e=>{ render(); if(e.persisted){ bootCloud(); loadLb(); } });
 window.addEventListener('storage',render);
 

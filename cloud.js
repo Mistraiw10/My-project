@@ -14,7 +14,7 @@ const ls={get:k=>{try{return localStorage.getItem(k);}catch(e){return null;}},
 const json=k=>{try{return JSON.parse(ls.get(k)||'null');}catch(e){return null;}};
 const dayStr=(off=0)=>{const d=new Date(); d.setDate(d.getDate()+off); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');};
 
-let online=null;   // null – ещё не пробовали, true/false – по последнему запросу
+let online=null;   // null - ещё не пробовали, true/false - по последнему запросу
 
 /* ---------- HTTP с таймаутом ---------- */
 async function req(path,{method='GET',body,auth=true,headers={}}={}){
@@ -50,7 +50,7 @@ async function token(){
   if(s.expires_at*1000-Date.now()>60000) return s.access_token;
   if(!refreshing) refreshing=req('/auth/v1/token?grant_type=refresh_token',{method:'POST',body:{refresh_token:s.refresh_token},auth:false})
     .then(keep)
-    .catch(e=>{ if(!e.offline&&e.status>=400&&e.status<500) ls.del(SESS); return null; })   // сессия отозвана – выходим
+    .catch(e=>{ if(!e.offline&&e.status>=400&&e.status<500) ls.del(SESS); return null; })   // сессия отозвана - выходим
     .finally(()=>{refreshing=null;});
   const n=await refreshing; return n?n.access_token:null;
 }
@@ -59,7 +59,7 @@ function forgetSync(){ const H=json(HUB); if(H){ delete H.synced; delete H.profi
 async function signUp(email,password){
   const d=await req('/auth/v1/signup',{method:'POST',body:{email,password},auth:false});
   forgetSync();
-  return keep(d)?{ok:true}:{ok:false,confirm:true};   // без сессии – значит, включено подтверждение почты
+  return keep(d)?{ok:true}:{ok:false,confirm:true};   // без сессии - значит, включено подтверждение почты
 }
 async function signIn(email,password){
   forgetSync();
@@ -70,7 +70,7 @@ async function recover(email){
   const back=location.origin+location.pathname.replace(/[^/]*$/,'');   // хаб в той же папке
   await req('/auth/v1/recover?redirect_to='+encodeURIComponent(back),{method:'POST',body:{email},auth:false});
 }
-/* Разобрать адрес после перехода по ссылке из письма. null – ссылки нет. */
+/* Разобрать адрес после перехода по ссылке из письма. null - ссылки нет. */
 async function fromLink(){
   const hs=location.hash.slice(1);
   if(!/(^|&)(access_token|error)=/.test(hs)) return null;
@@ -112,7 +112,7 @@ async function saveProfile(nick,avatar){
 }
 
 /* ---------- синхронизация прогресса ---------- */
-/* Скачать сохранения. Обычно побеждает более свежее; при первом входе на устройстве – то, где больше звёзд. */
+/* Скачать сохранения. Обычно побеждает более свежее; при первом входе на устройстве - то, где больше звёзд. */
 async function pull(firstLogin){
   const s=session(); if(!s||!await token()) return false;
   const rows=await req('/rest/v1/progress?select=game,state,earned,level,opened,total,updated_at');
@@ -160,7 +160,7 @@ async function sync(firstLogin){
   return changed;
 }
 
-/* Игры зовут queue() после каждого сохранения – отправка раз в несколько секунд */
+/* Игры зовут queue() после каждого сохранения - отправка раз в несколько секунд */
 const timers={};
 function queue(game){
   if(!session()) return;

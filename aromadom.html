@@ -5,7 +5,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Nunito:wght@400;600;700;800&display=swap">
 <style>
-/* Layout: one-column app – house scene on top, upgrades + play card below; the quiz is its own screen with a fixed answer bar */
+/* Layout: one-column app - house scene on top, upgrades + play card below; the quiz is its own screen with a fixed answer bar */
 :root{
   --bg:#ECE8F5; --surface:#FFFFFF; --surface2:#F5F2FB; --ink:#262040; --muted:#675F82; --line:#D9D2E9;
   --accent:#5B3FD1; --accent-ink:#FFFFFF; --star:#E2A100; --good:#13906A; --good-bg:#DCF3E9; --bad:#C93754; --bad-bg:#FBE1E6;
@@ -256,9 +256,9 @@ button{font:inherit;color:inherit}
         <button class="play-btn" id="playBtn" type="button">Играть</button>
         <ul class="rules">
           <li>Два типа вопросов: по структуре выбрать название или по названию найти структуру.</li>
-          <li>Каждый верный ответ – звезда, все 8 из 8 – ещё +3.</li>
+          <li>Каждый верный ответ - звезда, все 8 из 8 - ещё +3.</li>
           <li>Вещества, в которых ошибаешься, попадаются чаще.</li>
-          <li>Клавиши 1–6 выбирают вариант, Enter – дальше.</li>
+          <li>Клавиши 1-6 выбирают вариант, Enter - дальше.</li>
         </ul>
         <button class="ghost coll-btn" id="collBtn" type="button">Коллекция</button>
         <button class="linkish" id="resetBtn" type="button">Сбросить прогресс</button>
@@ -575,19 +575,19 @@ try{ const s=JSON.parse(localStorage.getItem(KEY)||'null'); if(s) Object.assign(
 /* общий ник для всех игр, выбирается в хабе (hub.html) */
 const NICK='organika-nick';
 try{ const g=localStorage.getItem(NICK); if(g) state.nick=g; else if(state.nick) localStorage.setItem(NICK,state.nick); }catch(e){}
-/* ?ref=1 – режим справочника для хаба: открыто всё, без шапки, ничего не меняется */
+/* ?ref=1 - режим справочника для хаба: открыто всё, без шапки, ничего не меняется */
 const REF=new URLSearchParams(location.search).has('ref');
 if(REF){ document.documentElement.classList.add('ref'); document.head.insertAdjacentHTML('beforeend','<style>header.top,a[href="hub"],.album-head,.album-tools,.inq,.tier-head>span,.jump small{display:none!important}</style>'); }
 /* сводка для хаба: прогресс, последняя игра, дни занятий */
-/* облако (вход, резервная копия, рейтинг) – необязательно, без него всё работает */
-if(!REF){ const cs=document.createElement('script'); cs.src='cloud.js?v=2'; document.head.appendChild(cs); }
+/* облако (вход, резервная копия, рейтинг) - необязательно, без него всё работает */
+if(!REF){ const cs=document.createElement('script'); cs.src='cloud.js?v=3'; document.head.appendChild(cs); }
 const GAME='aromadom';
 function hubSync(){ if(REF) return; try{
   const H=JSON.parse(localStorage.getItem('organika-hub')||'{}'), d=new Date();
   const day=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
   const spent=ROOMS.flatMap(r=>r.items).filter(it=>state.owned.includes(it.id)).reduce((a,it)=>a+(it.cost||0),0);
   const prevE=((H.games||{})[GAME]||{}).earned, newE=state.stars+spent;
-  if(prevE!=null&&newE>prevE){ H.sd=H.sd||{}; const b=H.sd[day]=H.sd[day]||{}; b[GAME]=(b[GAME]||0)+newE-prevE; }   // звёзды по дням – для рейтинга недели
+  if(prevE!=null&&newE>prevE){ H.sd=H.sd||{}; const b=H.sd[day]=H.sd[day]||{}; b[GAME]=(b[GAME]||0)+newE-prevE; }   // звёзды по дням - для рейтинга недели
   H.games=Object.assign(H.games||{},{[GAME]:{stars:state.stars,earned:state.stars+spent,level:state.level,open:(state.seen||[]).length,total:MOLS.length,t:Date.now()}});
   H.last=GAME; H.days=[...new Set([...(H.days||[]),day])].slice(-400);
   localStorage.setItem('organika-hub',JSON.stringify(H)); if(window.Cloud) Cloud.queue(GAME); }catch(e){} }
@@ -643,10 +643,10 @@ function renderHome(){
 function buy(id){
   const ri=ROOMS.findIndex(r=>r.items.some(it=>it.id===id)); const r=ROOMS[ri]; const it=r.items.find(x=>x.id===id);
   if(!roomUnlocked(ri) || state.owned.includes(id)) return;
-  if(state.stars<it.cost){ toast(`Нужно ещё ${it.cost-state.stars} ★ – сыграй уровень`); return; }
+  if(state.stars<it.cost){ toast(`Нужно ещё ${it.cost-state.stars} ★ - сыграй уровень`); return; }
   if(it.variants){ openPicker(it); return; }
   state.stars-=it.cost; state.owned.push(id); justBought=id; save(); renderHome();
-  toast(roomDone(r) && ri<ROOMS.length-1 ? `${it.name} – готово! Открыта комната «${ROOMS[ri+1].name}»` : `${it.name} – готово!`);
+  toast(roomDone(r) && ri<ROOMS.length-1 ? `${it.name} - готово! Открыта комната «${ROOMS[ri+1].name}»` : `${it.name} - готово!`);
 }
 
 const PV_BG=`<rect class="fw" x="-600" y="-300" width="1600" height="470"/><rect class="ff" x="-600" y="170" width="1600" height="500"/><path class="sfl" stroke-width="2" d="M-600 192H1000M-600 216H1000M-600 238H1000M-600 262H1000M-600 286H1000"/><rect class="fwd" x="-600" y="166" width="1600" height="7"/>`;
@@ -657,7 +657,7 @@ let pickFor=null;
 function openPicker(it){
   pickFor=it; const own=state.owned.includes(it.id), cur=choiceOf(it.id);
   $('#pickTitle').textContent=(own?'Сменить ':'Выбери ')+it.pick;
-  $('#pickNote').textContent=own?'Смена бесплатная.':`Стоимость ${it.cost} ★ – выбери один вариант.`;
+  $('#pickNote').textContent=own?'Смена бесплатная.':`Стоимость ${it.cost} ★ - выбери один вариант.`;
   $('#choices').innerHTML=it.variants.map(v=>`<button class="choice" type="button" data-v="${v.id}" aria-pressed="${own&&v.id===cur}"><svg viewBox="${it.pv}" preserveAspectRatio="xMidYMid meet" aria-hidden="true">${it.noFloor?'<rect class="fw" x="-600" y="-300" width="1600" height="900"/>':bgFor(it)}${it.svg(v.id)}</svg><span>${v.name}</span></button>`).join('');
   $('#pick').hidden=false; $('#choices .choice').focus();
 }
@@ -666,7 +666,7 @@ function choose(v){
   const it=pickFor; if(!it) return; const own=state.owned.includes(it.id);
   if(!own){ if(state.stars<it.cost) return; state.stars-=it.cost; state.owned.push(it.id); justBought=it.id; }
   state.choice=state.choice||{}; state.choice[it.id]=v; save(); closePicker(); renderHome();
-  toast(`${it.variants.find(x=>x.id===v).name} – готово!`);
+  toast(`${it.variants.find(x=>x.id===v).name} - готово!`);
 }
 let toastT;
 function toast(t){ const el=$('#toast'); el.textContent=t; el.hidden=false; clearTimeout(toastT); toastT=setTimeout(()=>el.hidden=true,2200); }
@@ -694,7 +694,7 @@ function distractors(m,pool,n){
 let Q=null;
 function startLevel(){
   const pool=activePool(), dpool=tierPool(), list=[]; let used=new Set();
-  if(!pool.length){ toast('Все вещества выключены – включи хотя бы одно в коллекции'); return; }
+  if(!pool.length){ toast('Все вещества выключены - включи хотя бы одно в коллекции'); return; }
   for(let k=0;k<8;k++){ let left=pool.filter(x=>!used.has(x.id)); if(!left.length){ used=new Set(); left=pool; }
     const m=pickWeighted(left); used.add(m.id);
     list.push({m, type:Math.random()<.5?'s2n':'n2s', opts:shuffle([m,...distractors(m,dpool,5)]), res:null}); }
@@ -730,7 +730,7 @@ function answer(i){
     if(q.type==='n2s') b.querySelector('.cap').innerHTML=fmtName(x.n); });
   const bar=$('#bar'); bar.hidden=false; bar.className='bar '+(ok?'ok':'bad');
   $('#barMsg').innerHTML = ok
-    ? `<b>Верно! +1 ★</b><span>${fmtName(q.m.n)} – ${q.m.alt}</span>`
+    ? `<b>Верно! +1 ★</b><span>${fmtName(q.m.n)} - ${q.m.alt}</span>`
     : `<b>Ошибка</b><span>Правильно: ${fmtName(q.m.n)} (${q.m.alt}). Ты выбрал(а): ${fmtName(ch.n)}</span>`;
   if(isNew) $('#barMsg b').insertAdjacentHTML('beforeend', `<span class="newtag">· новое в коллекции (${state.seen.length}/${MOLS.length})</span>`);
   $('#nextBtn').textContent = Q.i===Q.list.length-1 ? 'Итоги' : 'Дальше';
@@ -748,7 +748,7 @@ function finish(){
   $('#result').innerHTML=`<p class="label">Уровень ${state.level-1}</p><h2>${title}</h2><p>Верно ${Q.correct} из ${Q.list.length}${bonus?' · бонус за идеальный уровень +3':''}</p>
     <div class="big-stars"><svg class="ico" viewBox="0 0 24 24"><path d="${STAR_P}"/></svg>+${earned}</div>
     ${miss.length?`<p class="label" style="margin-top:6px">Повтори</p><ul class="mist">${miss.map(m=>`<li>${fmtName(m.n)}</li>`).join('')}</ul>`:''}
-    <div class="row"><button class="ghost" id="toHome" type="button">В дом – тратить звёзды</button><button class="next" id="again" type="button">Ещё уровень</button></div>`;
+    <div class="row"><button class="ghost" id="toHome" type="button">В дом - тратить звёзды</button><button class="next" id="again" type="button">Ещё уровень</button></div>`;
   $('#toHome').onclick=()=>{show('home');}; $('#again').onclick=startLevel;
   $('#again').focus({preventScroll:true});
 }
@@ -813,7 +813,7 @@ function openNick(){
 }
 $('#nickForm').addEventListener('submit',async e=>{ e.preventDefault();
   const v=$('#nickInput').value.trim().replace(/\s+/g,' ');
-  if(v.length<2){ $('#nickErr').textContent='Никнейм – минимум 2 символа.'; $('#nickErr').hidden=false; $('#nickSugg').hidden=true; return; }
+  if(v.length<2){ $('#nickErr').textContent='Никнейм - минимум 2 символа.'; $('#nickErr').hidden=false; $('#nickSugg').hidden=true; return; }
   if(!nickOk(v)){ $('#nickErr').textContent='Этот ник не одобрен. Выберите другой.'; $('#nickErr').hidden=false; showJokes(); return; }
   const first=!state.nick; state.nick=v.slice(0,20); save(); $('#nickModal').hidden=true;
   renderNick(); toast(first?`Привет, ${state.nick}!`:'Никнейм сохранён'); });
