@@ -778,7 +778,7 @@ const NICK='organika-nick';
 try{const g=localStorage.getItem(NICK); if(g) state.nick=g; else if(state.nick) localStorage.setItem(NICK,state.nick);}catch(e){}
 /* ?ref=1 – режим справочника для хаба: открыто всё, без шапки, ничего не меняется */
 const REF=new URLSearchParams(location.search).has('ref');
-if(REF){document.documentElement.classList.add('ref'); document.head.insertAdjacentHTML('beforeend','<style>header.top,a[href="index.html"],#kb .kbhead,#kbTiers,#kbTools,.inq,.incl,.offtag,.toff{display:none!important}</style>');}
+if(REF){document.documentElement.classList.add('ref'); document.head.insertAdjacentHTML('beforeend','<style>header.top,a[href="index.html"],#kb .kbhead,#kbTiers,#kbTools,.inq,.thead>span,.jump small,.incl,.offtag,.toff{display:none!important}</style>');}
 /* сводка для хаба: прогресс, последняя игра, дни занятий */
 /* облако (вход, резервная копия, рейтинг) – необязательно, без него всё работает */
 if(!REF){ const cs=document.createElement('script'); cs.src='cloud.js'; document.head.appendChild(cs); }
@@ -1153,6 +1153,26 @@ function toast(m){let t=$('.toast'); if(!t){t=document.createElement('div'); t.c
 
 /* ================= boot ================= */
 renderHome();
+/* быстрый переход к уровням сложности: липкая полоса кнопок над списком */
+document.head.insertAdjacentHTML('beforeend','<style>'+
+  '.jump{position:sticky;top:0;z-index:6;min-width:0;max-width:100%;contain:inline-size;display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:10px 0;background:var(--bg)}'+
+  '.jump button{flex:none;white-space:nowrap;font:inherit;font-size:14px;font-weight:700;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:6px 14px;cursor:pointer}'+
+  '.jump button:hover{border-color:var(--accent);color:var(--accent)}'+
+  '.jump small{font-weight:600;color:var(--muted);margin-left:4px}'+
+  'section[id^="tier-"]{scroll-margin-top:64px}</style>');
+function jumpBar(){
+  const grid=document.querySelector('#kgrid'); if(!grid) return;
+  let bar=grid.previousElementSibling;
+  if(!bar||!bar.classList.contains('jump')){
+    bar=document.createElement('nav'); bar.className='jump'; bar.setAttribute('aria-label','Быстрый переход по уровням'); grid.before(bar);
+    bar.addEventListener('click',e=>{const b=e.target.closest('[data-j]'); const s=b&&document.getElementById(b.dataset.j); if(s) s.scrollIntoView({behavior:'smooth',block:'start'});});
+  }
+  const secs=[...grid.children].filter(s=>s.tagName==='SECTION');
+  bar.innerHTML=secs.map((s,i)=>{ s.id='tier-'+i; const h=s.querySelector('h3'), n=h&&h.nextElementSibling;
+    return `<button type="button" data-j="tier-${i}">${h?h.textContent:''}${n?`<small>${n.textContent.replace(/^открыто\s*/,'')}</small>`:''}</button>`; }).join('');
+  bar.hidden=secs.length<2;
+}
+{ const base=renderKB; renderKB=function(){ base.apply(this,arguments); jumpBar(); }; }
 if(REF){renderKB(); show('kb');} else if(!state.nick) openNick();
 </script>
 

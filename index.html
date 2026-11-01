@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Russo+One&family=Golos+Text:wght@400;500;600;700&display=swap">
 <style>
-/* Layout: top bar (logo + profile chip) → title → stats row (stars, streak, rank) → "continue" banner → reference banner →
+/* Layout: top bar (profile chip on the right) → title → stats row (stars, streak, rank) → "continue" banner → reference banner →
    games grouped by course section (2 columns, 1 on phones) → "study" block → achievements grid → footer. Profile and nickname open as dialogs. */
 :root{
   --bg:#E9EEF0; --surface:#FFFFFF; --surface2:#F2F5F6; --ink:#15232B; --muted:#5A6B74; --line:#D3DCE0;
@@ -33,8 +33,7 @@ body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:1
   padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:16px 48px}
 .wrap{max-width:980px;margin:0 auto;display:flex;flex-direction:column;gap:22px}
 h1,h2,h3{font-family:var(--f-display);font-weight:400;margin:0;letter-spacing:.01em;text-wrap:balance}
-.top{display:flex;justify-content:space-between;align-items:center;gap:12px}
-.logo{font-family:var(--f-display);color:var(--steel);font-size:15px;letter-spacing:.04em}
+.top{display:flex;justify-content:flex-end;align-items:center;gap:12px}
 .me{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:5px 14px 5px 5px;max-width:min(320px,70vw);font:inherit;color:inherit;cursor:pointer;text-align:left}
 .me:hover{border-color:var(--accent)}
 .ava{width:36px;height:36px;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-family:var(--f-display);font-size:17px;flex:none;line-height:1}
@@ -185,7 +184,6 @@ footer{color:var(--muted);font-size:13px;max-width:70ch}
 
 <div class="wrap">
   <div class="top">
-    <span class="logo">ОРГАНИКА</span>
     <button class="me" id="me" type="button" aria-label="Открыть профиль">
       <span class="ava" id="ava" aria-hidden="true">?</span>
       <span class="who"><b id="meNick">Гость</b><small id="meRank">Ввести ник</small></span>
@@ -209,7 +207,7 @@ footer{color:var(--muted);font-size:13px;max-width:70ch}
     <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 4.5A1.5 1.5 0 0 1 5.5 3H20v15H5.5A1.5 1.5 0 0 0 4 19.5z"/><path d="M4 19.5A1.5 1.5 0 0 0 5.5 21H20v-3"/><path d="M9 7h7M9 11h5"/></svg></span>
     <span class="txt">
       <h2>Справочник</h2>
-      <p>Все реакции и вещества из всех игр. Здесь открыто всё сразу.</p>
+      <p>Все реакции и вещества из всех игр.</p>
       <span class="tags"><span>Аромадом</span><span>Алкены</span><span>Алкины</span><span>Алкадиены</span></span>
     </span>
     <span class="arr" aria-hidden="true">→</span>
