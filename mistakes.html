@@ -272,10 +272,11 @@ const WEEDS=[
     ${[[0,-35],[-9,-30],[9,-33]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="3.4" style="fill:var(--weed2)"/>
       <g style="stroke:var(--weed);stroke-width:.7">${[0,60,120].map(a=>`<path d="M${(x-3.9*Math.cos(deg(a))).toFixed(1)} ${(y-3.9*Math.sin(deg(a))).toFixed(1)}L${(x+3.9*Math.cos(deg(a))).toFixed(1)} ${(y+3.9*Math.sin(deg(a))).toFixed(1)}"/>`).join('')}</g>
       <ellipse cx="${x}" cy="${y-3}" rx="2.4" ry="1.6" style="fill:var(--thistle)"/>`).join('')}`,
-  /* вьюнок: закрученный стебель, листья-стрелки и белые граммофончики */
-  ()=>`<path d="M0 0C-9-5 8-11 0-18C-9-24 7-29 1-37" style="stroke:var(--weed);stroke-width:1.6;fill:none;stroke-linecap:round"/>
-    ${[[-5,-5,-1],[6,-13,1],[-6,-22,-1],[6,-29,1]].map(([x,y,d])=>`<path d="M${x} ${y}l${d*7} -4l${-d*2} 4l${d*2} 4z" style="fill:var(${d<0?'--weed':'--weed2'})"/>`).join('')}
-    ${[[-8,-31],[9,-21]].map(([x,y])=>`<path d="M${x} ${y+5}l-1.6-5h3.2z" style="fill:var(--weed2)"/><circle cx="${x}" cy="${y}" r="4.4" style="fill:var(--puff);stroke:var(--clover2);stroke-width:.7"/><circle cx="${x}" cy="${y}" r="1.6" style="fill:var(--clover)"/>`).join('')}`,
+  /* вьюнок: извилистый стебель, листья растут прямо из его узлов, цветы - на своих цветоножках */
+  ()=>`${[[-3,-10,-1,'--weed'],[3,-20,1,'--weed2'],[0,-30,-1,'--weed']].map(([x,y,d,c])=>`<path d="M${x} ${y}C${x+d*3} ${y-5} ${x+d*8} ${y-6} ${x+d*11} ${y-3}C${x+d*8} ${y} ${x+d*3} ${y+2} ${x} ${y}z" style="fill:var(${c})"/>`).join('')}
+    <path d="M0 0C-2-3-4-6-3-10C-2-14 3-16 3-20C3-24 1-27 0-30" style="stroke:var(--weed);stroke-width:1.6;fill:none;stroke-linecap:round"/>
+    <path d="M-3-10C-1-14 3-13 6-11M0-30C1-33 3-35 5-37" style="stroke:var(--weed);stroke-width:1.1;fill:none;stroke-linecap:round"/>
+    ${[[9,-11],[7,-39]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="4.4" style="fill:var(--puff);stroke:var(--clover2);stroke-width:.7"/><circle cx="${x}" cy="${y}" r="1.6" style="fill:var(--clover)"/>`).join('')}`,
   /* осот: розетка зубчатых листьев, ветвистый стебель и жёлтые корзинки */
   ()=>`<path d="M0 0L-16-5-11-7-15-11-8-10-9-15-2-8z" style="fill:var(--weed)"/><path d="M0 0L16-5 11-7 15-11 8-10 9-15 2-8z" style="fill:var(--weed2)"/>
     <path d="M0-4V-26M0-18L-8-30M0-22L7-33" style="stroke:var(--weed);stroke-width:1.6;fill:none;stroke-linecap:round"/>
@@ -390,7 +391,7 @@ function render(){
     const r=list.filter(w=>w.p>=NEED).length;
     return `<details class="g ${g.cls}${list.length?'':' zero'}"${list.length?'':' onclick="return false"'}>
       <summary><span class="ic" aria-hidden="true"><svg viewBox="0 0 80 80">${g.svg}</svg></span>
-        <span class="nm"><b>${g.name}</b><span>${list.length?`${list.length} ${plural(list.length,'ошибка','ошибки','ошибок')}${r?` · лопат ${r}`:''}`:'ошибок нет'}</span></span>
+        <span class="nm"><b>${g.name}</b><span>${list.length?`${list.length} ${plural(list.length,'ошибка','ошибки','ошибок')}${r?` · лопат ${r}`:''}`:'Ошибок нет'}</span></span>
         <span class="chev" aria-hidden="true">›</span></summary>
       ${list.length?`<div class="ws">${list.map(w=>`<div class="w"><span class="t">${esc(cap(wname(w)))}<small>${cap(wtext(w))}</small></span>${w.p>=NEED
         ?`<button class="btn" type="button" data-dig="${W.indexOf(w)}">Выкопать</button>`

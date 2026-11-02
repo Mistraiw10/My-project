@@ -181,7 +181,7 @@ html.modal-open,html.modal-open body{overflow:hidden}
 .shot-prev{display:flex;align-items:flex-end;gap:12px}
 .shot-prev img{max-width:180px;max-height:140px;border-radius:10px;border:1px solid var(--line);display:block}
 .hint{font-size:13px}
-.bugbtn{align-self:flex-start}
+.bugbtn{margin-right:auto}
 /* профиль внутри игры: хаб открыт в прозрачной рамке поверх игры, видны только окна */
 html.embed,html.embed body{background:transparent!important}
 html.embed .wrap{display:none!important}
@@ -456,8 +456,8 @@ html.embed .wrap{display:none!important}
       <button class="btn ghost install" id="installBtn" type="button"><span class="ic" aria-hidden="true">📲</span><span><b>Установить на телефон</b><small>Иконка на экране «Домой», открывается как приложение</small></span></button>
     </div>
     <div class="acc" id="acc"></div>
-    <button class="btn ghost bugbtn" type="button" data-bug>Сообщить об ошибке</button>
     <div class="acts">
+      <button class="link2 bugbtn" type="button" data-bug>Сообщить об ошибке</button>
       <button class="btn" type="button" id="pfClose">Готово</button>
     </div>
   </div>
@@ -542,6 +542,12 @@ html.embed .wrap{display:none!important}
     <div class="tabs2" role="tablist" id="authTabs"><button type="button" role="tab" data-m="in" aria-selected="true">Вход</button><button type="button" role="tab" data-m="up" aria-selected="false">Регистрация</button></div>
     <label class="lbl" for="authSchool" data-f="school">Учебное заведение</label>
     <input id="authSchool" data-f="school" maxlength="80" autocomplete="organization" placeholder="например, КФУ">
+    <span class="lbl" id="authGradeLbl" data-f="school">На какую оценку хочешь сдать органику</span>
+    <div class="grade" role="radiogroup" aria-labelledby="authGradeLbl" id="authGrade" data-f="school">
+      <button type="button" role="radio" aria-checked="false" data-g="3"><b>3</b><small>удовл.</small></button>
+      <button type="button" role="radio" aria-checked="false" data-g="4"><b>4</b><small>хорошо</small></button>
+      <button type="button" role="radio" aria-checked="false" data-g="5"><b>5</b><small>отлично</small></button>
+    </div>
     <label class="lbl" for="authMail" data-f="mail">Почта</label>
     <input id="authMail" data-f="mail" type="email" autocomplete="email" inputmode="email" placeholder="you@mail.ru">
     <label class="lbl" for="authPass" data-f="pass" id="authPassLbl">Пароль</label>
@@ -635,7 +641,7 @@ const ACH=[
   ['🌷','Цветущий сад','Выкопай последний сорняк - чтобы в саду не осталось ни одного',x=>x.dug>=1&&x.weeds===0,1],
   ['🌙','Ночная смена','Заработай звезду после полуночи',x=>x.F.night,1],
   ['🐦','Ранняя пташка','Заработай звезду до 7 утра',x=>x.F.early,1],
-  ['🎲','Универсал','Звёзды во всех четырёх играх за один день',x=>x.allDay],
+  ['🎲','Универсал','Звёзды во всех играх за один день',x=>x.allDay],
   ['⚗️','Реагент-мастер','20 верных ответов подряд на вопросы «какой реагент»',x=>x.rgBest>=20,1],
   ['🔄','Возвращение','Вернись к занятиям после недели перерыва',x=>x.comeback,1],
   ['🥇','В топе','Попади в первую десятку рейтинга недели',x=>x.F.top]
@@ -899,7 +905,7 @@ $('#nickForm').addEventListener('submit',async e=>{e.preventDefault();
   if(!nickOk(v)) return err('Такой ник не подойдёт. Выбери другой или возьми вариант ниже.');
   /* с аккаунтом ник должен быть свободен; без связи - сохраняем локально и отправим позже */
   if(window.Cloud&&Cloud.user()){
-    try{ await Cloud.saveProfile(v,get(AVA)); }
+    try{ await Cloud.saveProfile(v,get(AVA),get(SCHOOL),+get(GRADE)||undefined); }
     catch(x){ if(x.code==='taken') return err('Этот ник уже занят. Выбери другой.'); }
   }
   const first=!nick(); set(NICK,v); $('#nickOv').hidden=true; render(); loadLb(); toast(first?`Привет, ${v}!`:'Ник сохранён');
@@ -953,6 +959,8 @@ function setAuthMode(m){ authMode=m; const u=AUTH_UI[m];
 function openAuth(m){ $('#pfOv').hidden=true; setAuthMode(m||'in'); $('#authPass').value=''; $('#authOv').hidden=false;
   setTimeout(()=>(m==='new'?$('#authPass'):$('#authMail')).focus(),30); }
 $('#authTabs').addEventListener('click',e=>{const b=e.target.closest('[data-m]'); if(b) setAuthMode(b.dataset.m);});
+$('#authGrade').addEventListener('click',e=>{ const b=e.target.closest('[data-g]'); if(!b) return;
+  document.querySelectorAll('#authGrade [data-g]').forEach(x=>x.setAttribute('aria-checked',String(x===b))); });
 $('#forgotBtn').onclick=()=>{ setAuthMode('reset'); $('#authMail').focus(); };
 $('#authCancel').onclick=()=>{ if(authMode==='reset') setAuthMode('in'); else $('#authOv').hidden=true; };
 const AUTH_ERR=[[/invalid login|invalid_credentials/i,'Неверная почта или пароль.'],
@@ -967,6 +975,8 @@ $('#authForm').addEventListener('submit',async e=>{e.preventDefault();
   const err=m=>{$('#authErr').textContent=m; $('#authErr').hidden=false; $('#authOk').hidden=true;};
   if(authMode!=='new'&&!/^\S+@\S+\.\S+$/.test(mail)) return err('Проверь адрес почты.');
   if(authMode!=='reset'&&pass.length<6) return err('Пароль - не меньше 6 символов.');
+  const gradeBtn=$('#authGrade [aria-checked="true"]');
+  if(authMode==='up'&&!gradeBtn) return err('Выбери, на какую оценку хочешь сдать органику.');
   go.disabled=true; $('#authErr').hidden=true;
   try{
     if(authMode==='reset'){
@@ -979,6 +989,7 @@ $('#authForm').addEventListener('submit',async e=>{e.preventDefault();
       $('#authOv').hidden=true; toast('Пароль изменён'); await afterLogin(); return;
     }
     if(authMode==='up'){ const sc=$('#authSchool').value.trim().replace(/\s+/g,' ').slice(0,80); if(sc) set(SCHOOL,sc);   // учебное заведение - необязательно
+      set(GRADE,gradeBtn.dataset.g);
       const r=await Cloud.signUp(mail,pass);
       if(!r.ok){ setAuthMode('in'); return err('Аккаунт создан. Подтверди почту по ссылке из письма, потом войди.'); } }
     else await Cloud.signIn(mail,pass);
